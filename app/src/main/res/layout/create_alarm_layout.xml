@@ -3,58 +3,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/dark"
     android:padding="16dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_marginBottom="8dp" />
 
     <Button
         android:id="@+id/buttonPickTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Seleccionar hora"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="20dp"
+        android:text="Seleccionar Hora"
+        style="@style/CustomButtonStyle" />
 
     <TextView
         android:id="@+id/selectedTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hora seleccionada: "
+        android:text="Hora Seleccionada: "
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        android:textSize="18sp" />
+        style="@style/CustomHeadingStyle" />
 
-
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_marginBottom="8dp" />
+        
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre:"
-        android:textSize="18sp" />
+        style="@style/CustomTextStyle" />
 
     <EditText
         android:id="@+id/editTextNombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre alarma" />
+        android:hint="Nombre Alarma"
+        android:gravity="start|center_vertical"
+        android:layout_marginTop="4dp"
+        android:textColorHint="@color/dark"
+        style="@style/CustomButtonStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_marginBottom="8dp" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Periodicidad:"
-        android:textSize="18sp" />
+        android:layout_marginTop="16dp"
+        style="@style/CustomTextStyle"/>
 
     <Spinner
         android:id="@+id/spinnerPeriodicidad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:entries="@array/periodicidad_options" />
+        android:layout_marginTop="4dp"
+        android:entries="@array/periodicidad_options"
+        style="@style/CustomButtonStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_marginBottom="8dp" />
 
     <Button
         android:id="@+id/buttonConfirmar"
+        android:text="Confirmar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
-        android:text="Confirmar" />
+        android:backgroundTint="@color/light"
+        style="@style/CustomButtonStyle" />
 </LinearLayout>

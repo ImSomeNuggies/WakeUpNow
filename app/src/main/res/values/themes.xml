@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Theme.MyApplication" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="buttonStyle">@style/CustomButtonStyle</item>
+    </style>
+
+    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:backgroundTint">@color/light</item>
+        <item name="android:textColor">@color/dark</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="CustomTextStyle">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:padding">4dp</item>
+    </style>
+
+    <style name="CustomHeadingStyle">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:textSize">32sp</item>
+    </style>
 </resources>
