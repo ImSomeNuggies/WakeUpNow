@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- The root LinearLayout that defines the main layout of the screen -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark"
     android:gravity="center_horizontal"
     android:orientation="vertical">
-
+    
+    <!-- Spacer View to create some space at the top of the layout -->
     <View
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginBottom="8dp" />
 
+    <!-- Horizontal LinearLayout to hold the logo and the name of the app -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <!-- ImageView for displaying the logo -->
         <ImageView
-            android:layout_width="67dp"
+            android:layout_width="67dp" 
             android:layout_height="61dp"
             android:layout_marginEnd="8dp"
             android:src="@drawable/logo" />
 
+        <!-- TextView for displaying the title -->
         <TextView
             android:id="@+id/textView"
             android:layout_width="280dp"
@@ -32,16 +37,23 @@
             android:textSize="48sp" />
     </LinearLayout>
 
+    <!-- Spacer View to create space between the title and the button -->
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp"
         android:layout_marginBottom="8dp" />
 
+    <!-- Button for creating an alarm -->
     <Button
         android:id="@+id/buttonCreateAlarm"
         android:text="Crear Alarma"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/CustomButtonStyle" />
+        style="@style/CustomButtonLightStyle" />
 
+    <!-- Spacer View to create space below the button -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_marginBottom="8dp" />
 </LinearLayout>

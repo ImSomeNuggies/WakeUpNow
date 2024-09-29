@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Root LinearLayout that serves as the main container for this layout -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,11 +7,13 @@
     android:background="@color/dark"
     android:padding="16dp">
 
+    <!-- Spacer View for vertical spacing -->
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp"
         android:layout_marginBottom="8dp" />
 
+    <!-- Button for picking time -->
     <Button
         android:id="@+id/buttonPickTime"
         android:layout_width="wrap_content"
@@ -18,28 +21,31 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="Seleccionar Hora"
-        style="@style/CustomButtonStyle" />
+        style="@style/CustomButtonLightStyle" />
 
+    <!-- TextView to display selected time -->
     <TextView
         android:id="@+id/selectedTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hora Seleccionada: "
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
-        style="@style/CustomHeadingStyle" />
+        style="@style/CustomHeadingLightStyle" />
 
+    <!-- Spacer View for vertical spacing -->
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp"
         android:layout_marginBottom="8dp" />
-        
+    
+    <!-- TextView label for "Nombre" -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre:"
-        style="@style/CustomTextStyle" />
+        style="@style/CustomTextLightStyle" />
 
+    <!-- EditText for inputting alarm name -->
     <EditText
         android:id="@+id/editTextNombre"
         android:layout_width="match_parent"
@@ -47,35 +53,39 @@
         android:hint="Nombre Alarma"
         android:gravity="start|center_vertical"
         android:layout_marginTop="4dp"
-        android:textColorHint="@color/dark"
-        style="@style/CustomButtonStyle" />
+        android:textColorHint="@color/grey"
+        style="@style/CustomInputStyle" />
 
+    <!-- Spacer View for vertical spacing -->
     <View
         android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_height="8dp"
+        android:layout_marginBottom="0dp" />
 
-
+    <!-- TextView label for "Periodicidad" -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Periodicidad:"
-        android:layout_marginTop="16dp"
-        style="@style/CustomTextStyle"/>
+        android:layout_marginTop="4dp"
+        style="@style/CustomTextLightStyle"/>
 
+    <!-- Spinner for selecting periodicity -->
     <Spinner
         android:id="@+id/spinnerPeriodicidad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:entries="@array/periodicidad_options"
-        style="@style/CustomButtonStyle" />
+        style="@style/CustomInputStyle" />
 
+    <!-- Spacer View for vertical spacing -->
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp"
         android:layout_marginBottom="8dp" />
 
+    <!-- Button for confirming selections -->
     <Button
         android:id="@+id/buttonConfirmar"
         android:text="Confirmar"
@@ -84,5 +94,5 @@
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
         android:backgroundTint="@color/light"
-        style="@style/CustomButtonStyle" />
+        style="@style/CustomButtonLightStyle" />
 </LinearLayout>

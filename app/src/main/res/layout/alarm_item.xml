@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Root LinearLayout that serves as the main container for this layout -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/rounded_button"
+    android:layout_marginBottom="8dp">
+
+    <!-- Horizontal LinearLayout to contain the time and switch -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- TextView to display the time as a heading (bigger) -->
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9:00"
+            style="@style/CustomHeadingDarkStyle" />
+
+        <!-- Switch for toggling on/off the alarm -->
+        <Switch
+            android:id="@+id/switchToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:checked="false" />
+    </LinearLayout>
+
+    <!-- Horizontal LinearLayout to contain the name and periodicity -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+
+        <!-- TextView to display the name -->
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            style="@style/CustomTextDarkStyle"
+            android:layout_marginStart="8dp" />
+
+        <!-- TextView to display the periodicity -->
+        <TextView
+            android:id="@+id/textViewPeriodicity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Periodicidad"
+            android:gravity="right"
+            style="@style/CustomTextDarkStyle" />
+
+    </LinearLayout>
+</LinearLayout>

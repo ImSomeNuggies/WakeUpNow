@@ -5,50 +5,50 @@
     android:viewportWidth="100"
     android:viewportHeight="100">
 
-    <!-- Patita izquierda -->
+    <!-- Left leg -->
     <path
         android:fillColor="#6A5ACD"
         android:pathData="M 30,85 L 25,90"
         android:strokeWidth="5" 
         android:strokeColor="#6A5ACD"/>
 
-    <!-- Patita derecha  -->
+    <!-- Right leg -->
     <path
         android:fillColor="#6A5ACD"
         android:pathData="M 70,85 L 75,90"
         android:strokeWidth="5" 
         android:strokeColor="#6A5ACD"/>
 
-    <!-- Cuerpo del despertador -->
+    <!-- Body of the alarm clock (circle) -->
     <path
         android:fillColor="#8E87E4"
         android:pathData="M 50,10 A 40,40 0 1,0 50,90 A 40,40 0 1,0 50,10 Z" />
 
-    <!-- Parte superior del despertador -->
+    <!-- Top part of the alarm clock -->
     <path
         android:fillColor="#6A5ACD"
         android:pathData="M 20,10 L 80,10 C 85,5 85,0 80,0 L 20,0 C 15,0 15,5 20,10 Z" />
 
-    <!-- Manecilla de la hora -->
+    <!-- Hour hand of the clock -->
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M 50,50 L 50,30"
         android:strokeWidth="5"
         android:strokeColor="#FFFFFF" />
 
-    <!-- Manecilla de los minutos -->
+    <!-- Minute hand of the clock -->
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M 50,50 L 70,50"
         android:strokeWidth="5"
         android:strokeColor="#FFFFFF" />
 
-    <!-- Campana izquierda -->
+    <!-- Left buzz of the alarm clock -->
     <path
         android:fillColor="#FEF387"
         android:pathData="M 15,10 C 5,20 5,25 15,20 Z" />
     
-    <!-- Campana derecha -->
+    <!-- Right buzz of the alarm clock -->
     <path
         android:fillColor="#FEF387"
         android:pathData="M 85,10 C 95,20 95,25 85,20 Z" />

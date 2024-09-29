@@ -3,10 +3,18 @@
     <style name="Theme.MyApplication" parent="android:Theme.Material.Light.NoActionBar" />
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="buttonStyle">@style/CustomButtonStyle</item>
+        <!-- Specifies the default button style to be used in the application -->
+        <item name="buttonStyle">@style/CustomButtonLightStyle</item>
+        <!-- Specifies the default TextView style to be used in the application -->
+        <item name="android:textViewStyle">@style/CustomTextLightStyle</item>
+        <!-- Specifies the default EditText style to be used in the application -->
+        <item name="android:editTextStyle">@style/CustomInputStyle</item>
+        <!-- Specifies the default Spinner style to be used in the application -->
+        <item name="android:spinnerStyle">@style/CustomInputStyle</item>
     </style>
 
-    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+    <!-- Custom style for light buttons -->
+    <style name="CustomButtonLightStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:backgroundTint">@color/light</item>
         <item name="android:textColor">@color/dark</item>
@@ -15,14 +23,49 @@
         <item name="android:padding">8dp</item>
     </style>
 
-    <style name="CustomTextStyle">
+    <!-- Custom style for dark buttons -->
+    <style name="CustomButtonDarkStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:backgroundTint">@color/dark</item>
+        <item name="android:textColor">@color/light</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <!-- Custom style for input fields, similar to button styles -->
+    <style name="CustomInputStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <!-- Custom style for light text elements -->
+    <style name="CustomTextLightStyle">
         <item name="android:textColor">@color/light</item>
         <item name="android:textSize">20sp</item>
         <item name="android:padding">4dp</item>
     </style>
 
-    <style name="CustomHeadingStyle">
+    <!-- Custom style for dark text elements -->
+    <style name="CustomTextDarkStyle">
+        <item name="android:textColor">@color/dark</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:padding">4dp</item>
+    </style>
+
+    <!-- Custom style for light headings -->
+    <style name="CustomHeadingLightStyle">
         <item name="android:textColor">@color/light</item>
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <!-- Custom style for dark headings -->
+    <style name="CustomHeadingDarkStyle">
+        <item name="android:textColor">@color/dark</item>
         <item name="android:textSize">32sp</item>
     </style>
 </resources>
