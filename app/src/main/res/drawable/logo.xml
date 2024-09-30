@@ -8,14 +8,14 @@
     <!-- Left leg -->
     <path
         android:fillColor="#6A5ACD"
-        android:pathData="M 30,85 L 25,90"
+        android:pathData="M 35,80 L 25,90"
         android:strokeWidth="5" 
         android:strokeColor="#6A5ACD"/>
 
     <!-- Right leg -->
     <path
         android:fillColor="#6A5ACD"
-        android:pathData="M 70,85 L 75,90"
+        android:pathData="M 65,80 L 75,90"
         android:strokeWidth="5" 
         android:strokeColor="#6A5ACD"/>
 

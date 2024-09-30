@@ -93,6 +93,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
-        android:backgroundTint="@color/light"
         style="@style/CustomButtonLightStyle" />
 </LinearLayout>
