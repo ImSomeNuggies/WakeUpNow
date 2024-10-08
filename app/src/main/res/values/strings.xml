@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">WakeUpNow</string>
     <string-array name="periodicidad_options">
         <item>Una vez</item>
         <item>Diaria</item>

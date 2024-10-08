@@ -6,7 +6,9 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@drawable/rounded_button"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp">
 
     <!-- Horizontal LinearLayout to contain the time and switch -->
     <LinearLayout
@@ -45,8 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nombre"
-            style="@style/CustomTextDarkStyle"
-            android:layout_marginStart="8dp" />
+            style="@style/CustomTextDarkStyle" />
 
         <!-- TextView to display the periodicity -->
         <TextView
