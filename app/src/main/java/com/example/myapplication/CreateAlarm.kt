@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.widget.Button
 import android.widget.ImageButton
@@ -20,14 +23,17 @@ import android.widget.TextView
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
+import com.example.myapplication.receivers.AlarmReceiver
 import java.util.*
 
 class CreateAlarm : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_alarm_layout)
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-       // References to layout elements
+
+        // References to layout elements
         val buttonPickTime = findViewById<Button>(R.id.buttonPickTime)
         val selectedTimeText = findViewById<TextView>(R.id.selectedTimeText)
         val editTextNombre = findViewById<EditText>(R.id.editTextNombre)
@@ -76,13 +82,44 @@ class CreateAlarm : ComponentActivity() {
                 return@setOnClickListener
             }
 
+            // We adapt the time from a string into a Calendar format
+            val timeParts = selectedTime.split(":").map { it.toInt() }
+            val hour = timeParts[0]
+            val minute = timeParts[1]
+
+            val newAlarmCalendar = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+
+
+
             // Create a new Alarm instance
             val newAlarm = Alarm(
                 time = selectedTime,
                 name = alarmName,
                 periodicity = periodicity,
-                isActive = true
+                isActive = true,
+                ringTime = newAlarmCalendar
             )
+
+            val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+
+            val alarmIntent = Intent(this, AlarmReceiver::class.java).apply {
+                putExtra("alarm_name", newAlarm.name)
+            }
+
+            val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                newAlarm.ringTime.timeInMillis,
+                pendingIntent
+            )
+
 
             // Add the alarm to the list (you could also save it in persistent storage)
             alarmList.add(newAlarm)
