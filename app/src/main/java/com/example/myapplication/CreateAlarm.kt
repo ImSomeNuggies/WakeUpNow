@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import AlarmPreferences
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.os.Bundle
@@ -27,11 +28,13 @@ import com.example.myapplication.receivers.AlarmReceiver
 import java.util.*
 
 class CreateAlarm : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_alarm_layout)
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         // References to layout elements
         val buttonPickTime = findViewById<Button>(R.id.buttonPickTime)
@@ -70,6 +73,8 @@ class CreateAlarm : ComponentActivity() {
             timePickerDialog.show()
         }
 
+
+
         // Save alarm when clicking the "Confirm" button
         buttonConfirmar.setOnClickListener {
             // Get the alarm name and selected periodicity
@@ -104,6 +109,9 @@ class CreateAlarm : ComponentActivity() {
                 isActive = true,
                 ringTime = newAlarmCalendar
             )
+            // Guardar la alarma en SharedPreferences
+            val alarmPreferences = AlarmPreferences(this);
+            alarmPreferences.saveAlarm(newAlarm);
 
             val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -119,6 +127,7 @@ class CreateAlarm : ComponentActivity() {
                 newAlarm.ringTime.timeInMillis,
                 pendingIntent
             )
+
 
 
             // Add the alarm to the list (you could also save it in persistent storage)
