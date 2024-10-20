@@ -31,7 +31,9 @@ import java.util.Calendar
 import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.Toast
 import android.Manifest
+import android.app.AlarmManager
 import android.provider.Settings
+
 
 
 
@@ -53,7 +55,8 @@ class MainActivity : ComponentActivity() {
 
     private fun checkAndRequestAlarmPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // For API 31 or higher
-            if (checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
+            val alarmManager: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            if (!alarmManager.canScheduleExactAlarms()) {
                 // Permission not granted; redirect to settings
                 Toast.makeText(this, "Please allow exact alarm permission in settings", Toast.LENGTH_SHORT).show()
                 val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
@@ -97,9 +100,10 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(this, "Notification permission already granted", Toast.LENGTH_SHORT).show()
             }
             if (checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
-            }
+            //}
                 // TODO Uncomment, commented since it asks nonstop for permission, needs a fix
-                 //checkAndRequestAlarmPermission()            }
+                 checkAndRequestAlarmPermission()
+            }
             else{
                 Toast.makeText(this, "Alarm permission already granted", Toast.LENGTH_SHORT).show()
             }
