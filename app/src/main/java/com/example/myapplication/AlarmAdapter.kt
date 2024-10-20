@@ -1,10 +1,14 @@
 package com.example.myapplication
 
+import AlarmPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
+import android.widget.LinearLayout
+import android.widget.Toast
+import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 
 // Adapter class for displaying a list of alarms in a RecyclerView
@@ -16,31 +20,38 @@ class AlarmAdapter(private val alarmList: List<Alarm>) : RecyclerView.Adapter<Al
         val textViewName: TextView = itemView.findViewById(R.id.textViewName)
         val textViewPeriodicity: TextView = itemView.findViewById(R.id.textViewPeriodicity)
         val switchToggle: Switch = itemView.findViewById(R.id.switchToggle)
+        val rootLayout: LinearLayout = itemView.findViewById(R.id.rootLinearLayout)
     }
 
-    // Called when the RecyclerView needs a new ViewHolder to represent an item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
-        // Inflate the layout for the alarm item and create a new ViewHolder
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.alarm_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.alarm_item, parent, false)
         return AlarmViewHolder(view)
     }
 
-    // Called to display data at a specified position
     override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) {
         val alarm = alarmList[position]
         holder.textViewTime.text = alarm.time
         holder.textViewName.text = alarm.name
         holder.textViewPeriodicity.text = alarm.periodicity
-        holder.switchToggle.isChecked = alarm.isActive 
+        holder.switchToggle.isChecked = alarm.isActive
 
-        // Add a listener to the switch to update the alarm's active state
+        holder.rootLayout.setOnClickListener {
+            val intent = Intent(holder.itemView.context, EditAlarm::class.java)
+            intent.putExtra("alarm_id", alarm.id) // Pasa el ID de la alarma
+            intent.putExtra("alarm_name", alarm.name)
+            intent.putExtra("alarm_time", alarm.time)
+            intent.putExtra("alarm_periodicity", alarm.periodicity)
+            holder.itemView.context.startActivity(intent)
+        }
+
+        // OnClickListener independiente para el Switch (no será afectado por el clic en el cuerpo)
         holder.switchToggle.setOnCheckedChangeListener { _, isChecked ->
             alarm.isActive = isChecked
+            val alarmPreferences = AlarmPreferences(holder.itemView.context)
+            alarmPreferences.editAlarm(alarm)
         }
     }
 
-    // Returns the total number of alarms in the list
     override fun getItemCount(): Int {
         return alarmList.size
     }

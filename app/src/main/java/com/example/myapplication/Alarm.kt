@@ -3,9 +3,10 @@ package com.example.myapplication
 import java.util.Calendar
 
 data class Alarm(
-    val time: String,
-    val name: String,
-    val periodicity: String,
+    val id: Int,
+    var time: String,
+    var name: String,
+    var periodicity: String,
     var isActive: Boolean,
-    val ringTime: Calendar
+    var ringTime: Calendar
 )

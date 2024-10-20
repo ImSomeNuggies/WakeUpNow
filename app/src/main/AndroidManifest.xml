@@ -16,6 +16,11 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31" >
         <activity
+            android:name=".EditAlarm"
+            android:exported="false"
+            android:label="Edit Alarm"
+            android:theme="@style/Theme.MyApplication" />
+        <activity
             android:name=".StopAlarm"
             android:exported="false"
             android:label="@string/title_activity_stop_alarm"

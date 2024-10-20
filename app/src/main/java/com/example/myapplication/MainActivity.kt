@@ -102,8 +102,9 @@ class MainActivity : ComponentActivity() {
             if (checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
             //}
                 // TODO Uncomment, commented since it asks nonstop for permission, needs a fix
-                 checkAndRequestAlarmPermission()
+                checkAndRequestAlarmPermission()
             }
+
             else{
                 Toast.makeText(this, "Alarm permission already granted", Toast.LENGTH_SHORT).show()
             }
@@ -145,8 +146,8 @@ class MainActivity : ComponentActivity() {
 
     // ejemplos de prueba para el RecyclerView
     private fun loadAlarms() {
-
-        /*Calendar.getInstance().apply {
+        /*
+        Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 8) // Set the hour
             set(Calendar.MINUTE, 0)     // Set the minute
             set(Calendar.SECOND, 0)          // Set seconds to 0
@@ -187,6 +188,7 @@ class MainActivity : ComponentActivity() {
 
         // Notify adapter about data changes
         (findViewById<RecyclerView>(R.id.recyclerViewAlarms).adapter as AlarmAdapter).notifyDataSetChanged()
+        
     }
 
 

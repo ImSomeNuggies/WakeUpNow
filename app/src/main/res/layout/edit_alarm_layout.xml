@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/dark"
+    android:padding="16dp">
+
+    <!-- Cross Button to go back to the main menu -->
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close"
+        android:background="@null"
+        android:contentDescription="Close"
+        android:layout_gravity="end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp" />
+
+    <!-- Spacer View for vertical spacing -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Button for picking time -->
+    <Button
+        android:id="@+id/buttonPickTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Seleccionar Hora"
+        style="@style/CustomButtonLightStyle" />
+
+    <!-- TextView to display selected time -->
+    <TextView
+        android:id="@+id/selectedTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        style="@style/CustomHeadingLightStyle" />
+
+    <!-- Spacer View for vertical spacing -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_marginBottom="8dp" />
+    
+    <!-- TextView label for "Nombre" -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre:"
+        style="@style/CustomTextLightStyle" />
+
+    <!-- EditText for inputting alarm name -->
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre Alarma"
+        android:gravity="start|center_vertical"
+        android:layout_marginTop="4dp"
+        android:textColorHint="@color/grey"
+        style="@style/CustomInputStyle" />
+
+    <!-- Spacer View for vertical spacing -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginBottom="0dp" />
+
+    <!-- TextView label for "Periodicidad" -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Periodicidad:"
+        android:layout_marginTop="4dp"
+        style="@style/CustomTextLightStyle"/>
+
+    <!-- Spinner for selecting periodicity -->
+    <Spinner
+        android:id="@+id/spinnerPeriodicidad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:entries="@array/periodicidad_options"
+        style="@style/CustomInputStyle" />
+
+    <!-- Spacer View for vertical spacing -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Button for confirming selections -->
+    <Button
+        android:id="@+id/buttonConfirmar"
+        android:text="Confirmar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        style="@style/CustomButtonLightStyle" />
+
+    <!-- Spacer for vertical spacing -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
+
+    <!-- Button for deleting the alarm -->
+    <Button
+        android:id="@+id/buttonBorrar"
+        android:text="Elimiar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="@style/CustomButtonRedStyle" />
+</LinearLayout>

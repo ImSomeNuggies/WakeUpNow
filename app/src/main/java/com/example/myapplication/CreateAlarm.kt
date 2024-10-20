@@ -99,10 +99,16 @@ class CreateAlarm : ComponentActivity() {
                 set(Calendar.MILLISECOND, 0)
             }
 
+            // Load existing alarms from SharedPreferences
+            val alarmPreferences = AlarmPreferences(this)
+            val alarmList = alarmPreferences.loadAlarms()
 
+            // Generate a new ID based on the number of alarms in the list
+            val newAlarmId = alarmList.size + 1
 
             // Create a new Alarm instance
             val newAlarm = Alarm(
+                id = newAlarmId,
                 time = selectedTime,
                 name = alarmName,
                 periodicity = periodicity,
@@ -110,7 +116,6 @@ class CreateAlarm : ComponentActivity() {
                 ringTime = newAlarmCalendar
             )
             // Guardar la alarma en SharedPreferences
-            val alarmPreferences = AlarmPreferences(this);
             alarmPreferences.saveAlarm(newAlarm);
 
             val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
