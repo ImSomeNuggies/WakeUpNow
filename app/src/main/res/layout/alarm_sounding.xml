@@ -40,11 +40,37 @@
         style="@style/CustomHeadingLightStyle" />
 
     <!-- Spacer View for vertical spacing -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp" />
+    <TextView
+        android:id="@+id/problemaTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Problema"
+        android:textSize="18sp"
+        android:layout_margin="16dp" />
 
-    <!-- Button to stop the alarm -->
+    <Button
+        android:id="@+id/opcion1Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp" />
+
+    <Button
+        android:id="@+id/opcion2Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp" />
+
+    <Button
+        android:id="@+id/opcion3Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp" />
+
+    <Button
+        android:id="@+id/opcion4Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp" />
     <Button
         android:id="@+id/buttonDetener"
         android:layout_width="wrap_content"

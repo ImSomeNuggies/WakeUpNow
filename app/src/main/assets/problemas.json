@@ -1,0 +1,102 @@
+[
+  {
+    "problema": "¿Cuál es el resultado de 5 + 3?",
+    "opciones": ["6", "7", "8", "9"],
+    "correcta": "8"
+  },
+  {
+    "problema": "¿Cuánto es 12 ÷ 4?",
+    "opciones": ["2", "3", "4", "5"],
+    "correcta": "3"
+  },
+  {
+    "problema": "¿Cuál es el producto de 7 x 6?",
+    "opciones": ["36", "42", "48", "52"],
+    "correcta": "42"
+  },
+  {
+    "problema": "Si tienes 9 manzanas y das 4, ¿cuántas te quedan?",
+    "opciones": ["3", "4", "5", "6"],
+    "correcta": "5"
+  },
+  {
+    "problema": "¿Cuánto es 15 - 7?",
+    "opciones": ["6", "7", "8", "9"],
+    "correcta": "8"
+  },
+  {
+    "problema": "¿Cuál es el resultado de 25 ÷ 5?",
+    "opciones": ["3", "4", "5", "6"],
+    "correcta": "5"
+  },
+  {
+    "problema": "¿Cuánto es 8 x 9?",
+    "opciones": ["64", "72", "81", "90"],
+    "correcta": "72"
+  },
+  {
+    "problema": "¿Cuál es la suma de 11 + 14?",
+    "opciones": ["23", "24", "25", "26"],
+    "correcta": "25"
+  },
+  {
+    "problema": "¿Cuánto es 100 ÷ 25?",
+    "opciones": ["2", "3", "4", "5"],
+    "correcta": "4"
+  },
+  {
+    "problema": "¿Qué número es mayor, 18 o 21?",
+    "opciones": ["18", "21"],
+    "correcta": "21"
+  },
+  {
+    "problema": "¿Cuánto es 30 - 12?",
+    "opciones": ["16", "17", "18", "19"],
+    "correcta": "18"
+  },
+  {
+    "problema": "Si tienes 5 cajas con 6 manzanas cada una, ¿cuántas manzanas tienes en total?",
+    "opciones": ["25", "30", "35", "40"],
+    "correcta": "30"
+  },
+  {
+    "problema": "¿Cuál es el resultado de 9 x 7?",
+    "opciones": ["54", "63", "72", "81"],
+    "correcta": "63"
+  },
+  {
+    "problema": "¿Cuánto es 81 ÷ 9?",
+    "opciones": ["8", "9", "10", "11"],
+    "correcta": "9"
+  },
+  {
+    "problema": "¿Cuál es la suma de 19 + 23?",
+    "opciones": ["41", "42", "43", "44"],
+    "correcta": "42"
+  },
+  {
+    "problema": "¿Cuánto es 56 - 34?",
+    "opciones": ["20", "21", "22", "23"],
+    "correcta": "22"
+  },
+  {
+    "problema": "¿Cuál es el resultado de 7 x 8?",
+    "opciones": ["54", "56", "58", "60"],
+    "correcta": "56"
+  },
+  {
+    "problema": "¿Cuánto es 144 ÷ 12?",
+    "opciones": ["10", "11", "12", "13"],
+    "correcta": "12"
+  },
+  {
+    "problema": "Si compras 4 libros que cuestan $15 cada uno, ¿cuánto pagas en total?",
+    "opciones": ["50", "55", "60", "65"],
+    "correcta": "60"
+  },
+  {
+    "problema": "¿Cuál es el resultado de 22 + 19?",
+    "opciones": ["39", "40", "41", "42"],
+    "correcta": "41"
+  }
+]
