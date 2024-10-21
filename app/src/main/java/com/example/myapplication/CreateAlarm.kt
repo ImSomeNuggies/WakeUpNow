@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import AlarmPreferences
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.os.Bundle
@@ -24,6 +23,7 @@ import android.widget.TextView
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
+import com.example.myapplication.AlarmPreferences
 import com.example.myapplication.receivers.AlarmReceiver
 import java.util.*
 

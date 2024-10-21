@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import AlarmPreferences
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -25,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.myapplication.AlarmPreferences
 import com.example.myapplication.receivers.AlarmReceiver
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import java.util.Calendar
@@ -34,13 +34,8 @@ import android.Manifest
 import android.app.AlarmManager
 import android.provider.Settings
 
-
-
-
-
-
 class MainActivity : ComponentActivity() {
-    private val alarmList = mutableListOf<Alarm>() // Para probar el RecyclerView
+    private val alarmList = mutableListOf<Alarm>()
 
     private val requestNotificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -144,37 +139,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // ejemplos de prueba para el RecyclerView
     private fun loadAlarms() {
-        /*
-        Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 8) // Set the hour
-            set(Calendar.MINUTE, 0)     // Set the minute
-            set(Calendar.SECOND, 0)          // Set seconds to 0
-            set(Calendar.MILLISECOND, 0)     // Set milliseconds to 0
-        }
-
-        // This method can be modified to load alarms from a database or shared preferences
-        alarmList.add(Alarm("08:00", "Wake Up", "Diaria", true, ringTime =         Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 8) // Set the hour
-            set(Calendar.MINUTE, 0)     // Set the minute
-            set(Calendar.SECOND, 0)          // Set seconds to 0
-            set(Calendar.MILLISECOND, 0)     // Set milliseconds to 0
-        } ))
-        alarmList.add(Alarm("09:00", "Morning Meeting", "Martes", false, ringTime =         Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 9) // Set the hour
-            set(Calendar.MINUTE, 0)     // Set the minute
-            set(Calendar.SECOND, 0)          // Set seconds to 0
-            set(Calendar.MILLISECOND, 0)     // Set milliseconds to 0
-        }))
-
-        alarmList.add(Alarm("15:00", "Morning Meeting", "Martes", false, ringTime =         Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 15) // Set the hour
-            set(Calendar.MINUTE, 0)     // Set the minute
-            set(Calendar.SECOND, 0)          // Set seconds to 0
-            set(Calendar.MILLISECOND, 0)     // Set milliseconds to 0
-        }))*/
-
         // Cargar las alarmas desde SharedPreferences usando la clase AlarmPreferences
         val alarmPreferences = AlarmPreferences(this)
         val loadedAlarms = alarmPreferences.loadAlarms()
@@ -183,8 +148,6 @@ class MainActivity : ComponentActivity() {
 
         // Agregar las alarmas cargadas a la lista
         alarmList.addAll(loadedAlarms)
-
-
 
         // Notify adapter about data changes
         (findViewById<RecyclerView>(R.id.recyclerViewAlarms).adapter as AlarmAdapter).notifyDataSetChanged()

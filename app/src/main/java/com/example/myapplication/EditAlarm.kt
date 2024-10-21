@@ -1,18 +1,18 @@
 package com.example.myapplication
 
-import AlarmPreferences
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
+import com.example.myapplication.AlarmPreferences
 import androidx.activity.ComponentActivity
 import java.util.*
 
 class EditAlarm : ComponentActivity() {
 
     private lateinit var alarm: Alarm
-    private var selectedTime: String = ""  // Inicializa selectedTime
+    private var selectedTime: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
