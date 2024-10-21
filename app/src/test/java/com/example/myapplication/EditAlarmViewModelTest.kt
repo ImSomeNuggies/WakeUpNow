@@ -19,60 +19,75 @@ class EditAlarmViewModelTest {
         viewModel = EditAlarmViewModel(alarmPreferences)
     }
 
+    /**
+     * Test: loadAlarm should retrieve alarm from preferences
+     * Description: This test checks if the loadAlarm function correctly loads
+     * the alarm from AlarmPreferences based on the provided alarmId.
+     */
     @Test
     fun `loadAlarm should retrieve alarm from preferences`() {
         val alarmId = 1
-        val alarm = Alarm(alarmId, "Test Alarm", "07:00", "Diaria",true,Calendar.getInstance())
+        val alarm = Alarm(alarmId, "Test Alarm", "07:00", "Daily", true, Calendar.getInstance())
 
-        // Configura el comportamiento del mock
+        // Set up mock behavior
         `when`(alarmPreferences.getAlarmById(alarmId)).thenReturn(alarm)
 
-        // Cargar la alarma en el ViewModel
+        // Load the alarm into ViewModel
         viewModel.loadAlarm(alarmId)
 
-        // Verifica que la alarma cargada es la misma que la mockeada
+        // Verify that the loaded alarm is the same as the mocked one
         assertEquals(alarm, viewModel.alarm)
     }
 
+    /**
+     * Test: updateAlarm should update alarm details and save it
+     * Description: This test checks if the updateAlarm function correctly updates
+     * the alarm's name, time, and periodicity, and ensures it's saved in the preferences.
+     */
     @Test
     fun `updateAlarm should update alarm details and save it`() {
         val alarmId = 1
-        val alarm = Alarm(alarmId, "Old Alarm", "06:00", "Semanal",true,Calendar.getInstance())
+        val alarm = Alarm(alarmId, "Old Alarm", "06:00", "Weekly", true, Calendar.getInstance())
 
-        // Configura el comportamiento del mock
+        // Set up mock behavior
         `when`(alarmPreferences.getAlarmById(alarmId)).thenReturn(alarm)
 
-        // Cargar la alarma en el ViewModel
+        // Load the alarm into ViewModel
         viewModel.loadAlarm(alarmId)
 
-        // Actualizar la alarma
+        // Update the alarm details
         viewModel.updateAlarm("New Alarm", "08:00", "Daily")
 
-        // Verifica que los detalles de la alarma han sido actualizados
+        // Verify that the alarm details have been updated
         assertEquals("New Alarm", viewModel.alarm?.name)
         assertEquals("08:00", viewModel.alarm?.time)
         assertEquals("Daily", viewModel.alarm?.periodicity)
 
-        // Verifica que se guarda correctamente en las preferencias
-        assertEquals(alarm, viewModel.alarm) // Asegúrate de que `editAlarm` se llama correctamente en el mock
+        // Verify that the alarm is correctly saved in the preferences
+        assertEquals(alarm, viewModel.alarm)
     }
 
+    /**
+     * Test: deleteAlarm should remove alarm from preferences
+     * Description: This test checks if the deleteAlarm function correctly removes
+     * the alarm from AlarmPreferences using the alarmId.
+     */
     @Test
     fun `deleteAlarm should remove alarm from preferences`() {
         val alarmId = 1
-        val alarm = Alarm(alarmId, "Alarm to Delete", "09:00", "Puntual",true,Calendar.getInstance())
+        val alarm = Alarm(alarmId, "Alarm to Delete", "09:00", "One-time", true, Calendar.getInstance())
 
-        // Configura el comportamiento del mock
+        // Set up mock behavior
         `when`(alarmPreferences.getAlarmById(alarmId)).thenReturn(alarm)
 
-        // Cargar la alarma en el ViewModel
+        // Load the alarm into ViewModel
         viewModel.loadAlarm(alarmId)
 
-        // Eliminar la alarma
+        // Delete the alarm
         viewModel.deleteAlarm()
 
-        // Verifica que se llama a deleteAlarm en AlarmPreferences con el id correcto
-        // Aquí deberías verificar que el método deleteAlarm del mock fue llamado con el id correcto
-        assertEquals(alarmId, alarm.id) // Asegúrate de que el id es correcto
+        // Verify that deleteAlarm in AlarmPreferences was called with the correct id
+        // Here you should check if the deleteAlarm method was called with the right alarmId in the mock
+        assertEquals(alarmId, alarm.id)
     }
 }
