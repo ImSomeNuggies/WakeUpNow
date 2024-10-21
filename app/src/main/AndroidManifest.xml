@@ -21,6 +21,11 @@
             android:label="Edit Alarm"
             android:theme="@style/Theme.MyApplication" />
         <activity
+            android:name=".EditAlarmActivity"
+            android:exported="false"
+            android:label="Edit Alarm"
+            android:theme="@style/Theme.MyApplication" />
+        <activity
             android:name=".StopAlarm"
             android:exported="false"
             android:label="@string/title_activity_stop_alarm"

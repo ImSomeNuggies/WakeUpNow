@@ -60,7 +60,7 @@ class AlarmAdapter(private val alarmList: List<Alarm>) : RecyclerView.Adapter<Al
 
         // Set a click listener on the root layout to open the EditAlarm activity for the alarm item
         holder.rootLayout.setOnClickListener {
-            val intent = Intent(holder.itemView.context, EditAlarm::class.java)
+            val intent = Intent(holder.itemView.context, EditAlarmActivity::class.java)
             intent.putExtra("alarm_id", alarm.id)
             intent.putExtra("alarm_name", alarm.name)
             intent.putExtra("alarm_time", alarm.time)
