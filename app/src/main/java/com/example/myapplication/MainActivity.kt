@@ -111,14 +111,7 @@ class MainActivity : ComponentActivity() {
 
         createNotificationChannel(this)
 
-        //TODO: TEMPORARY, SHOULD BE MOVED TO THE RESOLUTION ACTIVITY
-        // Stop the ringtone if it's still playing
-        AlarmReceiver.ringtone?.let {
-            if (it.isPlaying) {
-                it.stop()
-                AlarmReceiver.ringtone = null
-            }
-        }
+
 
         /*
         // Reschecule alarms

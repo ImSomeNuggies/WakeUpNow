@@ -6,6 +6,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.example.myapplication.receivers.AlarmReceiver
+
 
 
 class AlarmSounding : AppCompatActivity() {
@@ -71,6 +73,12 @@ class AlarmSounding : AppCompatActivity() {
     fun verificarRespuesta(respuestaSeleccionada: String, respuestaCorrecta: String) {
         if (respuestaSeleccionada == respuestaCorrecta) {
             //Muestra que la respuesta es correcta y termina la actividad
+            AlarmReceiver.ringtone?.let {
+                if (it.isPlaying) {
+                    it.stop()
+                    AlarmReceiver.ringtone = null
+                }
+            }
             finish()
         } else {
             //Muestra que la respuesta es incorrecta, tal vez un mensaje de error
