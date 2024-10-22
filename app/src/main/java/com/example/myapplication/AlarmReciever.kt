@@ -60,6 +60,7 @@ class AlarmReceiver : BroadcastReceiver() {
     fun showHighPriorityNotification(context: Context, name: String?, id: Int) {
         // Intent to open the activity when tapped
         val intent = Intent(context, AlarmSounding::class.java).apply {
+            putExtra("alarm_name", name)
             putExtra("launched_from_notification", true)  // Add this line
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }

@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.example.myapplication.receivers.AlarmReceiver
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 
@@ -18,6 +20,8 @@ class AlarmSounding : AppCompatActivity() {
     lateinit var opcion3Button: Button
     lateinit var opcion4Button: Button
     lateinit var problemaFalloTextView: TextView
+    lateinit var textViewNombreAlarma: TextView
+    lateinit var textViewHoraActual: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +34,22 @@ class AlarmSounding : AppCompatActivity() {
         opcion3Button = findViewById(R.id.opcion3Button)
         opcion4Button = findViewById(R.id.opcion4Button)
         problemaFalloTextView = findViewById(R.id.problemaFallo)
+        textViewNombreAlarma = findViewById(R.id.textViewNombreAlarma)
+        textViewHoraActual = findViewById(R.id.textViewHoraActual)
+
+        // Obtener el nombre de la alarma desde el Intent
+        val alarmName = intent.getStringExtra("alarm_name")
+
+        // Verificar si alarmName es null antes de asignarlo al TextView
+        textViewNombreAlarma.text = if (!alarmName.isNullOrEmpty()) {
+            "$alarmName"
+        } else {
+            ""
+        }
+
+        // Mostrar la hora actual
+        val currentTime = getCurrentTime()
+        textViewHoraActual.text = "$currentTime"
 
         //Cargar y mostrar un problema aleatorio
         val problemas = leerProblemasDesdeArchivo()
@@ -85,5 +105,12 @@ class AlarmSounding : AppCompatActivity() {
             problemaFalloTextView.text = "Respuesta incorrecta. Inténtalo de nuevo."
 
         }
+    }
+
+    // Método para obtener la hora actual
+    private fun getCurrentTime(): String {
+        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val date = Date()
+        return dateFormat.format(date)
     }
 }
