@@ -12,6 +12,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.myapplication.CreateAlarm
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import android.util.Log
 
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -23,25 +24,41 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
 
         val alarmName = intent.getStringExtra("alarm_name")
+        val alarmIdString: String? = intent.getStringExtra("alarm_id")
+        val alarmActive = intent.getBooleanExtra("alarm_isActive", false)
+        val alarmPeridiocity = intent.getStringExtra("alarm_periodicity")
+        val alarmId: Int = alarmIdString?.toIntOrNull() ?: System.currentTimeMillis().toInt()
+        Log.d("AlarmaDatos", "Id: ${alarmId}")
         val alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-        ringtone = RingtoneManager.getRingtone(context, alarmUri)
-        // Llama a la interfaz para que suene y se vea la alamra
-        ringtone?.play()
-        // Muestra un mensaje cuando suena la alarma
-        Toast.makeText(context, "¡Alarma sonando!", Toast.LENGTH_LONG).show()
-        showHighPriorityNotification(context, alarmName)
+
+        if (alarmActive) {
+            ringtone = RingtoneManager.getRingtone(context, alarmUri)
+            // Llama a la interfaz para que suene y se vea la alamra
+            ringtone?.play()
+            // Muestra un mensaje cuando suena la alarma
+            Toast.makeText(context, "¡Alarma sonando!", Toast.LENGTH_LONG).show()
+
+            if (alarmPeridiocity == "Una vez"){
+                //TODO Comunicar con shared preferences para que se elimine la alarma (No debería sonar en principio)
+            }
+            showHighPriorityNotification(context, alarmName, alarmId)
+        }
+        else{
+            Log.d("AlarmaDatos","Alarma inactiva")
+        }
 
 
 
     }
 
-    fun showHighPriorityNotification(context: Context, name: String?) {
+    fun showHighPriorityNotification(context: Context, name: String?, id: Int) {
         // Intent to open the activity when tapped
         val intent = Intent(context, MainActivity::class.java).apply {
+            putExtra("launched_from_notification", true)  // Add this line
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(
-            context, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            context, id, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         // Build the notification

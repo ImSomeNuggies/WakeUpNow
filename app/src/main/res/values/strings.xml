@@ -12,4 +12,5 @@
         <item>Domingo</item>
     </string-array>
     <string name="title_activity_stop_alarm">StopAlarm</string>
+    <string name="title_activity_boot_reciever">BootReciever</string>
 </resources>

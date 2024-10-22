@@ -33,6 +33,7 @@ import android.widget.Toast
 import android.Manifest
 import android.app.AlarmManager
 import android.provider.Settings
+import android.util.Log
 
 class MainActivity : ComponentActivity() {
     private val alarmList = mutableListOf<Alarm>()
@@ -119,6 +120,28 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        /*
+        // Reschecule alarms
+        // Check if the activity was launched from the notification
+        val launchedFromNotification = intent.getBooleanExtra("launched_from_notification", false)
+
+        // Only reschedule alarms if the activity was NOT launched from a notification
+        if (!launchedFromNotification) {
+            val alarmPreferences = AlarmPreferences(this)
+            val savedAlarms = alarmPreferences.loadAlarms()
+
+            for (alarm in savedAlarms) {
+                Log.d("AlarmaDatos", "Datos alarma:")
+                Log.d("AlarmaDatos", "Nombre: ${alarm.name}")
+                val hour = alarm.ringTime.get(Calendar.HOUR_OF_DAY)
+                val minute = alarm.ringTime.get(Calendar.MINUTE)
+
+                Log.d("AlarmaDatos", "Hora de la alarma: $hour:$minute")
+                scheduleAlarm(this, alarm)
+            }
+        }
+        */
+
         // Find the button by its ID
         val buttonCreateAlarm: Button = findViewById(R.id.buttonCreateAlarm)
 
@@ -168,6 +191,25 @@ class MainActivity : ComponentActivity() {
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    private fun scheduleAlarm(context: Context, alarm: Alarm) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(context, AlarmReceiver::class.java).apply {
+            putExtra("alarm_name", alarm.name)
+        }
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            alarm.id,  // Ensure unique pending intent for each alarm
+            alarmIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        alarmManager.setExact(
+            AlarmManager.RTC_WAKEUP,
+            alarm.ringTime.timeInMillis,
+            pendingIntent
+        )
     }
 
 

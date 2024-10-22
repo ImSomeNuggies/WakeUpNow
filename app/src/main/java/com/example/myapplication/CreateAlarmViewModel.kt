@@ -9,6 +9,7 @@ class CreateAlarmViewModel(private val repository: AlarmRepository) : ViewModel(
     var selectedTime: String = ""
     var selectedPeriodicity: String = ""
 
+
     /*fun setSelectedTime(time: String) {
         selectedTime = time
     }*/
@@ -42,5 +43,9 @@ class CreateAlarmViewModel(private val repository: AlarmRepository) : ViewModel(
 
         repository.saveAlarm(newAlarm)
         return newAlarm
+    }
+
+    fun whichDay(day: String){
+
     }
 }
