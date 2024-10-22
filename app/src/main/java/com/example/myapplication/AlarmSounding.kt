@@ -10,11 +10,11 @@ import com.google.gson.reflect.TypeToken
 
 class AlarmSounding : AppCompatActivity() {
 
-    private lateinit var problemaTextView: TextView
-    private lateinit var opcion1Button: Button
-    private lateinit var opcion2Button: Button
-    private lateinit var opcion3Button: Button
-    private lateinit var opcion4Button: Button
+    lateinit var problemaTextView: TextView
+    lateinit var opcion1Button: Button
+    lateinit var opcion2Button: Button
+    lateinit var opcion3Button: Button
+    lateinit var opcion4Button: Button
     lateinit var problemaFalloTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +49,7 @@ class AlarmSounding : AppCompatActivity() {
     }
 
     //Leer problemas desde el archivo JSON en la carpeta assets
-    private fun leerProblemasDesdeArchivo(): List<Problema> {
+    fun leerProblemasDesdeArchivo(): List<Problema> {
         val jsonString = assets.open("problemas.json")
             .bufferedReader()
             .use { it.readText() }
@@ -59,7 +59,7 @@ class AlarmSounding : AppCompatActivity() {
     }
 
     //Seleccionar un problema al azar
-    private fun seleccionarProblemaAleatorio(problemas: List<Problema>): Problema? {
+    fun seleccionarProblemaAleatorio(problemas: List<Problema>): Problema? {
         return if (problemas.isNotEmpty()) {
             problemas.random()
         } else {
@@ -68,7 +68,7 @@ class AlarmSounding : AppCompatActivity() {
     }
 
     //Verificar si la respuesta seleccionada es correcta
-    private fun verificarRespuesta(respuestaSeleccionada: String, respuestaCorrecta: String) {
+    fun verificarRespuesta(respuestaSeleccionada: String, respuestaCorrecta: String) {
         if (respuestaSeleccionada == respuestaCorrecta) {
             //Muestra que la respuesta es correcta y termina la actividad
             finish()
@@ -78,7 +78,4 @@ class AlarmSounding : AppCompatActivity() {
 
         }
     }
-
-
-
 }
