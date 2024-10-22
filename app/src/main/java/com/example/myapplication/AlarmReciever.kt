@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.myapplication.CreateAlarm
+import com.example.myapplication.AlarmSounding
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import android.util.Log
@@ -41,6 +42,11 @@ class AlarmReceiver : BroadcastReceiver() {
             if (alarmPeridiocity == "Una vez"){
                 //TODO Comunicar con shared preferences para que se elimine la alarma (No debería sonar en principio)
             }
+            /*val alarmSoundingIntent = Intent(context, AlarmSounding::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("alarm_name", alarmName)  // Puedes pasar datos adicionales si es necesario
+        }
+        context.startActivity(alarmSoundingIntent)*/
             showHighPriorityNotification(context, alarmName, alarmId)
         }
         else{
@@ -53,7 +59,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     fun showHighPriorityNotification(context: Context, name: String?, id: Int) {
         // Intent to open the activity when tapped
-        val intent = Intent(context, MainActivity::class.java).apply {
+        val intent = Intent(context, AlarmSounding::class.java).apply {
             putExtra("launched_from_notification", true)  // Add this line
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }

@@ -48,6 +48,13 @@
             android:exported="false"
             android:label="Create Alarm"
             android:theme="@style/Theme.MyApplication" />
+
+        <activity
+            android:name=".AlarmSounding"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat"
+        />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -59,6 +66,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <receiver android:name=".receivers.AlarmReceiver" />
     </application>
