@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.myapplication.CreateAlarm
+import com.example.myapplication.AlarmSounding
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 
@@ -29,6 +30,13 @@ class AlarmReceiver : BroadcastReceiver() {
         ringtone?.play()
         // Muestra un mensaje cuando suena la alarma
         Toast.makeText(context, "¡Alarma sonando!", Toast.LENGTH_LONG).show()
+
+        /*val alarmSoundingIntent = Intent(context, AlarmSounding::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("alarm_name", alarmName)  // Puedes pasar datos adicionales si es necesario
+        }
+        context.startActivity(alarmSoundingIntent)*/
+
         showHighPriorityNotification(context, alarmName)
 
 
@@ -37,7 +45,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     fun showHighPriorityNotification(context: Context, name: String?) {
         // Intent to open the activity when tapped
-        val intent = Intent(context, MainActivity::class.java).apply {
+        val intent = Intent(context, AlarmSounding::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(

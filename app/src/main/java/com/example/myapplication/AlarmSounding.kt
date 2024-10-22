@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
+
 class AlarmSounding : AppCompatActivity() {
 
     private lateinit var problemaTextView: TextView
@@ -14,6 +15,7 @@ class AlarmSounding : AppCompatActivity() {
     private lateinit var opcion2Button: Button
     private lateinit var opcion3Button: Button
     private lateinit var opcion4Button: Button
+    lateinit var problemaFalloTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,7 @@ class AlarmSounding : AppCompatActivity() {
         opcion2Button = findViewById(R.id.opcion2Button)
         opcion3Button = findViewById(R.id.opcion3Button)
         opcion4Button = findViewById(R.id.opcion4Button)
+        problemaFalloTextView = findViewById(R.id.problemaFallo)
 
         //Cargar y mostrar un problema aleatorio
         val problemas = leerProblemasDesdeArchivo()
@@ -38,10 +41,10 @@ class AlarmSounding : AppCompatActivity() {
             opcion4Button.text = problemaAleatorio.opciones[3]
 
             //Asignar las acciones de los botones
-            opcion1Button.setOnClickListener { verificarRespuesta(problemaAleatorio.opciones[0], problemaAleatorio.correcta) }
-            opcion2Button.setOnClickListener { verificarRespuesta(problemaAleatorio.opciones[1], problemaAleatorio.correcta) }
-            opcion3Button.setOnClickListener { verificarRespuesta(problemaAleatorio.opciones[2], problemaAleatorio.correcta) }
-            opcion4Button.setOnClickListener { verificarRespuesta(problemaAleatorio.opciones[3], problemaAleatorio.correcta) }
+            opcion1Button.setOnClickListener { verificarRespuesta(problemaAleatorio.opciones[0], problemaAleatorio.correcta)}
+            opcion2Button.setOnClickListener { verificarRespuesta(problemaAleatorio.opciones[1], problemaAleatorio.correcta)}
+            opcion3Button.setOnClickListener { verificarRespuesta(problemaAleatorio.opciones[2], problemaAleatorio.correcta)}
+            opcion4Button.setOnClickListener { verificarRespuesta(problemaAleatorio.opciones[3], problemaAleatorio.correcta)}
         }
     }
 
@@ -71,6 +74,11 @@ class AlarmSounding : AppCompatActivity() {
             finish()
         } else {
             //Muestra que la respuesta es incorrecta, tal vez un mensaje de error
+            problemaFalloTextView.text = "Respuesta incorrecta. Inténtalo de nuevo."
+
         }
     }
+
+
+
 }
