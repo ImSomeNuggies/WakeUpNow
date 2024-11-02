@@ -50,7 +50,7 @@
             android:theme="@style/Theme.MyApplication" />
 
         <activity
-            android:name=".AlarmSounding"
+            android:name=".AlarmSoundingActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat"
         />
