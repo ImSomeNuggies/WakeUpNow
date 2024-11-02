@@ -1,25 +1,34 @@
 package com.example.myapplication.receivers
 
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.Ringtone
 import android.media.RingtoneManager
+import android.app.PendingIntent
+import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.myapplication.CreateAlarm
-import com.example.myapplication.AlarmSounding
-import com.example.myapplication.MainActivity
+import com.example.myapplication.AlarmSoundingActivity
 import com.example.myapplication.R
-import android.util.Log
-
 
 class AlarmReceiver : BroadcastReceiver() {
 
     companion object {
         var ringtone: Ringtone? = null
+
+        // Método para detener la alarma accesible desde toda la aplicación
+        fun stopAlarm() {
+            ringtone?.let {
+                if (it.isPlaying) {
+                    it.stop()
+                    Log.d("AlarmaDatos", "Alarma detenida")
+                }
+                ringtone = null  // Liberar el recurso
+            }
+        }
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -42,7 +51,7 @@ class AlarmReceiver : BroadcastReceiver() {
             if (alarmPeridiocity == "Una vez"){
                 //TODO Comunicar con shared preferences para que se elimine la alarma (No debería sonar en principio)
             }
-            /*val alarmSoundingIntent = Intent(context, AlarmSounding::class.java).apply {
+            /* val alarmSoundingIntent = Intent(context, AlarmSounding::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra("alarm_name", alarmName)  // Puedes pasar datos adicionales si es necesario
         }
@@ -52,14 +61,11 @@ class AlarmReceiver : BroadcastReceiver() {
         else{
             Log.d("AlarmaDatos","Alarma inactiva")
         }
-
-
-
     }
 
     fun showHighPriorityNotification(context: Context, name: String?, id: Int) {
         // Intent to open the activity when tapped
-        val intent = Intent(context, AlarmSounding::class.java).apply {
+        val intent = Intent(context, AlarmSoundingActivity::class.java).apply {
             putExtra("alarm_name", name)
             putExtra("launched_from_notification", true)  // Add this line
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -82,7 +88,4 @@ class AlarmReceiver : BroadcastReceiver() {
             notify(123, builder.build())  // 123 is the notification ID
         }
     }
-
-
 }
-
