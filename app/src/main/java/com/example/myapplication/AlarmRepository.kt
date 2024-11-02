@@ -1,12 +1,19 @@
 package com.example.myapplication
 
+import android.content.Context
+import com.example.myapplication.receivers.AlarmReceiver
+import com.example.myapplication.AlarmPreferences
+import com.example.myapplication.Alarm
+
 /**
  * Repository class that acts as an abstraction layer between the ViewModel and SharedPreferences.
  * It interacts with the `AlarmPreferences` class to manage alarm data.
  * 
- * @param alarmPreferences The instance of `AlarmPreferences` used to save, load, and manage alarms.
+ * @param context The application context used to initialize `AlarmPreferences`.
  */
-class AlarmRepository(private val alarmPreferences: AlarmPreferences) {
+class AlarmRepository(context: Context) {
+
+    private val alarmPreferences = AlarmPreferences(context) // Instancia de AlarmPreferences creada aquí
 
     /**
      * Retrieves all alarms from SharedPreferences via `AlarmPreferences`.
@@ -18,12 +25,40 @@ class AlarmRepository(private val alarmPreferences: AlarmPreferences) {
     }
 
     /**
+     * Retrieves an alarm by its ID from SharedPreferences.
+     *
+     * @param alarmId The ID of the alarm to retrieve.
+     * @return The `Alarm` object if found, or null if not found.
+     */
+    fun getAlarmById(alarmId: Int): Alarm? {
+        return alarmPreferences.getAlarmById(alarmId)
+    }
+
+    /**
      * Saves a new alarm using `AlarmPreferences`.
      *
      * @param alarm The `Alarm` object to be saved.
      */
     fun saveAlarm(alarm: Alarm) {
         alarmPreferences.saveAlarm(alarm)
+    }
+
+    /**
+     * Edits an existing alarm by updating its data in SharedPreferences.
+     *
+     * @param alarm The `Alarm` object with updated information.
+     */
+    fun editAlarm(alarm: Alarm) {
+        alarmPreferences.editAlarm(alarm)
+    }
+
+    /**
+     * Deletes an alarm from SharedPreferences by its ID.
+     *
+     * @param alarmId The ID of the alarm to delete.
+     */
+    fun deleteAlarm(alarmId: Int) {
+        alarmPreferences.deleteAlarm(alarmId)
     }
 
     /**

@@ -37,8 +37,7 @@ class CreateAlarm : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_alarm_layout)
 
-        val alarmPreferences = AlarmPreferences(this)
-        val repository = AlarmRepository(alarmPreferences)
+        val repository = AlarmRepository(this)
         val viewModelFactory = CreateAlarmViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[CreateAlarmViewModel::class.java]
 
