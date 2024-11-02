@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.myapplication.AlarmSoundingActivity
+import com.example.myapplication.helpers.NotificationHelper
 import com.example.myapplication.R
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -56,36 +57,10 @@ class AlarmReceiver : BroadcastReceiver() {
             putExtra("alarm_name", alarmName)  // Puedes pasar datos adicionales si es necesario
         }
         context.startActivity(alarmSoundingIntent)*/
-            showHighPriorityNotification(context, alarmName, alarmId)
+            NotificationHelper.showHighPriorityNotification(context, alarmName, alarmId)
         }
         else{
             Log.d("AlarmaDatos","Alarma inactiva")
-        }
-    }
-
-    fun showHighPriorityNotification(context: Context, name: String?, id: Int) {
-        // Intent to open the activity when tapped
-        val intent = Intent(context, AlarmSoundingActivity::class.java).apply {
-            putExtra("alarm_name", name)
-            putExtra("launched_from_notification", true)  // Add this line
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(
-            context, id, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        // Build the notification
-        val builder = NotificationCompat.Builder(context, "high_priority_channel")
-            .setSmallIcon(R.drawable.logo)
-            .setContentTitle(name)
-            .setContentText("Pulse para parar la alarma")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-
-        // Show the notification
-        with(NotificationManagerCompat.from(context)) { // We need to ensure notification permissions are on
-            notify(123, builder.build())  // 123 is the notification ID
         }
     }
 }
