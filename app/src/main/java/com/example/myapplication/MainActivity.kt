@@ -18,6 +18,7 @@ class MainActivity : ComponentActivity() {
     private val alarmList = mutableListOf<Alarm>()
     private lateinit var alarmPermissionHelper: AlarmPermissionHelper
     private lateinit var alarmScheduler: AlarmScheduler
+    private lateinit var alarmPreferences: AlarmPreferences
     private lateinit var alarmRepository: AlarmRepository
 
     private val requestNotificationPermissionLauncher =
@@ -40,7 +41,8 @@ class MainActivity : ComponentActivity() {
 
         alarmPermissionHelper = AlarmPermissionHelper(this, requestNotificationPermissionLauncher)
         alarmScheduler = AlarmScheduler(this)
-        alarmRepository = AlarmRepository(this)
+        alarmPreferences = AlarmPreferences(this)
+        alarmRepository = AlarmRepository(alarmPreferences)
 
         alarmPermissionHelper.checkNotificationPermission()
         NotificationHelper.createNotificationChannel(this)
