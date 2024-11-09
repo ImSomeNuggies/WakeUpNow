@@ -12,7 +12,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
 
-class AlarmSoundingViewModel(application: Application) : AndroidViewModel(application) {
+class AlarmSoundingViewModel(
+    application: Application,
+    private val problemas: List<Problema> = leerProblemasDesdeArchivo(application) // Optional injection
+) : AndroidViewModel(application) {
 
     private val _alarmName = MutableLiveData<String>()
     val alarmName: LiveData<String> get() = _alarmName
@@ -29,9 +32,6 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
     private val _shouldFinish = MutableLiveData<Boolean>()
     val shouldFinish: LiveData<Boolean> get() = _shouldFinish
 
-    // Lista de problemas cargada desde el archivo
-    private val problemas: List<Problema> = leerProblemasDesdeArchivo()
-    
     init {
         _currentTime.value = getCurrentTime()
         _shouldFinish.value = false
@@ -43,13 +43,15 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
     }
 
     //Leer problemas desde el archivo JSON en la carpeta assets
-    fun leerProblemasDesdeArchivo(): List<Problema> {
-        val jsonString = getApplication<Application>().assets.open("problemas.json")
-            .bufferedReader()
-            .use { it.readText() }
+    companion object {
+        fun leerProblemasDesdeArchivo(application: Application): List<Problema> {
+            val jsonString = application.assets.open("problemas.json")
+                .bufferedReader()
+                .use { it.readText() }
 
-        val listType = object : TypeToken<List<Problema>>() {}.type
-        return Gson().fromJson(jsonString, listType)
+            val listType = object : TypeToken<List<Problema>>() {}.type
+            return Gson().fromJson(jsonString, listType)
+        }
     }
 
     //Seleccionar un problema al azar
