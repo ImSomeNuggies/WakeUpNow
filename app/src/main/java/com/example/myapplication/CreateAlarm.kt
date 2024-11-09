@@ -80,60 +80,30 @@ class CreateAlarm : ComponentActivity() {
                     putExtra("alarm_id", newAlarm.id)
                     putExtra("alarm_isActive", newAlarm.isActive)
                     putExtra("alarm_periodicity", newAlarm.periodicity)
+                    putExtra("alarm_ringTime", newAlarm.ringTime)
+                    putExtra("alarm_time", newAlarm.time)
                 }
                 val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
                 Log.d("AlarmaDatos", "Día de la semana: ${newAlarm.periodicity}")
 
-                if (newAlarm.periodicity == "Una vez") {
-                    alarmManager.setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        newAlarm.ringTime.timeInMillis,
-                        pendingIntent
-                    )
-                } else if (newAlarm.periodicity.trim() == "Diaria") { //TODO Arreglar el que no suene la alarma periodica fuera de la app
-                    alarmManager.setRepeating(
-                        AlarmManager.RTC_WAKEUP,
-                        newAlarm.ringTime.timeInMillis,  // This is the first trigger time
-                        AlarmManager.INTERVAL_DAY,  // Set to repeat every day
-                        pendingIntent
 
-                    )
-                    Log.d("Alarma Datos", "ALARMA DIARIA!")
-                } else { //TODO Arreglar el que no suene la alarma periodica fuera de la app
-                    // Create a Calendar instance
-                    val calendar = Calendar.getInstance()
+                // Create a Calendar instance
+                val calendar = Calendar.getInstance()
 
-                    // Set the time to the alarm's time
-                    calendar.set(Calendar.HOUR_OF_DAY, newAlarm.ringTime.get(Calendar.HOUR_OF_DAY))
-                    calendar.set(Calendar.MINUTE, newAlarm.ringTime.get(Calendar.MINUTE))
-                    calendar.set(Calendar.SECOND, 0)
-                    calendar.set(Calendar.MILLISECOND, 0)
+                // Set the time to the alarm's time
+                calendar.set(Calendar.HOUR_OF_DAY, newAlarm.ringTime.get(Calendar.HOUR_OF_DAY))
+                calendar.set(Calendar.MINUTE, newAlarm.ringTime.get(Calendar.MINUTE))
+                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
 
-                    // Determine the day of the week to set
-                    when (newAlarm.periodicity) {
-                        "Lunes" -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-                        "Martes" -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY)
-                        "Miércoles" -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY)
-                        "Jueves" -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
-                        "Viernes" -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
-                        "Sábado" -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
-                        "Domingo" -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-                    }
+                // Set the alarm to repeat every week on the specified day
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,  // The calculated time for the next occurrence
+                    pendingIntent
+                )
 
-                    // If the set time has already passed for this week, move it to the next week
-                    if (calendar.timeInMillis < System.currentTimeMillis()) {
-                        calendar.add(Calendar.WEEK_OF_YEAR, 1)
-                    }
-
-                    // Set the alarm to repeat every week on the specified day
-                    alarmManager.setInexactRepeating(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.timeInMillis,  // The calculated time for the next occurrence
-                        AlarmManager.INTERVAL_DAY * 7,  // Repeat every week
-                        pendingIntent
-                    )
-                    Log.d("AlarmaDatos", "Próxima activación: ${calendar.time}")
-                }
+                Log.d("AlarmaDatos", "Próxima activación: ${calendar.time}")
                 Log.d("AlarmaDatos", "Programando alarma:")
                 Log.d("AlarmaDatos", "Nombre: ${newAlarm.name}")
                 Log.d("AlarmaDatos", "Hora: ${newAlarm.ringTime.get(Calendar.HOUR_OF_DAY)}:${newAlarm.ringTime.get(Calendar.MINUTE)}")

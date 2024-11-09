@@ -67,6 +67,6 @@ class AlarmRepository(context: Context) {
      * @return A new unique alarm ID.
      */
     fun getNewAlarmId(): Int {
-        return getAlarms().size + 1
+        return System.currentTimeMillis().toInt()
     }
 }

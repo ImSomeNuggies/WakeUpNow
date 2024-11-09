@@ -13,6 +13,7 @@ import com.example.myapplication.helpers.NotificationHelper
 import com.example.myapplication.AlarmRepository
 import com.example.myapplication.schedulers.AlarmScheduler
 import android.widget.Toast
+import android.util.Log
 
 class MainActivity : ComponentActivity() {
     private val alarmList = mutableListOf<Alarm>()
@@ -55,6 +56,14 @@ class MainActivity : ComponentActivity() {
         alarmList.clear()
         alarmList.addAll(alarmRepository.getAlarms())
         alarmAdapter.notifyDataSetChanged()
+
+        for (alarm in alarmList) {
+            // Log de los datos de la alarma
+            Log.d("AlarmInfo", "ID: ${alarm.id}, Name: ${alarm.name}, Time: ${alarm.time}, Periodicity: ${alarm.periodicity}, Is Active: ${alarm.isActive}, Ring Time: ${alarm.ringTime.time}")
+
+            // Programar la alarma
+            alarmScheduler.scheduleAlarm(alarm)
+        }
 
         buttonCreateAlarm.setOnClickListener {
             startActivity(Intent(this, CreateAlarm::class.java))

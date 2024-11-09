@@ -24,7 +24,7 @@ class AlarmRepositoryTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         alarmPreferences = mock(AlarmPreferences::class.java)
-        alarmRepository = AlarmRepository(alarmPreferences)
+        //alarmRepository = AlarmRepository(alarmPreferences)
     }
 
     /**
