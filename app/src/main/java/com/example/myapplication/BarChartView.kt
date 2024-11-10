@@ -14,13 +14,13 @@ class BarChartView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val barPaint = Paint().apply {
-        color = Color.LTGRAY
+        color = Color.parseColor("#8E87E4")
         style = Paint.Style.FILL
     }
 
     private val textPaint = Paint().apply {
-        color = Color.WHITE
-        textSize = 32f
+        color = Color.parseColor("#CFCFEF")
+        textSize = 40f
         textAlign = Paint.Align.CENTER
     }
 
@@ -43,13 +43,13 @@ class BarChartView @JvmOverloads constructor(
         hourlyData.entries.forEachIndexed { index, entry ->
             val barHeight = (entry.value / maxDataValue) * maxBarHeight
             val left = index * 2 * barWidth + barWidth / 2
-            val top = height - barHeight - 50f
+            val top = height - barHeight - 80f
             val right = left + barWidth
-            val bottom = height - 50f
+            val bottom = height - 80f
 
             canvas.drawRect(left, top, right, bottom, barPaint)
             canvas.drawText(entry.key, left + barWidth / 2, height.toFloat() - 20, textPaint)
-            canvas.drawText("${entry.value.toInt()}s", left + barWidth / 2, top - 10f, textPaint)
+            canvas.drawText("${entry.value.toInt()}", left + barWidth / 2, top - 20f, textPaint)
         }
     }
 }

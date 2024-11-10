@@ -6,10 +6,7 @@ import androidx.lifecycle.ViewModel
 
 class StatisticsViewModel : ViewModel() {
 
-    // Datos de ejemplo (lista de tiempos y errores para simulación)
-    private val sampleSolveTimes = listOf(30, 45, 10, 25, 60) // en segundos
-    private val sampleErrors = listOf(1, 3, 0, 2, 4)
-
+    // Datos generales
     private val _averageTimeToTurnOff = MutableLiveData<Int>()
     val averageTimeToTurnOff: LiveData<Int> get() = _averageTimeToTurnOff
 
@@ -22,59 +19,71 @@ class StatisticsViewModel : ViewModel() {
     private val _maxErrors = MutableLiveData<Int>()
     val maxErrors: LiveData<Int> get() = _maxErrors
 
-    // LiveData para los tiempos de respuesta promedio por hora
-    private val _hourlyResponseTimeData = MutableLiveData<Map<String, Float>>()
-    val hourlyResponseTimeData: LiveData<Map<String, Float>> get() = _hourlyResponseTimeData
+    // Datos de ejemplo por rango de hora para cada tipo de gráfico
+    private val _averageHourlyResponseTimeData = MutableLiveData<Map<String, Float>>()
+    private val _maxHourlyResponseTimeData = MutableLiveData<Map<String, Float>>()
+    private val _minHourlyResponseTimeData = MutableLiveData<Map<String, Float>>()
+    private val _maxHourlyErrorsData = MutableLiveData<Map<String, Int>>()
 
     init {
-        calculateStatistics()
+        calculateGeneralStatistics()
         loadSampleHourlyData()
     }
 
-    // Función que calcula y actualiza las estadísticas
-    private fun calculateStatistics() {
-        _averageTimeToTurnOff.value = calculateAverageTime()
-        _maxTimeToTurnOff.value = calculateMaxTime()
-        _minTimeToTurnOff.value = calculateMinTime()
-        _maxErrors.value = calculateMaxErrors()
+    private fun calculateGeneralStatistics() {
+        _averageTimeToTurnOff.value = 34  // Datos ficticios
+        _maxTimeToTurnOff.value = 60
+        _minTimeToTurnOff.value = 10
+        _maxErrors.value = 4
     }
 
-    // Función para calcular el tiempo promedio de apagado
-    private fun calculateAverageTime(): Int {
-        return if (sampleSolveTimes.isNotEmpty()) {
-            sampleSolveTimes.sum() / sampleSolveTimes.size
-        } else {
-            0
-        }
-    }
-
-    // Función para calcular el tiempo máximo de apagado
-    private fun calculateMaxTime(): Int {
-        return sampleSolveTimes.maxOrNull() ?: 0
-    }
-
-    // Función para calcular el tiempo mínimo de apagado
-    private fun calculateMinTime(): Int {
-        return sampleSolveTimes.minOrNull() ?: 0
-    }
-
-    // Función para calcular el número máximo de fallos
-    private fun calculateMaxErrors(): Int {
-        return sampleErrors.maxOrNull() ?: 0
-    }
-
-    // Cargar datos ficticios para el gráfico de tiempo de respuesta promedio por hora
-    private fun loadSampleHourlyData() {
-        // Datos de ejemplo en segundos (tiempos de respuesta promedio por hora)
-        val sampleHourlyData = mapOf(
-            "6:00" to 11.5f,
-            "7:00" to 7.8f,
-            "8:00" to 12.1f,
-            "10:00" to 10.3f,
-            "16:00" to 5.8f,
-            "17:00" to 8.1f
+   private fun loadSampleHourlyData() {
+        _averageHourlyResponseTimeData.value = mapOf(
+            "5 - 8" to 6.5f,
+            "9 - 11" to 7.3f,
+            "12 - 14" to 5.8f,
+            "15 - 19" to 8.2f,
+            "20 - 24" to 6.9f,
+            "1 - 4" to 4.3f
         )
 
-        _hourlyResponseTimeData.value = sampleHourlyData
+        _maxHourlyResponseTimeData.value = mapOf(
+            "5 - 8" to 15f,
+            "9 - 11" to 14.5f,
+            "12 - 14" to 12.3f,
+            "15 - 19" to 16.8f,
+            "20 - 24" to 13.2f,
+            "1 - 4" to 10.4f
+        )
+
+        _minHourlyResponseTimeData.value = mapOf(
+            "5 - 8" to 3f,
+            "9 - 11" to 2f,
+            "12 - 14" to 2.5f,
+            "15 - 19" to 3.1f,
+            "20 - 24" to 3.3f,
+            "1 - 4" to 2.8f
+        )
+
+        _maxHourlyErrorsData.value = mapOf(
+            "5 - 8" to 3,
+            "9 - 11" to 2,
+            "12 - 14" to 2,
+            "15 - 19" to 3,
+            "20 - 24" to 2,
+            "1 - 4" to 1
+        )
+    }
+
+
+    // Expose the appropriate LiveData based on the selected graph type
+    fun getGraphData(type: String): LiveData<out Map<String, *>> {
+        return when (type) {
+            "Tiempo medio (seg)" -> _averageHourlyResponseTimeData
+            "Tiempo máx. (seg)" -> _maxHourlyResponseTimeData
+            "Tiempo mín. (seg)" -> _minHourlyResponseTimeData
+            "Máx. errores" -> _maxHourlyErrorsData
+            else -> _averageHourlyResponseTimeData
+        }
     }
 }

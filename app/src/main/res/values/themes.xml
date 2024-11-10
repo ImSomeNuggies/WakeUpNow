@@ -76,4 +76,18 @@
         <item name="android:textColor">@color/dark</item>
         <item name="android:textSize">32sp</item>
     </style>
+
+    <!-- Estilo personalizado para el Spinner -->
+    <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner.Underlined">
+        <item name="android:backgroundTint">@color/light</item> <!-- Color de la flecha -->
+        <item name="android:popupBackground">@color/dark</item> <!-- Fondo del menú desplegable -->
+        <item name="android:textColor">@color/light</item> <!-- Color del texto -->
+    </style>
+
+    <!-- Estilo para los elementos del menú desplegable -->
+    <style name="CustomSpinnerItemStyle">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:background">@color/dark</item>
+    </style>
+
 </resources>
