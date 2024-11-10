@@ -1,0 +1,26 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="56dp"
+    android:height="56dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Circular background -->
+    <path
+        android:fillColor="@color/light"
+        android:pathData="M24,4a20,20 0 1,0 0,40a20,20 0 1,0 0,-40" />
+
+    <!-- First bar (shortest) - shifted down slightly -->
+    <path
+        android:fillColor="@color/dark"
+        android:pathData="M15,36h4v-10h-4z" />
+
+    <!-- Second bar (medium height) - shifted down slightly -->
+    <path
+        android:fillColor="@color/dark"
+        android:pathData="M22,36h4v-18h-4z" />
+
+    <!-- Third bar (tallest) - shifted down slightly -->
+    <path
+        android:fillColor="@color/dark"
+        android:pathData="M29,36h4v-26h-4z" />
+</vector>
