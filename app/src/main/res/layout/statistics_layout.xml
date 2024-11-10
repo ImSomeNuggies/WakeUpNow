@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     android:background="@color/dark"
-    android:padding="16dp">
+    android:gravity="start|center_horizontal">
 
     <!-- Cross Button to go back to the main menu -->
     <ImageButton
@@ -15,17 +15,70 @@
         android:background="@null"
         android:contentDescription="Close"
         android:layout_gravity="end"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp" />
-        
+
+    <!-- Title for Statistics -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Statistics Screen"
+        android:text="Statistics"
         android:textSize="24sp"
         android:textColor="@color/light"
         android:textStyle="bold"
-        android:layout_gravity="center"
-        android:layout_marginBottom="16dp" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp" />
+
+    <!-- Statistics Data -->
+    <TextView
+        android:id="@+id/avgTimeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Average Time: -- sec"
+        android:textSize="18sp"
+        android:textColor="@color/light"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/maxTimeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max Time: -- sec"
+        android:textSize="18sp"
+        android:textColor="@color/light"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/minTimeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Min Time: -- sec"
+        android:textSize="18sp"
+        android:textColor="@color/light"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/maxErrorsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max Errors: --"
+        android:textSize="18sp"
+        android:textColor="@color/light"
+        android:layout_gravity="center_horizontal" />
+
+    <!-- Scrollable Bar Chart Section -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_marginTop="16dp">
+
+        <com.example.myapplication.BarChartView
+            android:id="@+id/barChartView"
+            android:layout_width="1000dp"
+            android:layout_height="300dp" />
+    </HorizontalScrollView>
 
 </LinearLayout>
+
