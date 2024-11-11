@@ -4,6 +4,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
+import com.example.myapplication.receivers.AlarmReceiver
 import java.util.Calendar
 
 /**
@@ -34,7 +35,6 @@ class AlarmRepositoryTest {
      */
     @Test
     fun testGetAlarms() {
-        // Create a mock list of alarms
         val mockAlarms = mutableListOf(
             Alarm(1, "07:00", "", "Una vez", true, Calendar.getInstance()),
             Alarm(2, "18:00", "Siesta", "Diaria", false, Calendar.getInstance())
@@ -43,9 +43,7 @@ class AlarmRepositoryTest {
         `when`(alarmPreferences.loadAlarms()).thenReturn(mockAlarms)
         val alarms = alarmRepository.getAlarms()
 
-        // Verify that the returned alarms are the same as the mockAlarms
         assert(alarms == mockAlarms)
-        // Verify that the loadAlarms method in AlarmPreferences was called
         verify(alarmPreferences).loadAlarms()
     }
 
@@ -59,8 +57,64 @@ class AlarmRepositoryTest {
         val newAlarm = Alarm(3, "10:00", "", "Domingo", true, Calendar.getInstance())
         alarmRepository.saveAlarm(newAlarm)
 
-        // Verify that the saveAlarm method in AlarmPreferences was called with the correct alarm
         verify(alarmPreferences).saveAlarm(newAlarm)
+    }
+
+    /**
+    * Test for the getAlarmById() method in AlarmRepository.
+    * Verifies that AlarmRepository retrieves the correct alarm by ID from
+    * AlarmPreferences when the alarm is found.
+    */
+    @Test
+    fun testGetAlarmById_found() {
+        val mockAlarm = Alarm(1, "07:00", "Morning Alarm", "Diaria", true, Calendar.getInstance())
+        `when`(alarmPreferences.getAlarmById(1)).thenReturn(mockAlarm)
+
+        val alarm = alarmRepository.getAlarmById(1)
+
+        assert(alarm == mockAlarm)
+        verify(alarmPreferences).getAlarmById(1)
+    }
+
+    /**
+    * Test for the getAlarmById() method in AlarmRepository.
+    * Verifies that AlarmRepository returns null if the alarm with the specified ID
+    * does not exist in AlarmPreferences.
+    */
+    @Test
+    fun testGetAlarmById_notFound() {
+        `when`(alarmPreferences.getAlarmById(999)).thenReturn(null)
+
+        val alarm = alarmRepository.getAlarmById(999)
+
+        assert(alarm == null)
+        verify(alarmPreferences).getAlarmById(999)
+    }
+
+
+    /**
+     * Test for the editAlarm() method in AlarmRepository.
+     * Verifies that AlarmRepository correctly delegates the editing of an alarm
+     * to AlarmPreferences.
+     */
+    @Test
+    fun testEditAlarm() {
+        val editedAlarm = Alarm(2, "09:00", "Updated Alarm", "Lunes", false, Calendar.getInstance())
+        alarmRepository.editAlarm(editedAlarm)
+
+        verify(alarmPreferences).editAlarm(editedAlarm)
+    }
+
+    /**
+     * Test for the deleteAlarm() method in AlarmRepository.
+     * Verifies that AlarmRepository correctly delegates the deletion of an alarm
+     * by its ID to AlarmPreferences.
+     */
+    @Test
+    fun testDeleteAlarm() {
+        alarmRepository.deleteAlarm(2)
+
+        verify(alarmPreferences).deleteAlarm(2)
     }
 
     /**
@@ -77,10 +131,7 @@ class AlarmRepositoryTest {
 
         val newAlarmId = alarmRepository.getNewAlarmId()
 
-        // Verify that the new ID is 3
         assert(newAlarmId == 3)
-
-        // Verify that the loadAlarms method in AlarmPreferences was called
         verify(alarmPreferences).loadAlarms()
     }
 }
