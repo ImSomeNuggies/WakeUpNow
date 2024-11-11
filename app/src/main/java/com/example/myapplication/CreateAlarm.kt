@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.ui.theme.MyApplicationTheme
-import android.app.TimePickerDialog
+import android.widget.TimePicker
 import android.content.Context
 import android.content.Intent
 import android.widget.Button
@@ -42,30 +42,32 @@ class CreateAlarm : ComponentActivity() {
         val viewModelFactory = CreateAlarmViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[CreateAlarmViewModel::class.java]
 
-        val buttonPickTime = findViewById<Button>(R.id.buttonPickTime)
-        val selectedTimeText = findViewById<TextView>(R.id.selectedTimeText)
         val editTextNombre = findViewById<EditText>(R.id.editTextNombre)
         val spinnerPeriodicidad = findViewById<Spinner>(R.id.spinnerPeriodicidad)
         val buttonConfirmar = findViewById<Button>(R.id.buttonConfirmar)
         val buttonBack = findViewById<ImageButton>(R.id.buttonBack)
 
-        buttonPickTime.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
-            val currentMinute = calendar.get(Calendar.MINUTE)
+        val timePicker = findViewById<TimePicker>(R.id.timePicker) // Find the TimePicker from the layout
+        // Initialize the TimePicker with the current time
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
 
-            val timePickerDialog = TimePickerDialog(
-                this,
-                { _, hourOfDay, minute ->
-                    val selectedTime = String.format("%02d:%02d", hourOfDay, minute)
-                    viewModel.selectedTime = selectedTime
-                    selectedTimeText.text = "Hora seleccionada: $selectedTime"
-                },
-                currentHour,
-                currentMinute,
-                true
-            )
-            timePickerDialog.show()
+        // Use post to ensure the TimePicker is initialized after the layout loads
+        timePicker.post {
+            timePicker.hour = currentHour
+            timePicker.minute = currentMinute
+            timePicker.setIs24HourView(true) // Set to 24-hour format if desired
+
+            // Format the initial time and display it immediately
+            val initialTime = String.format("%02d:%02d", currentHour, currentMinute)
+            viewModel.selectedTime = initialTime
+        }
+
+        // Set a listener to capture the selected time when the user changes it
+        timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
+            val selectedTime = String.format("%02d:%02d", hourOfDay, minute)
+            viewModel.selectedTime = selectedTime
         }
 
         buttonConfirmar.setOnClickListener {
