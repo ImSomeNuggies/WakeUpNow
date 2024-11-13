@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import android.widget.Button
 import android.widget.TextView
-import com.google.gson.Gson
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -13,7 +12,7 @@ import org.mockito.Mockito.*
  * These tests verify the behavior of the activity, including response verification, UI updates,
  * and random problem generation across mathematical, logical, and riddle-based problems.
  */
-class AlarmSoundingTest {
+class AlarmSoundingActivityTest {
 
     private lateinit var alarmSounding: AlarmSoundingActivity
     private lateinit var problemaTextView: TextView
@@ -78,6 +77,7 @@ class AlarmSoundingTest {
         assertNotNull(problema)
         assertTrue(problema.enunciado.contains("¿Cuánto es") || problema.enunciado.contains("¿Cuál es"))
         assertEquals(4, problema.opciones.size)
+        assertTrue(problema.opciones.contains(problema.respuestaCorrecta))
     }
 
     /**
@@ -90,6 +90,7 @@ class AlarmSoundingTest {
         assertNotNull(problema)
         assertTrue(problema.enunciado.isNotEmpty())
         assertEquals(4, problema.opciones.size)
+        assertTrue(problema.opciones.contains(problema.respuestaCorrecta))
     }
 
     /**
@@ -102,6 +103,7 @@ class AlarmSoundingTest {
         assertNotNull(problema)
         assertTrue(problema.enunciado.contains("?"))
         assertEquals(4, problema.opciones.size)
+        assertTrue(problema.opciones.contains(problema.respuestaCorrecta))
     }
 
     /**
@@ -113,6 +115,7 @@ class AlarmSoundingTest {
 
         assertNotNull(problema)
         assertEquals(4, problema.opciones.size)
+        assertTrue(problema.opciones.contains(problema.respuestaCorrecta))
     }
 
     /**
@@ -125,5 +128,22 @@ class AlarmSoundingTest {
 
         assertEquals(4, opciones.size)
         assertTrue(opciones.contains(respuestaCorrecta))
+        opciones.forEach { opcion ->
+            val valor = opcion.toInt()
+            assertTrue(valor in (respuestaCorrecta.toInt() - 5)..(respuestaCorrecta.toInt() + 5))
+        }
+    }
+
+    /**
+     * Test to verify that generated options are unique.
+     */
+    @Test
+    fun testGenerarOpciones_UniqueOptions() {
+        val respuestaCorrecta = 25
+        val opciones = alarmSounding.generarOpciones(respuestaCorrecta.toString())
+
+        val opcionesUnicas = opciones.toSet()
+        assertEquals(4, opcionesUnicas.size) // Ensure all options are unique
+        assertTrue(opciones.contains(respuestaCorrecta.toString()))
     }
 }

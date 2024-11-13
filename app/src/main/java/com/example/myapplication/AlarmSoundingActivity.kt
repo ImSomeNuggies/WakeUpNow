@@ -114,132 +114,114 @@ class AlarmSoundingActivity : AppCompatActivity() {
         return Problema(enunciado, opciones, resultadoCorrecto.toString())
     }
 
-    // Generar un problema de lógica matemática
+    // Generar un problema de lógica matemática dinámico
     fun crearProblemaLogicaMatematica(): Problema {
-        val problemasLogica = listOf(
-            Problema(
-                "Si en una granja hay 10 gallinas y cada una pone 2 huevos al día, ¿cuántos huevos pondrán en total en 3 días?",
-                listOf("60", "30", "20", "50"),
-                "60"
-            ),
-            Problema(
-                "Un tren viaja a una velocidad de 80 km/h. ¿Cuánto tiempo tardará en recorrer 160 km?",
-                listOf("1 hora", "2 horas", "3 horas", "4 horas"),
-                "2 horas"
-            ),
-            Problema(
-                "En una caja hay 15 manzanas y 9 personas. Si cada persona toma 1 manzana, ¿cuántas manzanas quedan en la caja?",
-                listOf("5", "6", "7", "8"),
-                "6"
-            ),
-            Problema(
-                "Una escalera tiene 15 peldaños. Si subes 3 peldaños y bajas 2, ¿en cuántos movimientos llegarás al último peldaño?",
-                listOf("12", "15", "14", "13"),
-                "13"
-            ),
-            Problema(
-                "Si tienes 5 bolsas y cada bolsa contiene 4 canicas, ¿cuántas canicas tienes en total?",
-                listOf("10", "20", "25", "30"),
-                "20"
-            ),
-
-            Problema(
-                "En un zoológico hay 12 jaulas con 4 animales en cada una. Si 8 animales son trasladados, ¿cuántos quedan?",
-                listOf("40", "44", "48", "46"),
-                "44"
-            ),
-            Problema(
-                "Un coche viaja a 60 km/h y otro a 80 km/h. Si salen al mismo tiempo, ¿cuánto tiempo después estarán a 40 km de distancia?",
-                listOf("2 horas", "1 hora", "30 minutos", "3 horas"),
-                "2 horas"
-            ),
-            Problema(
-                "Tienes 3 bolsas con 5 canicas en cada una. Si pierdes 4 canicas, ¿cuántas te quedan?",
-                listOf("11", "10", "15", "12"),
-                "11"
-            ),
-            Problema(
-                "En una clase hay 24 estudiantes y cada uno tiene 2 lápices. Si se pierden 10 lápices, ¿cuántos quedan?",
-                listOf("38", "44", "40", "34"),
-                "38"
-            ),
-            Problema(
-                "Si un tren recorre 150 km en 3 horas, ¿a qué velocidad va en promedio?",
-                listOf("50 km/h", "60 km/h", "70 km/h", "45 km/h"),
-                "50 km/h"
-            ),
-            Problema(
-                "Si tienes 8 manzanas y das la mitad, ¿cuántas te quedan?",
-                listOf("4", "6", "2", "8"),
-                "4"
-            ),
-            Problema(
-                "Si cada hoja de un libro tiene 2 caras, ¿cuántas caras tiene un libro de 100 hojas?",
-                listOf("200", "100", "150", "50"),
-                "200"
-            ),
-            Problema(
-                "Si un camión carga 25 cajas y cada caja pesa 4 kg, ¿cuál es el peso total de las cajas?",
-                listOf("100 kg", "120 kg", "80 kg", "90 kg"),
-                "100 kg"
-            ),
-            Problema(
-                "Si tienes 6 cajas y cada una tiene 7 botellas, ¿cuántas botellas tienes en total?",
-                listOf("42", "36", "48", "45"),
-                "42"
-            ),
-            Problema(
-                "Un jardín tiene 8 filas de 4 plantas cada una. Si se quitan 5 plantas, ¿cuántas quedan?",
-                listOf("27", "32", "28", "30"),
-                "27"
-            ),
-            Problema(
-                "Si un reloj avanza 10 minutos cada hora, ¿cuánto adelantará en un día completo?",
-                listOf("4 horas", "2 horas", "3 horas", "5 horas"),
-                "4 horas"
-            ),
-            Problema(
-                "Un grupo de 10 personas planea dividirse en parejas. ¿Cuántas parejas se pueden formar?",
-                listOf("5", "6", "4", "10"),
-                "5"
-            ),
-            Problema(
-                "Si necesitas 12 horas para completar 4 tareas, ¿cuántas horas necesitas para 10 tareas?",
-                listOf("30", "20", "25", "15"),
-                "30"
-            ),
-            Problema(
-                "Una piscina se llena con 5 litros de agua por minuto. ¿Cuántos litros se llenarán en 3 horas?",
-                listOf("900", "300", "1200", "1500"),
-                "900"
-            ),
-            Problema(
-                "Si tienes 15 globos y 8 explotan, ¿cuántos globos te quedan?",
-                listOf("7", "8", "10", "5"),
-                "7"
-            ),
-            Problema(
-                "Si hay 9 estudiantes y cada uno recibe 3 galletas, ¿cuántas galletas se necesitan en total?",
-                listOf("27", "24", "30", "18"),
-                "27"
-            ),
-            Problema(
-                "Una caja contiene 20 lápices. Si regalas 8, ¿cuántos lápices te quedan?",
-                listOf("12", "15", "10", "8"),
-                "12"
-            ),
-            Problema(
-                "Si un tren viaja a 90 km/h y el viaje es de 360 km, ¿cuánto tardará en llegar?",
-                listOf("4 horas", "5 horas", "3 horas", "6 horas"),
-                "4 horas"
-            ),
-            Problema(
-                "Un reloj avanza 15 minutos cada hora. ¿Cuánto adelantará en un periodo de 12 horas?",
-                listOf("3 horas", "4 horas", "2 horas", "6 horas"),
-                "3 horas"
-            )
-        )
-        return problemasLogica.random()
+        return when (Random.nextInt(1, 11)) {
+            1 -> {
+                val gallinas = Random.nextInt(5, 15)
+                val huevosPorDia = Random.nextInt(1, 4)
+                val dias = Random.nextInt(2, 5)
+                val totalHuevos = gallinas * huevosPorDia * dias
+                Problema(
+                    enunciado = "Si en una granja hay $gallinas gallinas y cada una pone $huevosPorDia huevos al día, ¿cuántos huevos pondrán en total en $dias días?",
+                    opciones = generarOpciones(totalHuevos.toString()),
+                    respuestaCorrecta = totalHuevos.toString()
+                )
+            }
+            2 -> {
+                val velocidad = Random.nextInt(40, 100)
+                val distancia = velocidad * Random.nextInt(1, 5)
+                val tiempo = distancia / velocidad
+                Problema(
+                    enunciado = "Un tren viaja a una velocidad de $velocidad km/h. ¿Cuánto tiempo tardará en recorrer $distancia km?",
+                    opciones = generarOpciones(tiempo.toString()),
+                    respuestaCorrecta = "$tiempo horas"
+                )
+            }
+            3 -> {
+                val manzanas = Random.nextInt(10, 20)
+                val personas = Random.nextInt(5, manzanas)
+                val manzanasRestantes = manzanas - personas
+                Problema(
+                    enunciado = "En una caja hay $manzanas manzanas y $personas personas. Si cada persona toma 1 manzana, ¿cuántas manzanas quedan en la caja?",
+                    opciones = generarOpciones(manzanasRestantes.toString()),
+                    respuestaCorrecta = manzanasRestantes.toString()
+                )
+            }
+            4 -> {
+                val peldaños = Random.nextInt(10, 20)
+                val sube = Random.nextInt(2, 5)
+                val baja = Random.nextInt(1, sube)
+                val movimientos = peldaños / (sube - baja)
+                Problema(
+                    enunciado = "Una escalera tiene $peldaños peldaños. Si subes $sube peldaños y bajas $baja, ¿en cuántos movimientos llegarás al último peldaño?",
+                    opciones = generarOpciones(movimientos.toString()),
+                    respuestaCorrecta = movimientos.toString()
+                )
+            }
+            5 -> {
+                val bolsas = Random.nextInt(3, 10)
+                val canicasPorBolsa = Random.nextInt(2, 6)
+                val totalCanicas = bolsas * canicasPorBolsa
+                Problema(
+                    enunciado = "Si tienes $bolsas bolsas y cada bolsa contiene $canicasPorBolsa canicas, ¿cuántas canicas tienes en total?",
+                    opciones = generarOpciones(totalCanicas.toString()),
+                    respuestaCorrecta = totalCanicas.toString()
+                )
+            }
+            6 -> {
+                val estudiantes = Random.nextInt(20, 30)
+                val lapicesPorEstudiante = Random.nextInt(1, 3)
+                val perdidos = Random.nextInt(1, estudiantes * lapicesPorEstudiante / 2)
+                val lapicesRestantes = estudiantes * lapicesPorEstudiante - perdidos
+                Problema(
+                    enunciado = "En una clase hay $estudiantes estudiantes y cada uno tiene $lapicesPorEstudiante lápices. Si se pierden $perdidos lápices, ¿cuántos quedan?",
+                    opciones = generarOpciones(lapicesRestantes.toString()),
+                    respuestaCorrecta = lapicesRestantes.toString()
+                )
+            }
+            7 -> {
+                val horasPara4 = Random.nextInt(10, 20)
+                val tareas = Random.nextInt(5, 15)
+                val horasParaTareas = horasPara4 / 4 * tareas
+                Problema(
+                    enunciado = "Si necesitas $horasPara4 horas para completar 4 tareas, ¿cuántas horas necesitas para $tareas tareas?",
+                    opciones = generarOpciones(horasParaTareas.toString()),
+                    respuestaCorrecta = horasParaTareas.toString()
+                )
+            }
+            8 -> {
+                val globos = Random.nextInt(10, 20)
+                val explotan = Random.nextInt(1, globos)
+                val restantes = globos - explotan
+                Problema(
+                    enunciado = "Si tienes $globos globos y $explotan explotan, ¿cuántos globos te quedan?",
+                    opciones = generarOpciones(restantes.toString()),
+                    respuestaCorrecta = restantes.toString()
+                )
+            }
+            9 -> {
+                val velocidad = Random.nextInt(30, 70)
+                val tiempoHoras = Random.nextInt(1, 4)
+                val distancia = velocidad * tiempoHoras
+                Problema(
+                    enunciado = "Un tren viaja a $velocidad km/h. ¿Cuánto tardará en recorrer $distancia km?",
+                    opciones = generarOpciones(tiempoHoras.toString()),
+                    respuestaCorrecta = "$tiempoHoras horas"
+                )
+            }
+            10 -> {
+                val piscinaPorMinuto = Random.nextInt(3, 10)
+                val horas = Random.nextInt(1, 5)
+                val totalLitros = piscinaPorMinuto * 60 * horas
+                Problema(
+                    enunciado = "Una piscina se llena con $piscinaPorMinuto litros de agua por minuto. ¿Cuántos litros se llenarán en $horas horas?",
+                    opciones = generarOpciones(totalLitros.toString()),
+                    respuestaCorrecta = totalLitros.toString()
+                )
+            }
+            else -> throw IllegalStateException("No se pudo generar un problema")
+        }
     }
 
     // Generar un acertijo
@@ -379,7 +361,7 @@ class AlarmSoundingActivity : AppCompatActivity() {
     fun generarOpciones(respuestaCorrecta: String): List<String> {
         val opciones = mutableListOf(respuestaCorrecta.toInt())
         while (opciones.size < 4) {
-            val opcionAleatoria = respuestaCorrecta.toInt() + Random.nextInt(-10, 10)
+            val opcionAleatoria = (respuestaCorrecta.toInt() + Random.nextInt(-5, 6)).coerceAtLeast(0)
             if (opcionAleatoria !in opciones) {
                 opciones.add(opcionAleatoria)
             }
@@ -387,6 +369,4 @@ class AlarmSoundingActivity : AppCompatActivity() {
         opciones.shuffle()
         return opciones.map { it.toString() }
     }
-
-
 }
