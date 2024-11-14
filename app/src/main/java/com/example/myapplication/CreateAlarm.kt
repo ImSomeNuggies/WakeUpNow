@@ -83,7 +83,7 @@ class CreateAlarm : ComponentActivity() {
                     putExtra("alarm_ringTime", newAlarm.ringTime)
                     putExtra("alarm_time", newAlarm.time)
                 }
-                val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+                val pendingIntent = PendingIntent.getBroadcast(this, newAlarm.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
                 Log.d("AlarmaDatos", "Día de la semana: ${newAlarm.periodicity}")
 
 

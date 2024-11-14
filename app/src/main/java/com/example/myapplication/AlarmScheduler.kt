@@ -22,12 +22,17 @@ class AlarmScheduler(private val context: Context) {
             putExtra("alarm_periodicity", alarm.periodicity)
         }
 
-        val tempID = System.currentTimeMillis().toInt()
+        // We check for an already existing pending intent
+        val pendingIntent = PendingIntent.getBroadcast(context, alarm.id, alarmIntent, PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE)
 
-        val pendingIntent = PendingIntent.getBroadcast(context, tempID, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        if (pendingIntent != null) {
+            // If it exists we cancel it then create a new one
+            alarmManager.cancel(pendingIntent)
+            pendingIntent.cancel()
+        }
 
-
-        // alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarm.ringTime.timeInMillis, pendingIntent)
+        // Crear un nuevo PendingIntent para programar la alarma
+        val newPendingIntent = PendingIntent.getBroadcast(context, alarm.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         val calendar = Calendar.getInstance()
 
@@ -54,8 +59,10 @@ class AlarmScheduler(private val context: Context) {
         alarmManager.setExact(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,  // The calculated time for the next occurrence
-            pendingIntent
+            newPendingIntent
         )
+
+        Log.d("AlarmaScheduler", "Id: ${alarm.id}, Name: ${alarm.name}")
     }
 
     fun stopRingtoneIfPlaying() {
