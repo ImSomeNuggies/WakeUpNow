@@ -47,9 +47,21 @@ class BarChartView @JvmOverloads constructor(
             val right = left + barWidth
             val bottom = height - 80f
 
+            // Draw the bar
             canvas.drawRect(left, top, right, bottom, barPaint)
+
+            // Draw the hour label
             canvas.drawText(entry.key, left + barWidth / 2, height.toFloat() - 20, textPaint)
-            canvas.drawText("${entry.value.toInt()}", left + barWidth / 2, top - 20f, textPaint)
+
+            // Format the value: show one decimal if needed, otherwise integer
+            val formattedValue = if (entry.value % 1 == 0f) {
+                entry.value.toInt().toString() // Integer value
+            } else {
+                String.format("%.1f", entry.value) // One decimal
+            }
+
+            // Draw the value above the bar
+            canvas.drawText(formattedValue, left + barWidth / 2, top - 20f, textPaint)
         }
     }
 }
