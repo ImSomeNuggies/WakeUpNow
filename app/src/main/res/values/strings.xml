@@ -11,6 +11,12 @@
         <item>Sábado</item>
         <item>Domingo</item>
     </string-array>
+     <string-array name="graph_types">
+        <item>Tiempo medio (seg)</item>
+        <item>Tiempo máx. (seg)</item>
+        <item>Tiempo mín. (seg)</item>
+        <item>Máx. errores</item>
+    </string-array>
     <string name="title_activity_stop_alarm">StopAlarm</string>
     <string name="title_activity_boot_reciever">BootReciever</string>
 </resources>
