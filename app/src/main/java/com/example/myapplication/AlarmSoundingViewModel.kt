@@ -94,7 +94,7 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
         val (enunciado, resultadoCorrecto) = when (tipoOperacion) {
             1 -> "¿Cuánto es $numero1 + $numero2?" to (numero1 + numero2)
             2 -> "¿Cuánto es $numero1 - $numero2?" to (numero1 - numero2)
-            3 -> "¿Cuánto es $numero1 * $numero2?" to (numero1 * numero2)
+            3 -> "¿Cuánto es $numero1 X $numero2?" to (numero1 * numero2)
             4 -> {
                 val num1 = numero1 * numero2 // Aseguramos divisibilidad
                 "¿Cuánto es $num1 / $numero2?" to (num1 / numero2)
@@ -108,26 +108,26 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
 
     // Generar un problema de lógica matemática dinámico
     fun crearProblemaLogicaMatematica(): Problema {
-        return when (Random.nextInt(1, 11)) {
+        return when (Random.nextInt(1, 10)) {
             1 -> {
                 val gallinas = Random.nextInt(5, 15)
                 val huevosPorDia = Random.nextInt(1, 4)
                 val dias = Random.nextInt(2, 5)
                 val totalHuevos = gallinas * huevosPorDia * dias
                 Problema(
-                    enunciado = "Si en una granja hay $gallinas gallinas y cada una pone $huevosPorDia huevos al día, ¿cuántos huevos pondrán en total en $dias días?",
+                    enunciado = "Si en una granja hay $gallinas gallinas y cada una pone $huevosPorDia huevo(s) al día, ¿cuántos huevos pondrán en total en $dias días?",
                     opciones = generarOpciones(totalHuevos.toString()),
                     respuestaCorrecta = totalHuevos.toString()
                 )
             }
             2 -> {
                 val velocidad = Random.nextInt(40, 100)
-                val distancia = velocidad * Random.nextInt(1, 5)
+                val distancia = velocidad * Random.nextInt(2, 5)
                 val tiempo = distancia / velocidad
                 Problema(
-                    enunciado = "Un tren viaja a una velocidad de $velocidad km/h. ¿Cuánto tiempo tardará en recorrer $distancia km?",
+                    enunciado = "Un tren viaja a una velocidad de $velocidad km/h. ¿Cuántas horas tardará en recorrer $distancia km?",
                     opciones = generarOpciones(tiempo.toString()),
-                    respuestaCorrecta = "$tiempo horas"
+                    respuestaCorrecta = "$tiempo"
                 )
             }
             3 -> {
@@ -163,7 +163,7 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
             }
             6 -> {
                 val estudiantes = Random.nextInt(20, 30)
-                val lapicesPorEstudiante = Random.nextInt(1, 3)
+                val lapicesPorEstudiante = Random.nextInt(2, 4)
                 val perdidos = Random.nextInt(1, estudiantes * lapicesPorEstudiante / 2)
                 val lapicesRestantes = estudiantes * lapicesPorEstudiante - perdidos
                 Problema(
@@ -187,24 +187,14 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
                 val explotan = Random.nextInt(1, globos)
                 val restantes = globos - explotan
                 Problema(
-                    enunciado = "Si tienes $globos globos y $explotan explotan, ¿cuántos globos te quedan?",
+                    enunciado = "Si tienes $globos globos y $explotan explota(n), ¿cuántos globos te quedan?",
                     opciones = generarOpciones(restantes.toString()),
                     respuestaCorrecta = restantes.toString()
                 )
             }
             9 -> {
-                val velocidad = Random.nextInt(30, 70)
-                val tiempoHoras = Random.nextInt(1, 4)
-                val distancia = velocidad * tiempoHoras
-                Problema(
-                    enunciado = "Un tren viaja a $velocidad km/h. ¿Cuánto tardará en recorrer $distancia km?",
-                    opciones = generarOpciones(tiempoHoras.toString()),
-                    respuestaCorrecta = "$tiempoHoras horas"
-                )
-            }
-            10 -> {
                 val piscinaPorMinuto = Random.nextInt(3, 10)
-                val horas = Random.nextInt(1, 5)
+                val horas = Random.nextInt(2, 5)
                 val totalLitros = piscinaPorMinuto * 60 * horas
                 Problema(
                     enunciado = "Una piscina se llena con $piscinaPorMinuto litros de agua por minuto. ¿Cuántos litros se llenarán en $horas horas?",
