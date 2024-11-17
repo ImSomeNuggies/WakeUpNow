@@ -46,7 +46,7 @@ class AlarmSoundingActivity : AppCompatActivity() {
         textViewHoraActual.text = currentTime
 
         // Cargar y mostrar un problema aleatorio a través del ViewModel
-        val problemas = AlarmSoundingViewModel.leerProblemasDesdeArchivo(application)
+        val problemas = viewModel.leerProblemasDesdeArchivo()
         val problemaAleatorio = viewModel.seleccionarProblemaAleatorio(problemas)
 
         problemaAleatorio?.let {

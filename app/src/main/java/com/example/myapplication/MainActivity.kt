@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,6 +49,7 @@ class MainActivity : ComponentActivity() {
         NotificationHelper.createNotificationChannel(this)
 
         val buttonCreateAlarm: Button = findViewById(R.id.buttonCreateAlarm)
+        val buttonStatistics: ImageButton = findViewById(R.id.buttonStatistics)
         val recyclerViewAlarms = findViewById<RecyclerView>(R.id.recyclerViewAlarms)
         val alarmAdapter = AlarmAdapter(alarmList)
 
@@ -60,6 +62,10 @@ class MainActivity : ComponentActivity() {
 
         buttonCreateAlarm.setOnClickListener {
             startActivity(Intent(this, CreateAlarm::class.java))
+        }
+
+        buttonStatistics.setOnClickListener {
+            startActivity(Intent(this, StatisticsActivity::class.java))
         }
     }
 }
