@@ -17,11 +17,19 @@
     <!-- Custom style for light buttons -->
     <style name="CustomButtonLightStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_marginTop">20dp</item>
-        <item name="android:backgroundTint">@color/light</item>
         <item name="android:textColor">@color/dark</item>
         <item name="android:textSize">20sp</item>
         <item name="android:background">@drawable/rounded_button</item>
         <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="CustomButtonLightStyle2" parent="Widget.AppCompat.Button">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textColor">@color/dark</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <!-- Custom style for dark buttons -->
