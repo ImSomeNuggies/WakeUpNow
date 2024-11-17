@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import java.text.DecimalFormat
 
 class BarChartView @JvmOverloads constructor(
     context: Context,
@@ -25,6 +26,8 @@ class BarChartView @JvmOverloads constructor(
     }
 
     private var hourlyData: Map<String, Float> = emptyMap()
+
+    private val decimalFormat = DecimalFormat("#.##")
 
     fun setData(data: Map<String, Float>) {
         hourlyData = data
@@ -57,7 +60,7 @@ class BarChartView @JvmOverloads constructor(
             val formattedValue = if (entry.value % 1 == 0f) {
                 entry.value.toInt().toString() // Integer value
             } else {
-                String.format("%.1f", entry.value) // One decimal
+                String.format("%.2f", entry.value) // Two decimals
             }
 
             // Draw the value above the bar
