@@ -24,25 +24,13 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <!--
-         <activity
-            android:name=".EditAlarm"
-            android:exported="false"
-            android:label="Edit Alarm"
-            android:theme="@style/Theme.MyApplication" />
-        -->
+
         <activity
             android:name=".EditAlarmActivity"
             android:exported="false"
             android:label="Edit Alarm"
             android:theme="@style/Theme.MyApplication" />
-        <!--
-<activity
-            android:name=".StopAlarm"
-            android:exported="false"
-            android:label="@string/title_activity_stop_alarm"
-            android:theme="@style/Theme.MyApplication" />
-        -->
+
         <activity
             android:name=".CreateAlarm"
             android:exported="false"
@@ -52,8 +40,13 @@
         <activity
             android:name=".AlarmSoundingActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat"
-        />
+            android:theme="@style/Theme.AppCompat" />
+
+        <activity
+            android:name=".StatisticsActivity"
+            android:exported="false"
+            android:label="Statistics"
+            android:theme="@style/Theme.MyApplication" />
 
         <activity
             android:name=".MainActivity"

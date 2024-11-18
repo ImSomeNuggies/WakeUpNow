@@ -1,19 +1,15 @@
 package com.example.myapplication
 
-import android.content.Context
-import com.example.myapplication.receivers.AlarmReceiver
 import com.example.myapplication.AlarmPreferences
 import com.example.myapplication.Alarm
 
 /**
  * Repository class that acts as an abstraction layer between the ViewModel and SharedPreferences.
  * It interacts with the `AlarmPreferences` class to manage alarm data.
- * 
- * @param context The application context used to initialize `AlarmPreferences`.
+ *
+ * @param alarmPreferences The `AlarmPreferences` instance used to manage alarm data.
  */
-class AlarmRepository(context: Context) {
-
-    private val alarmPreferences = AlarmPreferences(context) // Instancia de AlarmPreferences creada aquí
+class AlarmRepository(private val alarmPreferences: AlarmPreferences) {
 
     /**
      * Retrieves all alarms from SharedPreferences via `AlarmPreferences`.
@@ -63,7 +59,7 @@ class AlarmRepository(context: Context) {
 
     /**
      * Generates a new alarm ID based on the current number of alarms.
-     * 
+     *
      * @return A new unique alarm ID.
      */
     fun getNewAlarmId(): Int {

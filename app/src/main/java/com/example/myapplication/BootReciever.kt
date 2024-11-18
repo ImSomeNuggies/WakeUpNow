@@ -16,7 +16,8 @@ class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             // Initialize repository and scheduler
-            val alarmRepository = AlarmRepository(context)
+            val alarmPreferences = AlarmPreferences(context)
+            val alarmRepository = AlarmRepository(alarmPreferences)
             val alarmScheduler = AlarmScheduler(context)
 
             // Load saved alarms and reschedule them
