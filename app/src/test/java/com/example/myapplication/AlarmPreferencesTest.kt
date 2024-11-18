@@ -2,9 +2,7 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.myapplication.Alarm
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
