@@ -1,70 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The root LinearLayout that defines the main layout of the screen -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
-    
-    <!-- Spacer View to create some space at the top of the layout -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginBottom="8dp" />
+    android:background="@color/dark">
 
-    <!-- Horizontal LinearLayout to hold the logo and the name of the app -->
+    <!-- Main content container for logo, title, and RecyclerView -->
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-        <!-- ImageView for displaying the logo -->
-        <ImageView
-            android:layout_width="67dp" 
-            android:layout_height="61dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/logo" />
+        <!-- Spacer View to create some space at the top of the layout -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="8dp" />
 
-        <!-- TextView for displaying the title -->
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="280dp"
-            android:layout_height="70dp"
-            android:text="WakeUpNow"
-            android:textAlignment="center"
-            android:textColor="@color/light"
-            android:textSize="48sp" />
+        <!-- Horizontal LinearLayout to hold the logo and the name of the app -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- ImageView for displaying the logo -->
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/logo" />
+            
+            <!-- TextView for displaying the title -->
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="260dp"
+                android:layout_height="70dp"
+                android:text="WakeUpNow"
+                android:textAlignment="center"
+                android:textColor="@color/light"
+                android:textSize="42sp" />
+        </LinearLayout>
+
+        <!-- Spacer View to create space between the title and the button -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- RecyclerView for alarms, with max height to avoid overlapping with buttons -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAlarms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="500dp"
+            android:layout_weight="1"
+            android:scrollbars="vertical"
+            android:layout_marginBottom="80dp" />
     </LinearLayout>
 
-    <!-- Spacer View to create space between the title and the button -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:layout_marginBottom="8dp" />
-    
-    <!-- The root ScrollView that allows scrolling of the entire layout -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewAlarms"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:maxHeight="300dp"
-        android:scrollbars="vertical" />
-    
-    <!-- Spacer View to create space between the alarms and the button -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:layout_marginBottom="8dp" />
-
-    <!-- Button for creating an alarm -->
+    <!-- Button for creating an alarm, centered at the bottom -->
     <Button
         android:id="@+id/buttonCreateAlarm"
-        android:text="Crear Alarma"
+        style="@style/CustomButtonLightStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        style="@style/CustomButtonLightStyle" />
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="16dp"
+        android:text="Crear Alarma" />
 
-</LinearLayout>
+    <!-- ImageButton for navigating to statistics, aligned to the bottom-right -->
+    <ImageButton
+        android:id="@+id/buttonStatistics"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_graph"
+        android:background="@null"
+        android:contentDescription="Statistics"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
+
+</FrameLayout>

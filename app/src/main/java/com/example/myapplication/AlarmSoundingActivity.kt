@@ -11,12 +11,12 @@ import com.example.myapplication.receivers.AlarmReceiver
 
 class AlarmSoundingActivity : AppCompatActivity() {
 
-    private lateinit var problemaTextView: TextView
-    private lateinit var opcion1Button: Button
-    private lateinit var opcion2Button: Button
-    private lateinit var opcion3Button: Button
-    private lateinit var opcion4Button: Button
-    private lateinit var problemaFalloTextView: TextView
+    lateinit var problemaTextView: TextView
+    lateinit var opcion1Button: Button
+    lateinit var opcion2Button: Button
+    lateinit var opcion3Button: Button
+    lateinit var opcion4Button: Button
+    lateinit var problemaFalloTextView: TextView
     private lateinit var textViewNombreAlarma: TextView
     private lateinit var textViewHoraActual: TextView
 
@@ -45,23 +45,21 @@ class AlarmSoundingActivity : AppCompatActivity() {
         val currentTime = viewModel.getCurrentTime()
         textViewHoraActual.text = currentTime
 
-        // Cargar y mostrar un problema aleatorio a través del ViewModel
-        val problemas = viewModel.leerProblemasDesdeArchivo()
-        val problemaAleatorio = viewModel.seleccionarProblemaAleatorio(problemas)
+        // Generar y mostrar un problema aleatorio
+        val problema = viewModel.crearProblemaAleatorio()
 
-        problemaAleatorio?.let {
-            problemaTextView.text = problemaAleatorio.problema
-            opcion1Button.text = problemaAleatorio.opciones[0]
-            opcion2Button.text = problemaAleatorio.opciones[1]
-            opcion3Button.text = problemaAleatorio.opciones[2]
-            opcion4Button.text = problemaAleatorio.opciones[3]
+        // Mostrar el problema en la UI
+        problemaTextView.text = problema.enunciado
+        opcion1Button.text = problema.opciones[0]
+        opcion2Button.text = problema.opciones[1]
+        opcion3Button.text = problema.opciones[2]
+        opcion4Button.text = problema.opciones[3]
 
-            // Asignar las acciones de los botones
-            opcion1Button.setOnClickListener { viewModel.verificarRespuesta(problemaAleatorio.opciones[0], problemaAleatorio.correcta) }
-            opcion2Button.setOnClickListener { viewModel.verificarRespuesta(problemaAleatorio.opciones[1], problemaAleatorio.correcta) }
-            opcion3Button.setOnClickListener { viewModel.verificarRespuesta(problemaAleatorio.opciones[2], problemaAleatorio.correcta) }
-            opcion4Button.setOnClickListener { viewModel.verificarRespuesta(problemaAleatorio.opciones[3], problemaAleatorio.correcta) }
-        }
+        // Asignar las acciones de los botones
+        opcion1Button.setOnClickListener { viewModel.verificarRespuesta(problema.opciones[0], problema.respuestaCorrecta) }
+        opcion2Button.setOnClickListener { viewModel.verificarRespuesta(problema.opciones[1], problema.respuestaCorrecta) }
+        opcion3Button.setOnClickListener { viewModel.verificarRespuesta(problema.opciones[2], problema.respuestaCorrecta) }
+        opcion4Button.setOnClickListener { viewModel.verificarRespuesta(problema.opciones[3], problema.respuestaCorrecta) }
 
         // Observa shouldFinish para detener la alarma y cerrar la actividad
         viewModel.shouldFinish.observe(this) { shouldFinish ->
