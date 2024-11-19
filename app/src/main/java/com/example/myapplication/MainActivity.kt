@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.example.myapplication.helpers.NotificationHelper
 import com.example.myapplication.AlarmRepository
 import com.example.myapplication.schedulers.AlarmScheduler
 import android.widget.Toast
+import android.util.Log
 
 class MainActivity : ComponentActivity() {
     private val alarmList = mutableListOf<Alarm>()
@@ -48,6 +50,7 @@ class MainActivity : ComponentActivity() {
         NotificationHelper.createNotificationChannel(this)
 
         val buttonCreateAlarm: Button = findViewById(R.id.buttonCreateAlarm)
+        val buttonStatistics: ImageButton = findViewById(R.id.buttonStatistics)
         val recyclerViewAlarms = findViewById<RecyclerView>(R.id.recyclerViewAlarms)
         val alarmAdapter = AlarmAdapter(alarmList)
 
@@ -58,8 +61,20 @@ class MainActivity : ComponentActivity() {
         alarmList.addAll(alarmRepository.getAlarms())
         alarmAdapter.notifyDataSetChanged()
 
+        for (alarm in alarmList) {
+            // Log de los datos de la alarma
+            Log.d("AlarmInfo", "ID: ${alarm.id}, Name: ${alarm.name}, Time: ${alarm.time}, Periodicity: ${alarm.periodicity}, Is Active: ${alarm.isActive}, Ring Time: ${alarm.ringTime.time}")
+
+            // Programar la alarma
+            alarmScheduler.scheduleAlarm(alarm)
+        }
+
         buttonCreateAlarm.setOnClickListener {
             startActivity(Intent(this, CreateAlarm::class.java))
+        }
+
+        buttonStatistics.setOnClickListener {
+            startActivity(Intent(this, StatisticsActivity::class.java))
         }
     }
 }
