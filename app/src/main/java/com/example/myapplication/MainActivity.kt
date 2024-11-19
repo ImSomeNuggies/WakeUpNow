@@ -32,10 +32,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-    override fun onResume() {
-        super.onResume()
-        alarmScheduler.stopRingtoneIfPlaying()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

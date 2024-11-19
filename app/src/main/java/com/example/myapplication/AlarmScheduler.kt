@@ -69,12 +69,4 @@ class AlarmScheduler(private val context: Context) {
         Log.d("AlarmaScheduler", "Id: ${alarm.id}, Name: ${alarm.name}, Hour: ${alarm.time}, Periodicity: ${alarm.periodicity}")
     }
 
-    fun stopRingtoneIfPlaying() {
-        AlarmReceiver.ringtone?.let {
-            if (it.isPlaying) {
-                it.stop()
-                AlarmReceiver.ringtone = null
-            }
-        }
-    }
 }
