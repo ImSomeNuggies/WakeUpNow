@@ -1,7 +1,6 @@
 package com.example.myapplication
 
-import com.example.myapplication.AlarmPreferences
-import com.example.myapplication.Alarm
+
 
 /**
  * Repository class that acts as an abstraction layer between the ViewModel and SharedPreferences.
@@ -30,15 +29,6 @@ class AlarmRepository(private val alarmPreferences: AlarmPreferences) {
         return alarmPreferences.getAlarmById(alarmId)
     }
 
-    /**
-     * Retrieves the last alarm from SharedPreferences.
-     *
-     * @return The `Alarm` object if found, or null if not found.
-     */
-    fun getLastAlarmById(): Alarm? {
-
-        return alarmPreferences.getAlarmById(getAlarms().size)
-    }
 
     /**
      * Saves a new alarm using `AlarmPreferences`.
