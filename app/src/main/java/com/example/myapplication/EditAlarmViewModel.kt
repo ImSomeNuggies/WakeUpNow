@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.Alarm
 import com.example.myapplication.AlarmPreferences
@@ -26,6 +27,8 @@ class EditAlarmViewModel(private val alarmPreferences: AlarmPreferences) : ViewM
                 set(Calendar.MILLISECOND, 0)
             }
             alarmPreferences.editAlarm(it)
+            Log.d("AlarmUpdate", "Id: ${it.id}, Name: ${it.name}, Hour: ${it.time}, Periodicity: ${it.periodicity}")
+
         }
     }
 
