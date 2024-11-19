@@ -101,7 +101,13 @@ class AlarmStatsRepository(context: Context) {
             try {
                 val date = formatter.parse(stat.alarmSetTime)
                 val calendar = Calendar.getInstance()
-                calendar.time = date
+
+                if (date != null) {
+                    calendar.time = date
+                }else{
+                    throw IllegalArgumentException("La fecha no puede ser nula")
+                }
+
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
 
                 if (startHour <= endHour) {
@@ -118,8 +124,4 @@ class AlarmStatsRepository(context: Context) {
         }
     }
 
-    // Deletes all saved alarm statistics
-    fun clearStatistics() {
-        sharedPreferences.edit().remove("statistics").apply()
-    }
 }
