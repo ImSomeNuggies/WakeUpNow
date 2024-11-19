@@ -25,15 +25,24 @@
         android:layout_height="16dp"
         android:layout_marginBottom="8dp" />
 
-    <!-- For picking time -->
-    <TimePicker
-        android:id="@+id/timePicker"
+    <!-- Button for picking time -->
+    <Button
+        android:id="@+id/buttonPickTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:timePickerMode="spinner" 
-        style="@style/CustomButtonLightStyle"/>
+        android:text="Seleccionar Hora"
+        style="@style/CustomButtonLightStyle" />
+
+    <!-- TextView to display selected time -->
+    <TextView
+        android:id="@+id/selectedTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        style="@style/CustomHeadingLightStyle" />
 
     <!-- Spacer View for vertical spacing -->
     <View

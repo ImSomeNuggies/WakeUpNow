@@ -1,6 +1,6 @@
 package com.example.myapplication
 
-import android.widget.TimePicker
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
@@ -26,43 +26,42 @@ class EditAlarmActivity : ComponentActivity() {
 
         // Referencias a los componentes del layout
         val buttonBack = findViewById<ImageButton>(R.id.buttonBack)
-        val timePicker = findViewById<TimePicker>(R.id.timePicker)
+        val buttonPickTime = findViewById<Button>(R.id.buttonPickTime)
+        val selectedTimeText = findViewById<TextView>(R.id.selectedTimeText)
         val editTextNombre = findViewById<EditText>(R.id.editTextNombre)
         val spinnerPeriodicidad = findViewById<Spinner>(R.id.spinnerPeriodicidad)
         val buttonConfirmar = findViewById<Button>(R.id.buttonConfirmar)
         val buttonBorrar = findViewById<Button>(R.id.buttonBorrar)
 
-        // Load alarm from the ViewModel
+        // Cargar alarma desde el ViewModel
         val alarmId = intent.getIntExtra("alarm_id", -1)
         if (alarmId != -1) {
             viewModel.loadAlarm(alarmId)
             val alarm = viewModel.alarm
             selectedTime = alarm?.time ?: ""
             editTextNombre.setText(alarm?.name ?: "")
-
-            // Set the initial time in TimePicker
-            timePicker.setIs24HourView(true)
-            if (selectedTime.isNotEmpty()) {
-                val parts = selectedTime.split(":")
-                val initialHour = parts[0].toInt()
-                val initialMinute = parts[1].toInt()
-                timePicker.hour = initialHour
-                timePicker.minute = initialMinute
-            } else {
-                // Fallback to the current time if no time is set
-                val calendar = Calendar.getInstance()
-                timePicker.hour = calendar.get(Calendar.HOUR_OF_DAY)
-                timePicker.minute = calendar.get(Calendar.MINUTE)
-            }
-
-            // Update the TextView to show the initially selected time
+            selectedTimeText.text = "Hora seleccionada: $selectedTime"
             val periodicityOptions = resources.getStringArray(R.array.periodicidad_options)
             spinnerPeriodicidad.setSelection(periodicityOptions.indexOf(alarm?.periodicity ?: ""))
         }
 
-        // Set a listener to capture time changes in the TimePicker
-        timePicker.setOnTimeChangedListener { _, hourOfDay, minute ->
-            selectedTime = String.format("%02d:%02d", hourOfDay, minute)
+        // Abrir TimePickerDialog
+        buttonPickTime.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+            val currentMinute = calendar.get(Calendar.MINUTE)
+
+            val timePickerDialog = TimePickerDialog(
+                this,
+                { _, hourOfDay, minute ->
+                    selectedTime = String.format("%02d:%02d", hourOfDay, minute)
+                    selectedTimeText.text = "Hora seleccionada: $selectedTime"
+                },
+                currentHour,
+                currentMinute,
+                true
+            )
+            timePickerDialog.show()
         }
 
         // Actualizar alarma al hacer clic en "Confirmar"

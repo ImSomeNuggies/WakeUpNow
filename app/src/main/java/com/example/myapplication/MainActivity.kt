@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ImageButton
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +19,6 @@ class MainActivity : ComponentActivity() {
     private val alarmList = mutableListOf<Alarm>()
     private lateinit var alarmPermissionHelper: AlarmPermissionHelper
     private lateinit var alarmScheduler: AlarmScheduler
-    private lateinit var alarmPreferences: AlarmPreferences
     private lateinit var alarmRepository: AlarmRepository
 
     private val requestNotificationPermissionLauncher =
@@ -43,14 +41,12 @@ class MainActivity : ComponentActivity() {
 
         alarmPermissionHelper = AlarmPermissionHelper(this, requestNotificationPermissionLauncher)
         alarmScheduler = AlarmScheduler(this)
-        alarmPreferences = AlarmPreferences(this)
-        alarmRepository = AlarmRepository(alarmPreferences)
+        alarmRepository = AlarmRepository(this)
 
         alarmPermissionHelper.checkNotificationPermission()
         NotificationHelper.createNotificationChannel(this)
 
         val buttonCreateAlarm: Button = findViewById(R.id.buttonCreateAlarm)
-        val buttonStatistics: ImageButton = findViewById(R.id.buttonStatistics)
         val recyclerViewAlarms = findViewById<RecyclerView>(R.id.recyclerViewAlarms)
         val alarmAdapter = AlarmAdapter(alarmList)
 
@@ -71,10 +67,6 @@ class MainActivity : ComponentActivity() {
 
         buttonCreateAlarm.setOnClickListener {
             startActivity(Intent(this, CreateAlarm::class.java))
-        }
-
-        buttonStatistics.setOnClickListener {
-            startActivity(Intent(this, StatisticsActivity::class.java))
         }
     }
 }

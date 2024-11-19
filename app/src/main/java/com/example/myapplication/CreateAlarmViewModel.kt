@@ -15,6 +15,10 @@ class CreateAlarmViewModel(private val repository: AlarmRepository) : ViewModel(
     }*/
 
     fun saveAlarm(name: String): Alarm {
+        if (selectedTime.isEmpty()) {
+            throw IllegalArgumentException("Seleccionar hora")
+        }
+
         val timeParts = selectedTime.split(":").map { it.toInt() }
         val hour = timeParts[0]
         val minute = timeParts[1]

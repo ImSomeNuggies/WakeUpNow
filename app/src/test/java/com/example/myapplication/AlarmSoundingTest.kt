@@ -1,7 +1,10 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.widget.Button
 import android.widget.TextView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -9,12 +12,11 @@ import org.mockito.Mockito.*
 
 /**
  * Unit tests for the AlarmSounding activity.
- * These tests verify the behavior of the activity, including response verification, UI updates,
- * and random problem generation across mathematical, logical, and riddle-based problems.
+ * These tests verify the behavior of the activity, including response verification and UI updates.
  */
-class AlarmSoundingActivityTest {
+class AlarmSoundingTest {
 
-    private lateinit var alarmSounding: AlarmSoundingActivity
+    private lateinit var alarmSounding: AlarmSounding
     private lateinit var problemaTextView: TextView
     private lateinit var opcion1Button: Button
     private lateinit var opcion2Button: Button
@@ -24,8 +26,8 @@ class AlarmSoundingActivityTest {
 
     @Before
     fun setUp() {
-        // Mock the AlarmSounding activity and UI elements
-        alarmSounding = mock(AlarmSoundingActivity::class.java)
+        // Simular la actividad AlarmSounding y los elementos de UI
+        alarmSounding = mock(AlarmSounding::class.java)
         problemaTextView = mock(TextView::class.java)
         opcion1Button = mock(Button::class.java)
         opcion2Button = mock(Button::class.java)
@@ -33,7 +35,7 @@ class AlarmSoundingActivityTest {
         opcion4Button = mock(Button::class.java)
         problemaFalloTextView = mock(TextView::class.java)
 
-        // Set the mocked UI elements to the activity
+        // Simula la referencia de UI en la actividad
         alarmSounding.problemaTextView = problemaTextView
         alarmSounding.opcion1Button = opcion1Button
         alarmSounding.opcion2Button = opcion2Button
@@ -43,19 +45,21 @@ class AlarmSoundingActivityTest {
     }
 
     /**
-     * Test to verify that a correct answer finishes the activity.
+     * Test para verificar si la respuesta es correcta.
+     * Verifica que la actividad se cierre al dar una respuesta correcta.
      */
     @Test
     fun testVerificarRespuestaCorrecta() {
         val respuestaCorrecta = "8"
         alarmSounding.verificarRespuesta(respuestaCorrecta, respuestaCorrecta)
 
-        // Verify that the activity finishes on a correct answer
+        // Verifica que la actividad termina
         verify(alarmSounding).finish()
     }
 
     /**
-     * Test to verify that an incorrect answer shows an error message in the TextView.
+     * Test para verificar si la respuesta es incorrecta.
+     * Verifica que se muestre el mensaje de error en el TextView correcto.
      */
     @Test
     fun testVerificarRespuestaIncorrecta() {
@@ -63,87 +67,42 @@ class AlarmSoundingActivityTest {
         val respuestaCorrecta = "8"
         alarmSounding.verificarRespuesta(respuestaSeleccionada, respuestaCorrecta)
 
-        // Verify that the error message updates in the TextView
+        // Verifica que el mensaje de error se actualiza en el TextView
         verify(alarmSounding.problemaFalloTextView).text = "Respuesta incorrecta. Inténtalo de nuevo."
     }
 
     /**
-     * Test to verify that mathematical problems are generated correctly.
+     * Test para verificar la carga de problemas desde el archivo JSON.
      */
     @Test
-    fun testGenerarProblemaMatematico() {
-        val problema = alarmSounding.crearProblemaMatematico()
+    fun testLeerProblemasDesdeArchivo() {
+        val jsonString = """
+            [
+                {"problema": "¿Cuánto es 5 + 3?", "opciones": ["6", "7", "8", "9"], "correcta": "8"}
+            ]
+        """
+        val gson = Gson()
+        val listType = object : TypeToken<List<Problema>>() {}.type
+        val problemas: List<Problema> = gson.fromJson(jsonString, listType)
 
-        assertNotNull(problema)
-        assertTrue(problema.enunciado.contains("¿Cuánto es") || problema.enunciado.contains("¿Cuál es"))
-        assertEquals(4, problema.opciones.size)
-        assertTrue(problema.opciones.contains(problema.respuestaCorrecta))
+        // Simular la carga de problemas desde un archivo (aquí simulamos un archivo de assets)
+        assertNotNull(problemas)
+        assertEquals(1, problemas.size)
+        assertEquals("¿Cuánto es 5 + 3?", problemas[0].problema)
     }
 
     /**
-     * Test to verify that logic problems are generated correctly.
+     * Test para verificar que un problema aleatorio es seleccionado correctamente.
      */
     @Test
-    fun testGenerarProblemaLogicaMatematica() {
-        val problema = alarmSounding.crearProblemaLogicaMatematica()
+    fun testSeleccionarProblemaAleatorio() {
+        val problemas = listOf(
+            Problema("¿Cuánto es 5 + 3?", listOf("6", "7", "8", "9"), "8"),
+            Problema("¿Cuánto es 10 - 2?", listOf("6", "8", "7", "9"), "8")
+        )
 
-        assertNotNull(problema)
-        assertTrue(problema.enunciado.isNotEmpty())
-        assertEquals(4, problema.opciones.size)
-        assertTrue(problema.opciones.contains(problema.respuestaCorrecta))
-    }
-
-    /**
-     * Test to verify that riddles are generated correctly.
-     */
-    @Test
-    fun testGenerarAcertijo() {
-        val problema = alarmSounding.crearAcertijo()
-
-        assertNotNull(problema)
-        assertTrue(problema.enunciado.contains("?"))
-        assertEquals(4, problema.opciones.size)
-        assertTrue(problema.opciones.contains(problema.respuestaCorrecta))
-    }
-
-    /**
-     * Test to verify that a random problem is selected correctly from all types.
-     */
-    @Test
-    fun testCrearProblemaAleatorio() {
-        val problema = alarmSounding.crearProblemaAleatorio()
-
-        assertNotNull(problema)
-        assertEquals(4, problema.opciones.size)
-        assertTrue(problema.opciones.contains(problema.respuestaCorrecta))
-    }
-
-    /**
-     * Test to verify the response options are generated correctly around a correct answer.
-     */
-    @Test
-    fun testGenerarOpciones() {
-        val respuestaCorrecta = "10"
-        val opciones = alarmSounding.generarOpciones(respuestaCorrecta)
-
-        assertEquals(4, opciones.size)
-        assertTrue(opciones.contains(respuestaCorrecta))
-        opciones.forEach { opcion ->
-            val valor = opcion.toInt()
-            assertTrue(valor in (respuestaCorrecta.toInt() - 5)..(respuestaCorrecta.toInt() + 5))
-        }
-    }
-
-    /**
-     * Test to verify that generated options are unique.
-     */
-    @Test
-    fun testGenerarOpciones_UniqueOptions() {
-        val respuestaCorrecta = 25
-        val opciones = alarmSounding.generarOpciones(respuestaCorrecta.toString())
-
-        val opcionesUnicas = opciones.toSet()
-        assertEquals(4, opcionesUnicas.size) // Ensure all options are unique
-        assertTrue(opciones.contains(respuestaCorrecta.toString()))
+        val problemaAleatorio = alarmSounding.seleccionarProblemaAleatorio(problemas)
+        assertNotNull(problemaAleatorio)
+        assertTrue(problemas.contains(problemaAleatorio))
     }
 }
