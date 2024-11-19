@@ -31,6 +31,16 @@ class AlarmRepository(private val alarmPreferences: AlarmPreferences) {
     }
 
     /**
+     * Retrieves the last alarm from SharedPreferences.
+     *
+     * @return The `Alarm` object if found, or null if not found.
+     */
+    fun getLastAlarmById(): Alarm? {
+
+        return alarmPreferences.getAlarmById(getAlarms().size)
+    }
+
+    /**
      * Saves a new alarm using `AlarmPreferences`.
      *
      * @param alarm The `Alarm` object to be saved.
@@ -65,4 +75,7 @@ class AlarmRepository(private val alarmPreferences: AlarmPreferences) {
     fun getNewAlarmId(): Int {
         return System.currentTimeMillis().toInt()
     }
+
+
+
 }
