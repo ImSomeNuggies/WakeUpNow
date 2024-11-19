@@ -88,18 +88,18 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
     // Generar un problema matemático con varias operaciones
     fun crearProblemaMatematico(): Problema {
         val tipoOperacion = Random.nextInt(1, 6)
-        val numero1 = Random.nextInt(1, 20)
-        val numero2 = Random.nextInt(1, 10) // En operaciones como raíz o logaritmo se usará solo numero1
+        val numero1 = Random.nextInt(2, 20)
+        val numero2 = Random.nextInt(2, 10)
 
         val (enunciado, resultadoCorrecto) = when (tipoOperacion) {
             1 -> "¿Cuánto es $numero1 + $numero2?" to (numero1 + numero2)
             2 -> "¿Cuánto es $numero1 - $numero2?" to (numero1 - numero2)
-            3 -> "¿Cuánto es $numero1 X $numero2?" to (numero1 * numero2)
+            3 -> "¿Cuánto es $numero1 x $numero2?" to (numero1 * numero2)
             4 -> {
                 val num1 = numero1 * numero2 // Aseguramos divisibilidad
                 "¿Cuánto es $num1 / $numero2?" to (num1 / numero2)
             }
-            else -> "¿Cuánto es $numero1 % $numero2?" to (numero1 % numero2) // Módulo
+            else -> "¿Cuánto es $numero1 mod $numero2?" to (numero1 % numero2) // Módulo
         }
 
         val opciones = generarOpciones(resultadoCorrecto.toString())
@@ -142,9 +142,9 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
             }
             4 -> {
                 val peldaños = Random.nextInt(10, 20)
-                val sube = Random.nextInt(2, 5)
-                val baja = Random.nextInt(1, sube)
-                val movimientos = peldaños / (sube - baja)
+                val sube = Random.nextInt(2, 7)
+                val baja = Random.nextInt(1, sube - 1)
+                val movimientos = ceil(peldaños.toDouble() / (sube - baja)).toInt()
                 Problema(
                     enunciado = "Una escalera tiene $peldaños peldaños. Si subes $sube peldaños y bajas $baja, ¿en cuántos movimientos llegarás al último peldaño?",
                     opciones = generarOpciones(movimientos.toString()),
@@ -175,7 +175,7 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
             7 -> {
                 val horasPara4 = Random.nextInt(10, 20)
                 val tareas = Random.nextInt(5, 15)
-                val horasParaTareas = horasPara4 / 4 * tareas
+                val horasParaTareas = ceil(horasPara4.toDouble() / 4 * tareas).toInt()
                 Problema(
                     enunciado = "Si necesitas $horasPara4 horas para completar 4 tareas, ¿cuántas horas necesitas para $tareas tareas?",
                     opciones = generarOpciones(horasParaTareas.toString()),

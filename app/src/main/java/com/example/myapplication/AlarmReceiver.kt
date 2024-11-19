@@ -11,9 +11,13 @@ import com.example.myapplication.helpers.NotificationHelper
 import com.example.myapplication.schedulers.AlarmScheduler
 import com.example.myapplication.Alarm
 import java.util.Calendar
+import com.example.myapplication.AlarmPreferences
+
 
 class AlarmReceiver : BroadcastReceiver() {
     private lateinit var alarmScheduler: AlarmScheduler
+    private lateinit var alarmPreferences: AlarmPreferences
+
 
     companion object {
         var ringtone: Ringtone? = null
@@ -32,9 +36,16 @@ class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         alarmScheduler = AlarmScheduler(context)
+        alarmPreferences = AlarmPreferences(context)
+
 
         val alarmName = intent.getStringExtra("alarm_name")?: "noName"
-        val alarmIdString = intent.getStringExtra("alarm_id")?: "noId"
+
+        val alarmIdS: Int = intent.getIntExtra("alarm_id", -1) // Recupera el ID como un Int
+        val alarmIdString = alarmIdS.toString() // Si necesitas el ID como String
+        Log.d("AlarmReceiver", "Alarm ID recibido: $alarmIdString")
+
+
         val alarmActive = intent.getBooleanExtra("alarm_isActive", false)
         val alarmPeridiocity = intent.getStringExtra("alarm_periodicity")?: "noPeriodicity"
         val alarmId: Int = alarmIdString.toIntOrNull() ?: System.currentTimeMillis().toInt()
@@ -42,6 +53,9 @@ class AlarmReceiver : BroadcastReceiver() {
         val timeParts = alarmTime.split(":")
         val hour = timeParts[0].toInt()
         val minute = timeParts[1].toInt()
+
+        var alarmMk2: Alarm? = null
+        alarmMk2 = alarmPreferences.getAlarmById(alarmId)
 
         // Crear un objeto Calendar y configurar la hora y los minutos
         val alarmRingTime = Calendar.getInstance().apply {
@@ -53,6 +67,7 @@ class AlarmReceiver : BroadcastReceiver() {
         Log.d("AlarmaDatos", "Id: ${alarmId}")
         val alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
 
+
         // Si la alarma es de una vez o diaria se permite que suene
         if (alarmActive && (alarmPeridiocity == "Una vez" || alarmPeridiocity == "Diaria")) {
             ringtone = RingtoneManager.getRingtone(context, alarmUri)
@@ -62,7 +77,27 @@ class AlarmReceiver : BroadcastReceiver() {
             Toast.makeText(context, "¡Alarma sonando!", Toast.LENGTH_LONG).show()
 
             if (alarmPeridiocity == "Una vez"){
-                //TODO Comunicar con shared preferences para que se elimine la alarma (No debería sonar en principio)
+
+                //Actualizamos los valores de la alarma
+                alarmMk2?.let{
+                    it.isActive = false
+
+                    if (!::alarmPreferences.isInitialized) {
+                        alarmPreferences = AlarmPreferences(context)
+                    }
+
+                    // Ensure alarmScheduler is initialized
+                    if (!::alarmScheduler.isInitialized) {
+                        alarmScheduler = AlarmScheduler(context)
+                    }
+
+                    alarmPreferences.editAlarm(alarmMk2)
+                    alarmScheduler.scheduleAlarm(alarmMk2)
+                    Log.d("AlarmaDatos", "Desactivando la alarma de una vez: $alarmMk2,")
+
+                }
+
+
             }
             NotificationHelper.showHighPriorityNotification(context, alarmName, alarmId)
         }
@@ -82,6 +117,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 "Domingo" to Calendar.SUNDAY
             )
 
+
             // Verificar si alarmPeridiocity coincide con el día actual
             val alarmDay = dayOfWeekMap[alarmPeridiocity]
             if (alarmDay == currentDay) {
@@ -90,20 +126,14 @@ class AlarmReceiver : BroadcastReceiver() {
                 Toast.makeText(context, "¡Alarma sonando!", Toast.LENGTH_LONG).show()
                 NotificationHelper.showHighPriorityNotification(context, alarmName, alarmId)
             } else {
-                var alarm = Alarm(
-                    id = alarmId,
-                    time = alarmTime,
-                    name = alarmName,
-                    periodicity = alarmPeridiocity,
-                    isActive = alarmActive,
-                    ringTime = alarmRingTime
-                )
+                // Recreación de la alarms
+
                 Log.d("AlarmaDatos", "Reprogramando alarma para $alarmPeridiocity")
-                alarmScheduler.scheduleAlarm(alarm) // Reprograma la alarma para el próximo día configurado
+                alarmMk2?.let {
+                    alarmScheduler.scheduleAlarm(alarmMk2) // Reprograma la alarma para el próximo día configurado
+                }
             }
         }
     }
 }
 
-
-//TODO: Despues de poner dos alarmas en 2 dias diferentes ninguna ha sonado, haz logcat y descubre porque

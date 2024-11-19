@@ -10,6 +10,8 @@ import android.widget.Toast
 import android.content.Intent
 import com.example.myapplication.AlarmPreferences
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.schedulers.AlarmScheduler
+
 
 /**
  * Adapter class for managing and displaying a list of alarms in a RecyclerView.
@@ -17,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView
  * @param alarmList The list of alarms to be displayed in the RecyclerView.
  */
 class AlarmAdapter(private val alarmList: List<Alarm>) : RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder>() {
+
+    // Needed to update and prime alarms
+    private lateinit var alarmScheduler: AlarmScheduler
 
     /**
      * Nested class ViewHolder that holds references to the views for each alarm item in the RecyclerView.
@@ -73,6 +78,12 @@ class AlarmAdapter(private val alarmList: List<Alarm>) : RecyclerView.Adapter<Al
             alarm.isActive = isChecked
             val alarmPreferences = AlarmPreferences(holder.itemView.context)
             alarmPreferences.editAlarm(alarm)
+
+            // Initialize alarmScheduler if it hasn't been already
+            if (!::alarmScheduler.isInitialized) {
+                alarmScheduler = AlarmScheduler(holder.itemView.context)
+            }
+            alarmScheduler.scheduleAlarm(alarm)
         }
     }
 

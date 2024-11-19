@@ -9,6 +9,7 @@ import com.example.myapplication.Alarm
 import com.example.myapplication.receivers.AlarmReceiver
 import java.util.Calendar
 
+
 class AlarmScheduler(private val context: Context) {
 
     // Untested, likely to have some issues
@@ -48,10 +49,13 @@ class AlarmScheduler(private val context: Context) {
             if (alarm.periodicity != "Una vez") {
                 // If it's a daily alarm it will sound the next day, if it's a weekly, it will be determined later
                 calendar.add(Calendar.DAY_OF_YEAR, 1)
-            } else if (alarm.periodicity == "Una vez") { //TODO Eliminar o modificar alarmas de una vez
+            } else if (alarm.periodicity == "Una vez" && alarm.isActive == false) {
                 // If the alarm is a one time alarm we ignore it
-                Log.d("AlarmaDatos", "La alarma '${alarm.name}' ya ha pasado y no se reprogramará.")
+                Log.d("AlarmaDatos", "La alarma '${alarm.name}' ya ha pasado y no se reprogramará, hora actual: '${now}' hora de la alarma: ${alarm.ringTime}.")
                 return
+            }
+            else{
+                calendar.add(Calendar.DAY_OF_YEAR, 1)
             }
         }
 
@@ -62,7 +66,7 @@ class AlarmScheduler(private val context: Context) {
             newPendingIntent
         )
 
-        Log.d("AlarmaScheduler", "Id: ${alarm.id}, Name: ${alarm.name}")
+        Log.d("AlarmaScheduler", "Id: ${alarm.id}, Name: ${alarm.name}, Hour: ${alarm.time}, Periodicity: ${alarm.periodicity}")
     }
 
     fun stopRingtoneIfPlaying() {
