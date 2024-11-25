@@ -1,93 +1,68 @@
 package com.example.myapplication
 
-import org.junit.Assert.assertEquals
+import com.example.myapplication.Alarm
+import com.example.myapplication.AlarmPreferences
+import com.example.myapplication.EditAlarmViewModel
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
+import org.mockito.Mock
+import org.mockito.Mockito.*
+import org.mockito.MockitoAnnotations
 import java.util.Calendar
 
 class EditAlarmViewModelTest {
 
-    private lateinit var alarmPreferences: AlarmPreferences
     private lateinit var viewModel: EditAlarmViewModel
+
+    @Mock
+    private lateinit var alarmPreferences: AlarmPreferences
 
     @Before
     fun setUp() {
-        // Mock de AlarmPreferences
-        alarmPreferences = mock(AlarmPreferences::class.java)
+        MockitoAnnotations.openMocks(this)
         viewModel = EditAlarmViewModel(alarmPreferences)
     }
 
-    /**
-     * Test: loadAlarm should retrieve alarm from preferences
-     * Description: This test checks if the loadAlarm function correctly loads
-     * the alarm from AlarmPreferences based on the provided alarmId.
-     */
     @Test
-    fun `loadAlarm should retrieve alarm from preferences`() {
-        val alarmId = 1
-        val alarm = Alarm(alarmId, "Test Alarm", "07:00", "Daily", true, Calendar.getInstance())
+    fun `loadAlarm should set alarm correctly from preferences`() {
+        val testAlarm = Alarm(1, "07:00", "Morning Alarm", "Diaria", true, Calendar.getInstance())
+        `when`(alarmPreferences.getAlarmById(1)).thenReturn(testAlarm)
 
-        // Set up mock behavior
-        `when`(alarmPreferences.getAlarmById(alarmId)).thenReturn(alarm)
+        viewModel.loadAlarm(1)
 
-        // Load the alarm into ViewModel
-        viewModel.loadAlarm(alarmId)
-
-        // Verify that the loaded alarm is the same as the mocked one
-        assertEquals(alarm, viewModel.alarm)
+        assert(viewModel.alarm == testAlarm)
+        verify(alarmPreferences).getAlarmById(1)
     }
 
-    /**
-     * Test: updateAlarm should update alarm details and save it
-     * Description: This test checks if the updateAlarm function correctly updates
-     * the alarm's name, time, and periodicity, and ensures it's saved in the preferences.
-     */
     @Test
-    fun `updateAlarm should update alarm details and save it`() {
-        val alarmId = 1
-        val alarm = Alarm(alarmId, "Old Alarm", "06:00", "Weekly", true, Calendar.getInstance())
+    fun `updateAlarm should update alarm properties and save changes`() {
+        val existingAlarm = Alarm(1, "07:00", "Alarm", "Lunes", true, Calendar.getInstance())
+        viewModel.alarm = existingAlarm
 
-        // Set up mock behavior
-        `when`(alarmPreferences.getAlarmById(alarmId)).thenReturn(alarm)
+        viewModel.updateAlarm("Updated Alarm", "08:30", "Diaria")
 
-        // Load the alarm into ViewModel
-        viewModel.loadAlarm(alarmId)
+        assert(viewModel.alarm?.name == "Updated Alarm")
+        assert(viewModel.alarm?.time == "08:30")
+        assert(viewModel.alarm?.periodicity == "Diaria")
 
-        // Update the alarm details
-        viewModel.updateAlarm("New Alarm", "08:00", "Daily")
+        val expectedTime = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 8)
+            set(Calendar.MINUTE, 30)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        assert(viewModel.alarm?.ringTime?.timeInMillis == expectedTime.timeInMillis)
 
-        // Verify that the alarm details have been updated
-        assertEquals("New Alarm", viewModel.alarm?.name)
-        assertEquals("08:00", viewModel.alarm?.time)
-        assertEquals("Daily", viewModel.alarm?.periodicity)
-
-        // Verify that the alarm is correctly saved in the preferences
-        assertEquals(alarm, viewModel.alarm)
+        verify(alarmPreferences).editAlarm(existingAlarm)
     }
 
-    /**
-     * Test: deleteAlarm should remove alarm from preferences
-     * Description: This test checks if the deleteAlarm function correctly removes
-     * the alarm from AlarmPreferences using the alarmId.
-     */
     @Test
-    fun `deleteAlarm should remove alarm from preferences`() {
-        val alarmId = 1
-        val alarm = Alarm(alarmId, "Alarm to Delete", "09:00", "One-time", true, Calendar.getInstance())
+    fun `deleteAlarm should remove alarm by id`() {
+        val testAlarm = Alarm(1, "07:00", "Test Alarm", "Diaria", true, Calendar.getInstance())
+        viewModel.alarm = testAlarm
 
-        // Set up mock behavior
-        `when`(alarmPreferences.getAlarmById(alarmId)).thenReturn(alarm)
-
-        // Load the alarm into ViewModel
-        viewModel.loadAlarm(alarmId)
-
-        // Delete the alarm
         viewModel.deleteAlarm()
 
-        // Verify that deleteAlarm in AlarmPreferences was called with the correct id
-        // Here you should check if the deleteAlarm method was called with the right alarmId in the mock
-        assertEquals(alarmId, alarm.id)
+        verify(alarmPreferences).deleteAlarm(testAlarm.id)
     }
 }

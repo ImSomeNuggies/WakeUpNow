@@ -46,31 +46,39 @@
         android:layout_height="wrap_content"
         android:text="Problema"
         android:textSize="18sp"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp" 
+        android:textAlignment="viewStart"
+        android:justificationMode="inter_word"
+        style="@style/CustomTextLightStyle" />
 
     <Button
         android:id="@+id/opcion1Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp" />
+        android:layout_margin="8dp"
+        style="@style/CustomButtonLightStyle2" />
 
     <Button
         android:id="@+id/opcion2Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp" />
+        android:layout_margin="8dp"
+        style="@style/CustomButtonLightStyle2" />
 
     <Button
         android:id="@+id/opcion3Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp" />
+        android:layout_margin="8dp" 
+        style="@style/CustomButtonLightStyle2"/>
 
     <Button
         android:id="@+id/opcion4Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp" />
+        android:layout_margin="8dp"
+        style="@style/CustomButtonLightStyle2" />
+        
     <TextView
         android:id="@+id/problemaFallo"
         android:layout_width="wrap_content"
