@@ -17,12 +17,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import android.widget.TimePicker
 import android.content.Context
 import android.content.Intent
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.AlarmPreferences
 import com.example.myapplication.receivers.AlarmReceiver
@@ -43,7 +38,8 @@ class CreateAlarm : ComponentActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory)[CreateAlarmViewModel::class.java]
 
         val editTextNombre = findViewById<EditText>(R.id.editTextNombre)
-        val spinnerPeriodicidad = findViewById<Spinner>(R.id.spinnerPeriodicidad)
+        val periodicidadTypeSpinner = findViewById<Spinner>(R.id.periodicidadTypeSpinner)
+        val problemaTypeSpinner = findViewById<Spinner>(R.id.problemaTypeSpinner)
         val buttonConfirmar = findViewById<Button>(R.id.buttonConfirmar)
         val buttonBack = findViewById<ImageButton>(R.id.buttonBack)
 
@@ -52,6 +48,25 @@ class CreateAlarm : ComponentActivity() {
         val calendar = Calendar.getInstance()
         val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
         val currentMinute = calendar.get(Calendar.MINUTE)
+
+        // Set up the Spinners with a custom layout for the dropdown
+        val adapter_periodicidad = ArrayAdapter.createFromResource(
+            this,
+            R.array.periodicidad_types, // Array resource for graph types
+            R.layout.spinner_item  // Apply custom layout for spinner items
+        ).apply {
+            setDropDownViewResource(R.layout.spinner_item) // Use the same layout for the dropdown view
+        }
+        periodicidadTypeSpinner.adapter = adapter_periodicidad
+        
+        val adapter_problema = ArrayAdapter.createFromResource(
+            this,
+            R.array.problema_types,
+            R.layout.spinner_item
+        ).apply {
+            setDropDownViewResource(R.layout.spinner_item)
+        }
+        problemaTypeSpinner.adapter = adapter_problema
 
         // Use post to ensure the TimePicker is initialized after the layout loads
         timePicker.post {
@@ -72,7 +87,8 @@ class CreateAlarm : ComponentActivity() {
 
         buttonConfirmar.setOnClickListener {
             val alarmName = editTextNombre.text.toString()
-            viewModel.selectedPeriodicity = spinnerPeriodicidad.selectedItem.toString()
+            viewModel.selectedPeriodicity = periodicidadTypeSpinner.selectedItem.toString()
+            viewModel.selectedProblem = problemaTypeSpinner.selectedItem.toString()
 
             try {
                 var newAlarm = viewModel.saveAlarm(alarmName)
@@ -83,10 +99,18 @@ class CreateAlarm : ComponentActivity() {
                     putExtra("alarm_id", newAlarm.id)
                     putExtra("alarm_isActive", newAlarm.isActive)
                     putExtra("alarm_periodicity", newAlarm.periodicity)
+                    putExtra("alarm_problem", newAlarm.problem)
                     putExtra("alarm_ringTime", newAlarm.ringTime)
                     putExtra("alarm_time", newAlarm.time)
                 }
-                val pendingIntent = PendingIntent.getBroadcast(this, newAlarm.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+                Toast.makeText(this, "Intent alarm_problem: ${newAlarm.problem ?: "null"}", Toast.LENGTH_SHORT).show()
+                val pendingIntent = PendingIntent.getBroadcast(
+                    this,
+                    newAlarm.id,
+                    alarmIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+
                 Log.d("AlarmaDatos", "Día de la semana: ${newAlarm.periodicity}")
 
 
@@ -109,6 +133,7 @@ class CreateAlarm : ComponentActivity() {
                 Log.d("AlarmaDatos", "Próxima activación: ${calendar.time}")
                 Log.d("AlarmaDatos", "Programando alarma:")
                 Log.d("AlarmaDatos", "Nombre: ${newAlarm.name}")
+                Log.d("AlarmaDatos", "Problema: ${newAlarm.problem}")
                 Log.d("AlarmaDatos", "Hora: ${newAlarm.ringTime.get(Calendar.HOUR_OF_DAY)}:${newAlarm.ringTime.get(Calendar.MINUTE)}")
                 Log.d("AlarmaDatos", "Día de la semana: ${newAlarm.periodicity}")
 

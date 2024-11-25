@@ -18,6 +18,7 @@ data class Alarm(
     var time: String,             // Time in HH:mm format
     var name: String,             // Alarm label/name
     var periodicity: String,      // Repetition pattern (e.g., Daily, Weekly)
+    var problem : String,         // Type of problem (Short Problem, Sudoku or QR scanner)
     var isActive: Boolean,        // Flag indicating if the alarm is active
     var ringTime: Calendar        // Calendar object representing the ring time in the system
 )

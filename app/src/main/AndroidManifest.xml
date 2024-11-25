@@ -43,6 +43,15 @@
             android:theme="@style/Theme.AppCompat" />
 
         <activity
+            android:name=".SudokuSoundingActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat" />
+            
+        <activity
+            android:name=".QRSoundingActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
             android:name=".StatisticsActivity"
             android:exported="false"
             android:label="Statistics"

@@ -21,6 +21,7 @@ class AlarmScheduler(private val context: Context) {
             putExtra("alarm_id", alarm.id)
             putExtra("alarm_isActive", alarm.isActive)
             putExtra("alarm_periodicity", alarm.periodicity)
+            putExtra("alarm_problema", alarm.problem)
         }
 
         // We check for an already existing pending intent
@@ -66,7 +67,7 @@ class AlarmScheduler(private val context: Context) {
             newPendingIntent
         )
 
-        Log.d("AlarmaScheduler", "Id: ${alarm.id}, Name: ${alarm.name}, Hour: ${alarm.time}, Periodicity: ${alarm.periodicity}")
+        Log.d("AlarmaScheduler", "Id: ${alarm.id}, Name: ${alarm.name}, Hour: ${alarm.time}, Periodicity: ${alarm.periodicity}, Problem: ${alarm.problem}")
     }
 
 }

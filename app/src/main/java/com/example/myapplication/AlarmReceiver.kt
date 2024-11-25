@@ -47,7 +47,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
 
         val alarmActive = intent.getBooleanExtra("alarm_isActive", false)
-        val alarmPeridiocity = intent.getStringExtra("alarm_periodicity")?: "noPeriodicity"
+        val alarmPeriodicity = intent.getStringExtra("alarm_periodicity")?: "noPeriodicity"
+        val alarmProblem = intent.getStringExtra("alarm_problem")?: "noProblem"
+        Toast.makeText(context, "RECEIVER: ${alarmProblem ?: "null"}", Toast.LENGTH_SHORT).show()
         val alarmId: Int = alarmIdString.toIntOrNull() ?: System.currentTimeMillis().toInt()
         val alarmTime: String = intent.getStringExtra("alarm_ringTime")?: "00:00"
         val timeParts = alarmTime.split(":")
@@ -69,14 +71,14 @@ class AlarmReceiver : BroadcastReceiver() {
 
 
         // Si la alarma es de una vez o diaria se permite que suene
-        if (alarmActive && (alarmPeridiocity == "Una vez" || alarmPeridiocity == "Diaria")) {
+        if (alarmActive && (alarmPeriodicity == "Una vez" || alarmPeriodicity == "Diaria")) {
             ringtone = RingtoneManager.getRingtone(context, alarmUri)
             // Llama a la interfaz para que suene y se vea la alamra
             ringtone?.play()
             // Muestra un mensaje cuando suena la alarma
             Toast.makeText(context, "¡Alarma sonando!", Toast.LENGTH_LONG).show()
 
-            if (alarmPeridiocity == "Una vez"){
+            if (alarmPeriodicity == "Una vez"){
 
                 //Actualizamos los valores de la alarma
                 alarmMk2?.let{
@@ -99,14 +101,14 @@ class AlarmReceiver : BroadcastReceiver() {
 
 
             }
-            NotificationHelper.showHighPriorityNotification(context, alarmName, alarmId)
+            NotificationHelper.showHighPriorityNotification(context, alarmName, alarmId, alarmProblem)
         }
         else if (alarmActive){ // Si es de un dia concreto de la semana, se comprueba que sea dicho dia, si no lo es se hace un re-schedule
             // Obtener el día actual de la semana
             val calendar = Calendar.getInstance()
             val currentDay = calendar.get(Calendar.DAY_OF_WEEK)
 
-            // Mapear el valor de alarmPeridiocity a un número de día de la semana
+            // Mapear el valor de alarmPeriodicity a un número de día de la semana
             val dayOfWeekMap = mapOf(
                 "Lunes" to Calendar.MONDAY,
                 "Martes" to Calendar.TUESDAY,
@@ -118,17 +120,17 @@ class AlarmReceiver : BroadcastReceiver() {
             )
 
 
-            // Verificar si alarmPeridiocity coincide con el día actual
-            val alarmDay = dayOfWeekMap[alarmPeridiocity]
+            // Verificar si alarmPeriodicity coincide con el día actual
+            val alarmDay = dayOfWeekMap[alarmPeriodicity]
             if (alarmDay == currentDay) {
                 ringtone = RingtoneManager.getRingtone(context, alarmUri)
                 ringtone?.play()
                 Toast.makeText(context, "¡Alarma sonando!", Toast.LENGTH_LONG).show()
-                NotificationHelper.showHighPriorityNotification(context, alarmName, alarmId)
+                NotificationHelper.showHighPriorityNotification(context, alarmName, alarmId, alarmProblem)
             } else {
                 // Recreación de la alarms
 
-                Log.d("AlarmaDatos", "Reprogramando alarma para $alarmPeridiocity")
+                Log.d("AlarmaDatos", "Reprogramando alarma para $alarmPeriodicity")
                 alarmMk2?.let {
                     alarmScheduler.scheduleAlarm(alarmMk2) // Reprograma la alarma para el próximo día configurado
                 }

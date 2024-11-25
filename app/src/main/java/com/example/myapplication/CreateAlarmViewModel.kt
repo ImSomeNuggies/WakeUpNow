@@ -8,6 +8,7 @@ class CreateAlarmViewModel(private val repository: AlarmRepository) : ViewModel(
 
     var selectedTime: String = ""
     var selectedPeriodicity: String = ""
+    var selectedProblem: String = ""
 
 
     /*fun setSelectedTime(time: String) {
@@ -31,6 +32,7 @@ class CreateAlarmViewModel(private val repository: AlarmRepository) : ViewModel(
             time = selectedTime,
             name = name,
             periodicity = selectedPeriodicity,
+            problem = selectedProblem,
             isActive = true,
             ringTime = newAlarmCalendar
         )

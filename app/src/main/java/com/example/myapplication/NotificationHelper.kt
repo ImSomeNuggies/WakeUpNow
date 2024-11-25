@@ -6,9 +6,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.myapplication.AlarmSoundingActivity
+import com.example.myapplication.SudokuSoundingActivity
+import com.example.myapplication.QRSoundingActivity
 import com.example.myapplication.R
 
 /**
@@ -43,9 +46,22 @@ object NotificationHelper {
      * @param name The name of the alarm to display in the notification.
      * @param id The unique ID for the notification.
      */
-    fun showHighPriorityNotification(context: Context, name: String?, id: Int) {
+    fun showHighPriorityNotification(context: Context, name: String?, id: Int, problem: String) {
+        // Determine the activity to open based on the problem type
+        var problemActivity = when (problem) {
+            "Problema corto" -> AlarmSoundingActivity::class.java
+            "Sudoku" -> SudokuSoundingActivity::class.java
+            "QR scanner" -> SudokuSoundingActivity::class.java
+            else -> null
+        }
+
+        // If the problem type is not found, avoid errors
+        if (problemActivity == null) {
+            problemActivity = AlarmSoundingActivity::class.java
+        }
+
         // Intent to open the activity when tapped
-        val intent = Intent(context, AlarmSoundingActivity::class.java).apply {
+        val intent = Intent(context, problemActivity).apply {
             putExtra("alarm_name", name)
             putExtra("launched_from_notification", true)  // Add this line
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

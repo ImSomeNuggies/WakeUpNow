@@ -70,6 +70,7 @@ class AlarmAdapter(private val alarmList: List<Alarm>) : RecyclerView.Adapter<Al
             intent.putExtra("alarm_name", alarm.name)
             intent.putExtra("alarm_time", alarm.time)
             intent.putExtra("alarm_periodicity", alarm.periodicity)
+            intent.putExtra("alarm_problem", alarm.problem)
             holder.itemView.context.startActivity(intent)
         }
 

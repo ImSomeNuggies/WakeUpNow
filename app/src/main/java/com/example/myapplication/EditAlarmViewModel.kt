@@ -14,11 +14,12 @@ class EditAlarmViewModel(private val alarmPreferences: AlarmPreferences) : ViewM
         alarm = alarmPreferences.getAlarmById(alarmId)
     }
 
-    fun updateAlarm(name: String, time: String, periodicity: String) {
+    fun updateAlarm(name: String, time: String, periodicity: String, problem: String) {
         alarm?.let {
             it.name = name
             it.time = time
             it.periodicity = periodicity
+            it.problem = problem
             val timeParts = time.split(":").map { part -> part.toInt() }
             it.ringTime = Calendar.getInstance().apply {
                 set(Calendar.HOUR_OF_DAY, timeParts[0])
@@ -27,7 +28,7 @@ class EditAlarmViewModel(private val alarmPreferences: AlarmPreferences) : ViewM
                 set(Calendar.MILLISECOND, 0)
             }
             alarmPreferences.editAlarm(it)
-            Log.d("AlarmUpdate", "Id: ${it.id}, Name: ${it.name}, Hour: ${it.time}, Periodicity: ${it.periodicity}")
+            Log.d("AlarmUpdate", "Id: ${it.id}, Name: ${it.name}, Hour: ${it.time}, Periodicity: ${it.periodicity}, Problem: ${it.problem}")
 
         }
     }

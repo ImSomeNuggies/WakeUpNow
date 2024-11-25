@@ -28,9 +28,29 @@ class EditAlarmActivity : ComponentActivity() {
         val buttonBack = findViewById<ImageButton>(R.id.buttonBack)
         val timePicker = findViewById<TimePicker>(R.id.timePicker)
         val editTextNombre = findViewById<EditText>(R.id.editTextNombre)
-        val spinnerPeriodicidad = findViewById<Spinner>(R.id.spinnerPeriodicidad)
+        val periodicidadTypeSpinner = findViewById<Spinner>(R.id.periodicidadTypeSpinner)
+        val problemaTypeSpinner = findViewById<Spinner>(R.id.problemaTypeSpinner)
         val buttonConfirmar = findViewById<Button>(R.id.buttonConfirmar)
         val buttonBorrar = findViewById<Button>(R.id.buttonBorrar)
+
+        // Set up the Spinner with a custom layout for the dropdown
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.periodicidad_types, // Array resource for graph types
+            R.layout.spinner_item  // Apply custom layout for spinner items
+        ).apply {
+            setDropDownViewResource(R.layout.spinner_item) // Use the same layout for the dropdown view
+        }
+        periodicidadTypeSpinner.adapter = adapter
+        
+        val adapter_problema = ArrayAdapter.createFromResource(
+            this,
+            R.array.problema_types,
+            R.layout.spinner_item
+        ).apply {
+            setDropDownViewResource(R.layout.spinner_item)
+        }
+        problemaTypeSpinner.adapter = adapter_problema
 
         // Load alarm from the ViewModel
         val alarmId = intent.getIntExtra("alarm_id", -1)
@@ -55,9 +75,12 @@ class EditAlarmActivity : ComponentActivity() {
                 timePicker.minute = calendar.get(Calendar.MINUTE)
             }
 
-            // Update the TextView to show the initially selected time
-            val periodicityOptions = resources.getStringArray(R.array.periodicidad_options)
-            spinnerPeriodicidad.setSelection(periodicityOptions.indexOf(alarm?.periodicity ?: ""))
+            // Update the Spinners to show the selected options
+            val periodicityOptions = resources.getStringArray(R.array.periodicidad_types)
+            periodicidadTypeSpinner.setSelection(periodicityOptions.indexOf(alarm?.periodicity ?: ""))
+
+            val problemOptions = resources.getStringArray(R.array.problema_types)
+            problemaTypeSpinner.setSelection(problemOptions.indexOf(alarm?.problem ?: ""))
         }
 
         // Set a listener to capture time changes in the TimePicker
@@ -68,7 +91,8 @@ class EditAlarmActivity : ComponentActivity() {
         // Actualizar alarma al hacer clic en "Confirmar"
         buttonConfirmar.setOnClickListener {
             val alarmName = editTextNombre.text.toString()
-            val periodicity = spinnerPeriodicidad.selectedItem.toString()
+            val periodicity = periodicidadTypeSpinner.selectedItem.toString()
+            val problem = problemaTypeSpinner.selectedItem.toString()
 
             if (selectedTime.isEmpty()) {
                 Toast.makeText(this, "Seleccionar hora", Toast.LENGTH_SHORT).show()
@@ -76,7 +100,7 @@ class EditAlarmActivity : ComponentActivity() {
             }
 
             // Actualizar alarma a través del ViewModel
-            viewModel.updateAlarm(alarmName, selectedTime, periodicity)
+            viewModel.updateAlarm(alarmName, selectedTime, periodicity, problem)
 
             Toast.makeText(this, "Alarma editada", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, MainActivity::class.java))
