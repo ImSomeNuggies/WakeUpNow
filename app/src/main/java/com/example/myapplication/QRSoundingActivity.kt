@@ -11,9 +11,7 @@ import com.example.myapplication.receivers.AlarmReceiver
 
 class QRSoundingActivity : AppCompatActivity() {
 
-    lateinit var problemaTextView: TextView
     lateinit var stopButton: Button
-    lateinit var problemaFalloTextView: TextView
     private lateinit var textViewNombreAlarma: TextView
     private lateinit var textViewHoraActual: TextView
 
@@ -22,12 +20,10 @@ class QRSoundingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.alarm_sounding)
+        setContentView(R.layout.qr_sounding)
 
         // Inicializar los elementos de la UI
-        problemaTextView = findViewById(R.id.problemaTextView)
         stopButton = findViewById(R.id.stopButton)
-        problemaFalloTextView = findViewById(R.id.problemaFallo)
         textViewNombreAlarma = findViewById(R.id.textViewNombreAlarma)
         textViewHoraActual = findViewById(R.id.textViewHoraActual)
 

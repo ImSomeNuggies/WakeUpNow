@@ -56,11 +56,6 @@ object NotificationHelper {
         }
         Log.d("NotificacionDatos", "Problema tipo: ${problemActivity}")
 
-        // If the problem type is not found, avoid errors
-        if (problemActivity == null) {
-            problemActivity = AlarmSoundingActivity::class.java
-        }
-
         // Intent to open the activity when tapped
         val intent = Intent(context, problemActivity).apply {
             putExtra("alarm_name", name)
