@@ -77,6 +77,9 @@ dependencies {
     androidTestImplementation(libs.mockito.inline)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation("com.google.code.gson:gson:2.8.9") // Aquí se agregan las dependencias
+    implementation("com.google.code.gson:gson:2.8.9")
+    //Dependencias para lector de qr
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.google.zxing:core:3.4.1")// Aquí se agregan las dependencias
 
 }
