@@ -51,9 +51,10 @@ object NotificationHelper {
         var problemActivity = when (problem) {
             "Problema corto" -> AlarmSoundingActivity::class.java
             "Sudoku" -> SudokuSoundingActivity::class.java
-            "QR scanner" -> SudokuSoundingActivity::class.java
+            "QR scanner" -> QRSoundingActivity::class.java
             else -> null
         }
+        Log.d("NotificacionDatos", "Problema tipo: ${problemActivity}")
 
         // If the problem type is not found, avoid errors
         if (problemActivity == null) {

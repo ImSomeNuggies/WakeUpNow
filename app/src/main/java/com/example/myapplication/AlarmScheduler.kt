@@ -12,7 +12,6 @@ import java.util.Calendar
 
 class AlarmScheduler(private val context: Context) {
 
-    // Untested, likely to have some issues
     fun scheduleAlarm(alarm: Alarm) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -21,7 +20,7 @@ class AlarmScheduler(private val context: Context) {
             putExtra("alarm_id", alarm.id)
             putExtra("alarm_isActive", alarm.isActive)
             putExtra("alarm_periodicity", alarm.periodicity)
-            putExtra("alarm_problema", alarm.problem)
+            putExtra("alarm_problem", alarm.problem)
         }
 
         // We check for an already existing pending intent

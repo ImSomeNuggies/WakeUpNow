@@ -102,6 +102,7 @@ class CreateAlarm : ComponentActivity() {
                     putExtra("alarm_problem", newAlarm.problem)
                     putExtra("alarm_ringTime", newAlarm.ringTime)
                     putExtra("alarm_time", newAlarm.time)
+                    putExtra("alarm_problem", newAlarm.problem)
                 }
                 Toast.makeText(this, "Intent alarm_problem: ${newAlarm.problem ?: "null"}", Toast.LENGTH_SHORT).show()
                 val pendingIntent = PendingIntent.getBroadcast(
