@@ -59,16 +59,16 @@
             android:background="#000000"
             android:padding="2dp">
             
-            <Button
+            <TextView
                 android:id="@+id/cell_00"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_01"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_10"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_11"
                 style="@style/SudokuCell" />
         </GridLayout>
@@ -83,16 +83,16 @@
             android:background="#000000"
             android:padding="2dp">
             
-            <Button
+            <TextView
                 android:id="@+id/cell_02"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_03"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_12"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_13"
                 style="@style/SudokuCell" />
         </GridLayout>
@@ -107,16 +107,16 @@
             android:background="#000000"
             android:padding="2dp">
             
-            <Button
+            <TextView
                 android:id="@+id/cell_20"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_21"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_30"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_31"
                 style="@style/SudokuCell" />
         </GridLayout>
@@ -131,16 +131,16 @@
             android:background="#000000"
             android:padding="2dp">
             
-            <Button
+            <TextView
                 android:id="@+id/cell_22"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_23"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_32"
                 style="@style/SudokuCell" />
-            <Button
+            <TextView
                 android:id="@+id/cell_33"
                 style="@style/SudokuCell" />
         </GridLayout>
