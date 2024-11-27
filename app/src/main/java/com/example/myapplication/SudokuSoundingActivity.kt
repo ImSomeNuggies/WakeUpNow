@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.viewmodels.SudokuSoundingViewModel
@@ -66,6 +67,8 @@ class SudokuSoundingActivity : AppCompatActivity() {
                 finish()  // Cierra la actividad cuando shouldFinish es true
             }
         }
+
+        viewModel.initializeSudoku()
     }
 
     private fun selectNumber(number: String, selectedButton: Button, buttons: List<Button>) {
@@ -97,16 +100,36 @@ class SudokuSoundingActivity : AppCompatActivity() {
         )
 
         // Asigna un manejador de clics a cada casilla
-        cells.forEach { cell ->
+        cells.forEachIndexed { index, cell ->
+            val row = index / 4
+            val col = index % 4
+
             cell.setOnClickListener {
-                // Escribir el número seleccionado o borrar el contenido
-                if (selectedNumber == "erase") {
-                    cell.text = "" // Borra el contenido si no hay número seleccionado
+                if (selectedNumber == null || selectedNumber == "erase") {
+                    cell.text = ""
                 } else {
-                    cell.text = selectedNumber // Escribe el número seleccionado
+                    val number = selectedNumber!!.toInt()
+                    cell.text = selectedNumber
+                    if (!viewModel.checkNumber(row, col, number)) {
+                        Toast.makeText(this, "Número incorrecto", Toast.LENGTH_SHORT).show()
+                        cell.text = ""
+                    } else {
+                        val userBoard = getCurrentUserBoard(cells)
+                        viewModel.validateAndUpdateCompletion(userBoard)
+                    }
                 }
             }
         }
+    }
+
+    private fun getCurrentUserBoard(cells: List<TextView>): Array<IntArray> {
+        val userBoard = Array(4) { IntArray(4) }
+        cells.forEachIndexed { index, cell ->
+            val row = index / 4
+            val col = index % 4
+            userBoard[row][col] = cell.text.toString().toIntOrNull() ?: 0
+        }
+        return userBoard
     }
 
 }
