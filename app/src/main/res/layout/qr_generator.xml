@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark">
+
+    <!-- Main content container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Spacer at the top -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Código QR"
+            android:textAlignment="center"
+            android:textColor="@color/light"
+            android:textSize="42sp" />
+
+        <!-- QR Code Image -->
+        <ImageView
+            android:id="@+id/idQRcode"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:contentDescription="QRcode" />
+    </LinearLayout>
+
+    <!-- Bottom buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="16dp"
+        android:gravity="center">
+
+        <!-- Generate QR Button -->
+        <Button
+            android:id="@+id/buttonGenerate"
+            android:text="Generar QR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CustomButtonLightStyle" />
+
+        <!-- Spacer between buttons -->
+        <View
+            android:layout_width="16dp"
+            android:layout_height="wrap_content" />
+
+        <!-- Download QR Button -->
+        <Button
+            android:id="@+id/buttonDownload"
+            android:text="Descargar QR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CustomButtonLightStyle" />
+    </LinearLayout>
+</FrameLayout>

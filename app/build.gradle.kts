@@ -78,5 +78,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.google.code.gson:gson:2.8.9") // Aquí se agregan las dependencias
+    implementation("com.google.zxing:core:3.5.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+
 
 }

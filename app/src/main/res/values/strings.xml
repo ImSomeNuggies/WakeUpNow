@@ -24,4 +24,6 @@
     </string-array>
     <string name="title_activity_stop_alarm">StopAlarm</string>
     <string name="title_activity_boot_reciever">BootReciever</string>
+    <string name="title_activity_qr_generator">QrGenerator</string>
+    <string name="qr_password">WakeUpNow</string>
 </resources>

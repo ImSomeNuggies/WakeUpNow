@@ -48,6 +48,7 @@ class MainActivity : ComponentActivity() {
         val buttonCreateAlarm: Button = findViewById(R.id.buttonCreateAlarm)
         val buttonStatistics: ImageButton = findViewById(R.id.buttonStatistics)
         val recyclerViewAlarms = findViewById<RecyclerView>(R.id.recyclerViewAlarms)
+        val buttonQR: ImageButton = findViewById(R.id.buttonQR)
         val alarmAdapter = AlarmAdapter(alarmList)
 
         recyclerViewAlarms.layoutManager = LinearLayoutManager(this)
@@ -71,6 +72,10 @@ class MainActivity : ComponentActivity() {
 
         buttonStatistics.setOnClickListener {
             startActivity(Intent(this, StatisticsActivity::class.java))
+        }
+
+        buttonQR.setOnClickListener {
+            startActivity(Intent(this, QrGenerator::class.java))
         }
     }
 }

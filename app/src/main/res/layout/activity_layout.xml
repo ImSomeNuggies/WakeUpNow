@@ -81,4 +81,15 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp" />
 
+    <ImageButton
+        android:id="@+id/buttonQR"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_qr"
+        android:background="@null"
+        android:contentDescription="QRgenerator"
+        android:layout_gravity="start|bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp" />
+
 </FrameLayout>
