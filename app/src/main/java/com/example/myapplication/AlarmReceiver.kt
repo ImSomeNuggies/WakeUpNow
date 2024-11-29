@@ -48,8 +48,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val alarmActive = intent.getBooleanExtra("alarm_isActive", false)
         val alarmPeriodicity = intent.getStringExtra("alarm_periodicity")?: "noPeriodicity"
-        val alarmProblem = intent.getStringExtra("alarm_problem")?: "noProblem"
-        Toast.makeText(context, "RECEIVER: ${alarmProblem ?: "null"}", Toast.LENGTH_SHORT).show()
+        val alarmProblem: String = intent.getStringExtra("alarm_problem")?: "noProblem"
         val alarmId: Int = alarmIdString.toIntOrNull() ?: System.currentTimeMillis().toInt()
         val alarmTime: String = intent.getStringExtra("alarm_ringTime")?: "00:00"
         val timeParts = alarmTime.split(":")

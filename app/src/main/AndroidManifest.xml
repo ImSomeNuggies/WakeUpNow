@@ -54,6 +54,11 @@
             android:name=".QRSoundingActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat" />
+
+        <activity android:name=".CustomScannerActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat" />
+
         <activity
             android:name=".StatisticsActivity"
             android:exported="false"

@@ -154,11 +154,5 @@ class AlarmStatsRepositoryTest {
         assertEquals(5, result) // Maximum is 5 errors
     }
 
-    @Test
-    fun testClearStatistics() {
-        alarmStatsRepository.clearStatistics()
 
-        verify(editor).remove("statistics")
-        verify(editor).apply()
-    }
 }

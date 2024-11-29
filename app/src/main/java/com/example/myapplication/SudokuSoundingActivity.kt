@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.viewmodels.SudokuSoundingViewModel
@@ -11,25 +12,31 @@ import com.example.myapplication.receivers.AlarmReceiver
 
 class SudokuSoundingActivity : AppCompatActivity() {
 
-    lateinit var problemaTextView: TextView
     lateinit var stopButton: Button
-    lateinit var problemaFalloTextView: TextView
     private lateinit var textViewNombreAlarma: TextView
     private lateinit var textViewHoraActual: TextView
+    private var selectedNumber: String? = null
 
     // Usamos el ViewModel con un ViewModelFactory
     private val viewModel: SudokuSoundingViewModel by viewModels { SudokuSoundingViewModelFactory(application) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.alarm_sounding)
+        setContentView(R.layout.sudoku_sounding)
 
         // Inicializar los elementos de la UI
-        problemaTextView = findViewById(R.id.problemaTextView)
         stopButton = findViewById(R.id.stopButton)
-        problemaFalloTextView = findViewById(R.id.problemaFallo)
         textViewNombreAlarma = findViewById(R.id.textViewNombreAlarma)
         textViewHoraActual = findViewById(R.id.textViewHoraActual)
+
+        val button1 = findViewById<Button>(R.id.button_1)
+        val button2 = findViewById<Button>(R.id.button_2)
+        val button3 = findViewById<Button>(R.id.button_3)
+        val button4 = findViewById<Button>(R.id.button_4)
+        val buttonErase = findViewById<Button>(R.id.button_erase)
+
+        // Lista de todos los botones para restablecer su apariencia
+        val buttons = listOf(button1, button2, button3, button4, buttonErase)
 
         // Obtener el nombre de la alarma desde el Intent y asignarlo al TextView
         val alarmName = intent.getStringExtra("alarm_name")
@@ -44,6 +51,15 @@ class SudokuSoundingActivity : AppCompatActivity() {
             viewModel.stopAlarm()
         }
 
+        // Asignar manejadores de clics en los botones
+        button1.setOnClickListener { selectNumber("1", button1, buttons) }
+        button2.setOnClickListener { selectNumber("2", button2, buttons) }
+        button3.setOnClickListener { selectNumber("3", button3, buttons) }
+        button4.setOnClickListener { selectNumber("4", button4, buttons) }
+        buttonErase.setOnClickListener { selectNumber("erase", buttonErase, buttons) }
+
+        setupSudokuGrid()
+
         // Observa shouldFinish para detener la alarma y cerrar la actividad
         viewModel.shouldFinish.observe(this) { shouldFinish ->
             if (shouldFinish == true) {
@@ -51,5 +67,69 @@ class SudokuSoundingActivity : AppCompatActivity() {
                 finish()  // Cierra la actividad cuando shouldFinish es true
             }
         }
+
+        viewModel.initializeSudoku()
     }
+
+    private fun selectNumber(number: String, selectedButton: Button, buttons: List<Button>) {
+        selectedNumber = number // Actualizar número seleccionado
+
+        // Cambiar el fondo del botón seleccionado y restablecer los demás
+        buttons.forEach { it.setBackgroundResource(R.drawable.sudoku_button) }
+        selectedButton.setBackgroundResource(R.drawable.selected_sudoku_button)
+    }
+
+    private fun setupSudokuGrid() {
+        val cells = listOf(
+            findViewById<TextView>(R.id.cell_00),
+            findViewById<TextView>(R.id.cell_01),
+            findViewById<TextView>(R.id.cell_02),
+            findViewById<TextView>(R.id.cell_03),
+            findViewById<TextView>(R.id.cell_10),
+            findViewById<TextView>(R.id.cell_11),
+            findViewById<TextView>(R.id.cell_12),
+            findViewById<TextView>(R.id.cell_13),
+            findViewById<TextView>(R.id.cell_20),
+            findViewById<TextView>(R.id.cell_21),
+            findViewById<TextView>(R.id.cell_22),
+            findViewById<TextView>(R.id.cell_23),
+            findViewById<TextView>(R.id.cell_30),
+            findViewById<TextView>(R.id.cell_31),
+            findViewById<TextView>(R.id.cell_32),
+            findViewById<TextView>(R.id.cell_33)
+        )
+
+        // Asigna un manejador de clics a cada casilla
+        cells.forEachIndexed { index, cell ->
+            val row = index / 4
+            val col = index % 4
+
+            cell.setOnClickListener {
+                if (selectedNumber == null || selectedNumber == "erase") {
+                    cell.text = ""
+                } else {
+                    val number = selectedNumber!!.toInt()
+                    cell.text = selectedNumber
+                    if (!viewModel.checkNumber(row, col, number)) {
+                        Toast.makeText(this, "Número incorrecto", Toast.LENGTH_SHORT).show()
+                        cell.text = ""
+                    } else {
+                        val userBoard = getCurrentUserBoard(cells)
+                        viewModel.validateAndUpdateCompletion(userBoard)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getCurrentUserBoard(cells: List<TextView>): Array<IntArray> {
+        val userBoard = Array(4) { IntArray(4) }
+        cells.forEachIndexed { index, cell ->
+            val row = index / 4
+            val col = index % 4
+            userBoard[row][col] = cell.text.toString().toIntOrNull() ?: 0
+        }
+        return userBoard
+    }
+
 }
