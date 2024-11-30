@@ -1,6 +1,4 @@
 package com.example.myapplication
-
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -11,14 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.helpers.AlarmPermissionHelper
 import com.example.myapplication.helpers.NotificationHelper
-import com.example.myapplication.AlarmRepository
 import com.example.myapplication.schedulers.AlarmScheduler
 import android.widget.Toast
 import android.util.Log
 
-import androidx.appcompat.app.AppCompatActivity
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
+
 
 class MainActivity : ComponentActivity() {
     private val alarmList = mutableListOf<Alarm>()
@@ -52,7 +47,6 @@ class MainActivity : ComponentActivity() {
         val buttonCreateAlarm: Button = findViewById(R.id.buttonCreateAlarm)
         val buttonStatistics: ImageButton = findViewById(R.id.buttonStatistics)
         val recyclerViewAlarms = findViewById<RecyclerView>(R.id.recyclerViewAlarms)
-        val btnLectorQR = findViewById<Button>(R.id.buttonqr)
         val buttonQR: ImageButton = findViewById(R.id.buttonQR)
         val alarmAdapter = AlarmAdapter(alarmList)
 
@@ -79,36 +73,12 @@ class MainActivity : ComponentActivity() {
             startActivity(Intent(this, StatisticsActivity::class.java))
         }
 
-        // Configurar el botón para abrir el lector QR
-        btnLectorQR.setOnClickListener {
-            iniciarLectorQR()
-        }
 
         buttonQR.setOnClickListener {
             startActivity(Intent(this, QrGenerator::class.java))
         }
     }
 
-    // Configuración del lector de QR
-    private fun iniciarLectorQR() {
-        val options = ScanOptions()
-        options.setPrompt("Escanea un código QR")
-        options.setBeepEnabled(true)
-        options.setBarcodeImageEnabled(true)
-        options.setOrientationLocked(true) // Bloquea la orientación en vertical
-        options.setCaptureActivity(CustomScannerActivity::class.java);
-
-        qrLauncher.launch(options)
-    }
-
-    // Manejar el resultado del lector de QR
-    private val qrLauncher = registerForActivityResult(ScanContract()) { result ->
-        if (result.contents != null) {
-            Toast.makeText(this, "QR Escaneado: ${result.contents}", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(this, "Escaneo cancelado", Toast.LENGTH_SHORT).show()
-        }
-    }
 
 
 }

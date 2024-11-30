@@ -41,9 +41,9 @@
 
     <Button
         android:id="@+id/stopButton"
-        android:text="Detener"
+        style="@style/CustomButtonRedStyle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        style="@style/CustomButtonRedStyle2" />
+        android:text="Leer QR" />
 </LinearLayout>
