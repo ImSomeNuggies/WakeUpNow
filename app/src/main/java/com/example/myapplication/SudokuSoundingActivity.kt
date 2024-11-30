@@ -3,9 +3,9 @@ package com.example.myapplication
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.myapplication.viewmodels.SudokuSoundingViewModel
 import com.example.myapplication.viewmodels.SudokuSoundingViewModelFactory
 import com.example.myapplication.receivers.AlarmReceiver
@@ -46,8 +46,8 @@ class SudokuSoundingActivity : AppCompatActivity() {
         val currentTime = viewModel.getCurrentTime()
         textViewHoraActual.text = currentTime
 
-        // Observa el boton de stop
-        stopButton.setOnClickListener { 
+        // Observa el botón de stop
+        stopButton.setOnClickListener {
             viewModel.stopAlarm()
         }
 
@@ -58,28 +58,31 @@ class SudokuSoundingActivity : AppCompatActivity() {
         button4.setOnClickListener { selectNumber("4", button4, buttons) }
         buttonErase.setOnClickListener { selectNumber("erase", buttonErase, buttons) }
 
-        setupSudokuGrid()
+        // Inicializar el tablero con los números generados
+        initializeSudokuGrid()
 
         // Observa shouldFinish para detener la alarma y cerrar la actividad
         viewModel.shouldFinish.observe(this) { shouldFinish ->
             if (shouldFinish == true) {
-                AlarmReceiver.stopAlarm()  // Detiene la alarma antes de cerrar la actividad
-                finish()  // Cierra la actividad cuando shouldFinish es true
+                AlarmReceiver.stopAlarm()
+                finish()
             }
         }
-
-        viewModel.initializeSudoku()
     }
 
+    // Manejo del número seleccionado en la parte inferior de la UI
     private fun selectNumber(number: String, selectedButton: Button, buttons: List<Button>) {
-        selectedNumber = number // Actualizar número seleccionado
+        selectedNumber = number
 
         // Cambiar el fondo del botón seleccionado y restablecer los demás
         buttons.forEach { it.setBackgroundResource(R.drawable.sudoku_button) }
         selectedButton.setBackgroundResource(R.drawable.selected_sudoku_button)
     }
 
-    private fun setupSudokuGrid() {
+    // Inicializa el tablero en la interfaz con los números generados
+    private fun initializeSudokuGrid() {
+        // Obtiene el tablero inicial
+        val board = viewModel.getBoard()
         val cells = listOf(
             findViewById<TextView>(R.id.cell_00),
             findViewById<TextView>(R.id.cell_01),
@@ -99,37 +102,46 @@ class SudokuSoundingActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.cell_33)
         )
 
-        // Asigna un manejador de clics a cada casilla
         cells.forEachIndexed { index, cell ->
             val row = index / 4
             val col = index % 4
+            val value = board[row][col]
 
-            cell.setOnClickListener {
-                if (selectedNumber == null || selectedNumber == "erase") {
-                    cell.text = ""
-                } else {
-                    val number = selectedNumber!!.toInt()
-                    cell.text = selectedNumber
-                    if (!viewModel.checkNumber(row, col, number)) {
-                        Toast.makeText(this, "Número incorrecto", Toast.LENGTH_SHORT).show()
-                        cell.text = ""
-                    } else {
-                        val userBoard = getCurrentUserBoard(cells)
-                        viewModel.validateAndUpdateCompletion(userBoard)
-                    }
-                }
+            if (value != 0) {
+                // Valores de las celdas completadas pasadas al usuario en negro
+                cell.text = value.toString()
+                cell.setTextColor(ContextCompat.getColor(this, R.color.black))
+            } else {
+                // Celdas vacías, texto vacío
+                cell.text = ""
+                cell.setTextColor(ContextCompat.getColor(this, R.color.transparent))
+                setupCellClick(cell, row, col)
             }
         }
     }
 
-    private fun getCurrentUserBoard(cells: List<TextView>): Array<IntArray> {
-        val userBoard = Array(4) { IntArray(4) }
-        cells.forEachIndexed { index, cell ->
-            val row = index / 4
-            val col = index % 4
-            userBoard[row][col] = cell.text.toString().toIntOrNull() ?: 0
+    // Configura el comportamiento al hacer clic en una celda
+    private fun setupCellClick(cell: TextView, row: Int, col: Int) {
+        cell.setOnClickListener {
+            // Primero verifica si la celda es editable
+            if (viewModel.isEditable(row, col)) {
+                // Se borra el contenido si se ha seleccionado "Borrar" o aún no se ha seleccionado nada
+                if (selectedNumber == "erase" || selectedNumber == null) {
+                    cell.text = ""
+                    cell.setTextColor(ContextCompat.getColor(this, R.color.transparent))
+                } else {
+                    // Se comprueba si el valor introducido es correcto
+                    val isCorrect = viewModel.checkAndPlaceNumber(row, col, selectedNumber!!.toInt())
+                    if(isCorrect) {
+                        // Se pone el número lila si es correcto
+                        cell.setTextColor(ContextCompat.getColor(this, R.color.lila))
+                    } else {
+                        // Se pone el número en rojo si es incorrecto
+                        cell.setTextColor(ContextCompat.getColor(this, R.color.red))
+                    }
+                    cell.text = selectedNumber
+                }
+            }
         }
-        return userBoard
     }
-
 }

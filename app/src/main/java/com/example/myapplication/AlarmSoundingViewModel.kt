@@ -51,7 +51,7 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
         return dateFormat.format(date)
     }
 
-        // Verificar si la respuesta seleccionada es correcta
+    // Verificar si la respuesta seleccionada es correcta
     fun verificarRespuesta(respuestaSeleccionada: String, respuestaCorrecta: String) {
         if (respuestaSeleccionada == respuestaCorrecta) {
             val currentTime = System.currentTimeMillis()
