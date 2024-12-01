@@ -2,8 +2,8 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.myapplication.models.AlarmStatistic
-import com.example.myapplication.repositories.AlarmStatsRepository
+import com.example.myapplication.model.AlarmStatistic
+import com.example.myapplication.repository.AlarmStatsRepository
 import com.google.gson.Gson
 import org.junit.Assert.*
 import org.junit.Before

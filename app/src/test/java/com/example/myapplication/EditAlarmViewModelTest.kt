@@ -1,8 +1,8 @@
 package com.example.myapplication
 
-import com.example.myapplication.Alarm
-import com.example.myapplication.AlarmPreferences
-import com.example.myapplication.EditAlarmViewModel
+import com.example.myapplication.model.Alarm
+import com.example.myapplication.repository.AlarmPreferences
+import com.example.myapplication.viewmodel.EditAlarmViewModel
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -25,7 +25,7 @@ class EditAlarmViewModelTest {
 
     @Test
     fun `loadAlarm should set alarm correctly from preferences`() {
-        val testAlarm = Alarm(1, "07:00", "Morning Alarm", "Diaria", true, Calendar.getInstance())
+        val testAlarm = Alarm(1, "07:00", "Morning Alarm", "Diaria", "Problema corto",true, Calendar.getInstance())
         `when`(alarmPreferences.getAlarmById(1)).thenReturn(testAlarm)
 
         viewModel.loadAlarm(1)
@@ -36,10 +36,10 @@ class EditAlarmViewModelTest {
 
     @Test
     fun `updateAlarm should update alarm properties and save changes`() {
-        val existingAlarm = Alarm(1, "07:00", "Alarm", "Lunes", true, Calendar.getInstance())
+        val existingAlarm = Alarm(1, "07:00", "Alarm", "Lunes", "Problema corto",true, Calendar.getInstance())
         viewModel.alarm = existingAlarm
 
-        viewModel.updateAlarm("Updated Alarm", "08:30", "Diaria")
+        viewModel.updateAlarm("Updated Alarm", "08:30", "Diaria" ,"Problema corto")
 
         assert(viewModel.alarm?.name == "Updated Alarm")
         assert(viewModel.alarm?.time == "08:30")
@@ -58,7 +58,7 @@ class EditAlarmViewModelTest {
 
     @Test
     fun `deleteAlarm should remove alarm by id`() {
-        val testAlarm = Alarm(1, "07:00", "Test Alarm", "Diaria", true, Calendar.getInstance())
+        val testAlarm = Alarm(1, "07:00", "Test Alarm", "Diaria", "Problema corto",true, Calendar.getInstance())
         viewModel.alarm = testAlarm
 
         viewModel.deleteAlarm()

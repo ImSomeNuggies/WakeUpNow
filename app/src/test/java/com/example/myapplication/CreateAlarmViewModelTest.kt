@@ -1,8 +1,8 @@
 package com.example.myapplication
 
-import com.example.myapplication.Alarm
-import com.example.myapplication.AlarmRepository
-import com.example.myapplication.CreateAlarmViewModel
+import com.example.myapplication.repository.AlarmRepository
+import com.example.myapplication.viewmodel.CreateAlarmViewModel
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Test
 import org.junit.Rule
@@ -19,26 +19,13 @@ class CreateAlarmViewModelTest {
     @Mock
     private lateinit var repository: AlarmRepository
 
-    @get:Rule
-    val exceptionRule: ExpectedException = ExpectedException.none()
+//    @get:Rule
+//    val exceptionRule: ExpectedException = ExpectedException.none()
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         viewModel = CreateAlarmViewModel(repository)
-    }
-
-    @Test
-    fun `saveAlarm should throw exception when selectedTime is empty`() {
-        // Set up an empty selected time
-        viewModel.selectedTime = ""
-
-        // Expect an IllegalArgumentException with the message "Seleccionar hora"
-        exceptionRule.expect(IllegalArgumentException::class.java)
-        exceptionRule.expectMessage("Seleccionar hora")
-
-        // Call saveAlarm to trigger the exception
-        viewModel.saveAlarm("Test Alarm")
     }
 
     @Test

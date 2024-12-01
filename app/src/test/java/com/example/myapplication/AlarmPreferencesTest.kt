@@ -2,6 +2,8 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.myapplication.model.Alarm
+import com.example.myapplication.repository.AlarmPreferences
 import com.google.gson.Gson
 import org.junit.Assert.*
 import org.junit.Before
@@ -50,7 +52,7 @@ class AlarmPreferencesTest {
     @Test
     fun testSaveAlarm() {
         // Create a new alarm object
-        val alarm = Alarm(1, "08:00", "Test Alarm", "Diaria", true, Calendar.getInstance())
+        val alarm = Alarm(1, "08:00", "Test Alarm", "Diaria", "Problema corto",true, Calendar.getInstance())
         
         // Mock that there are no existing alarms in SharedPreferences
         `when`(sharedPreferences.getString("alarms_list", null)).thenReturn(null)
@@ -70,7 +72,7 @@ class AlarmPreferencesTest {
     @Test
     fun testGetAlarmById() {
         // Create a list of alarms and serialize it to JSON
-        val alarmList = mutableListOf(Alarm(1, "08:00", "Test Alarm", "Diaria", true, Calendar.getInstance()))
+        val alarmList = mutableListOf(Alarm(1, "08:00", "Test Alarm", "Diaria", "Problema corto",true, Calendar.getInstance()))
         val alarmListJson = gson.toJson(alarmList)
         
         // Mock the stored JSON list in SharedPreferences
@@ -91,7 +93,7 @@ class AlarmPreferencesTest {
     @Test
     fun testEditAlarm() {
         // Create an original alarm and an updated version
-        val originalAlarm = Alarm(1, "08:00", "Test Alarm", "Diaria", true, Calendar.getInstance())
+        val originalAlarm = Alarm(1, "08:00", "Test Alarm", "Diaria", "Problema corto",true, Calendar.getInstance())
         val updatedAlarm = originalAlarm.copy(name = "Updated Alarm")
         
         // Mock the existing alarms list
@@ -114,7 +116,7 @@ class AlarmPreferencesTest {
     @Test
     fun testDeleteAlarm() {
         // Create a list of alarms
-        val alarmList = mutableListOf(Alarm(1, "08:00", "Test Alarm", "Diaria", true, Calendar.getInstance()))
+        val alarmList = mutableListOf(Alarm(1, "08:00", "Test Alarm", "Diaria", "Problema corto",true, Calendar.getInstance()))
         val alarmListJson = gson.toJson(alarmList)
         
         // Mock the stored JSON list in SharedPreferences
@@ -135,7 +137,7 @@ class AlarmPreferencesTest {
     @Test
     fun testLoadAlarms() {
         // Create a list of alarms and serialize it to JSON
-        val alarmList = mutableListOf(Alarm(1, "08:00", "Test Alarm", "Diaria", true, Calendar.getInstance()))
+        val alarmList = mutableListOf(Alarm(1, "08:00", "Test Alarm", "Diaria", "Problema corto",true, Calendar.getInstance()))
         val alarmListJson = gson.toJson(alarmList)
         
         // Mock the stored JSON list in SharedPreferences

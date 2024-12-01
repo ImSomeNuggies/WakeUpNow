@@ -1,10 +1,12 @@
 package com.example.myapplication
 
+import com.example.myapplication.model.Alarm
+import com.example.myapplication.repository.AlarmPreferences
+import com.example.myapplication.repository.AlarmRepository
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
-import com.example.myapplication.receivers.AlarmReceiver
 import java.util.Calendar
 
 /**
@@ -23,7 +25,7 @@ class AlarmRepositoryTest {
      */
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        //MockitoAnnotations.initMocks(this)
         alarmPreferences = mock(AlarmPreferences::class.java)
         //alarmRepository = AlarmRepository(alarmPreferences)
     }
@@ -36,8 +38,8 @@ class AlarmRepositoryTest {
     @Test
     fun testGetAlarms() {
         val mockAlarms = mutableListOf(
-            Alarm(1, "07:00", "", "Una vez", true, Calendar.getInstance()),
-            Alarm(2, "18:00", "Siesta", "Diaria", false, Calendar.getInstance())
+            Alarm(1, "07:00", "", "Una vez", "Problema corto",true, Calendar.getInstance()),
+            Alarm(2, "18:00", "Siesta", "Diaria", "Problema corto",false, Calendar.getInstance())
         )
 
         `when`(alarmPreferences.loadAlarms()).thenReturn(mockAlarms)
@@ -54,7 +56,7 @@ class AlarmRepositoryTest {
      */
     @Test
     fun testSaveAlarm() {
-        val newAlarm = Alarm(3, "10:00", "", "Domingo", true, Calendar.getInstance())
+        val newAlarm = Alarm(3, "10:00", "", "Domingo", "Problema corto",true, Calendar.getInstance())
         alarmRepository.saveAlarm(newAlarm)
 
         verify(alarmPreferences).saveAlarm(newAlarm)
@@ -67,7 +69,7 @@ class AlarmRepositoryTest {
     */
     @Test
     fun testGetAlarmById_found() {
-        val mockAlarm = Alarm(1, "07:00", "Morning Alarm", "Diaria", true, Calendar.getInstance())
+        val mockAlarm = Alarm(1, "07:00", "Morning Alarm", "Diaria", "Problema corto",true, Calendar.getInstance())
         `when`(alarmPreferences.getAlarmById(1)).thenReturn(mockAlarm)
 
         val alarm = alarmRepository.getAlarmById(1)
@@ -99,7 +101,7 @@ class AlarmRepositoryTest {
      */
     @Test
     fun testEditAlarm() {
-        val editedAlarm = Alarm(2, "09:00", "Updated Alarm", "Lunes", false, Calendar.getInstance())
+        val editedAlarm = Alarm(2, "09:00", "Updated Alarm", "Lunes", "Problema corto",false, Calendar.getInstance())
         alarmRepository.editAlarm(editedAlarm)
 
         verify(alarmPreferences).editAlarm(editedAlarm)
@@ -125,8 +127,8 @@ class AlarmRepositoryTest {
     @Test
     fun testGetNewAlarmId() {
         `when`(alarmPreferences.loadAlarms()).thenReturn(mutableListOf(
-            Alarm(1, "07:00", "", "Una vez", true, Calendar.getInstance()),
-            Alarm(2, "18:00", "Siesta", "Diaria", false, Calendar.getInstance())
+            Alarm(1, "07:00", "", "Una vez", "Problema corto",true, Calendar.getInstance()),
+            Alarm(2, "18:00", "Siesta", "Diaria", "Problema corto",false, Calendar.getInstance())
         ))
 
         val newAlarmId = alarmRepository.getNewAlarmId()

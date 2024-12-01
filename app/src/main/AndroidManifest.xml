@@ -18,13 +18,13 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31" >
         <activity
-            android:name=".QrGenerator"
+            android:name=".view.QrGeneratorActivity"
             android:exported="false"
             android:label="@string/title_activity_qr_generator"
             android:theme="@style/Theme.MyApplication" />
 
         <receiver
-            android:name=".BootReceiver"
+            android:name=".viewmodel.BootReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -33,39 +33,39 @@
         </receiver>
 
         <activity
-            android:name=".EditAlarmActivity"
+            android:name=".view.EditAlarmActivity"
             android:exported="false"
             android:label="Edit Alarm"
             android:theme="@style/Theme.MyApplication" />
         <activity
-            android:name=".CreateAlarm"
+            android:name=".view.CreateAlarmActivity"
             android:exported="false"
             android:label="Create Alarm"
             android:theme="@style/Theme.MyApplication" />
         <activity
-            android:name=".AlarmSoundingActivity"
+            android:name=".view.AlarmSoundingActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name=".SudokuSoundingActivity"
+            android:name=".view.SudokuSoundingActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name=".QRSoundingActivity"
+            android:name=".view.QRSoundingActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat" />
 
-        <activity android:name=".CustomScannerActivity"
+        <activity android:name=".view.CustomScannerActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat" />
 
         <activity
-            android:name=".StatisticsActivity"
+            android:name=".view.StatisticsActivity"
             android:exported="false"
             android:label="Statistics"
             android:theme="@style/Theme.MyApplication" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyApplication" >
@@ -76,7 +76,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receivers.AlarmReceiver" />
+        <receiver android:name=".viewmodel.AlarmReceiver" />
     </application>
 
 </manifest>
