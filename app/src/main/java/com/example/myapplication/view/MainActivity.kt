@@ -1,4 +1,5 @@
 package com.example.myapplication.view
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -7,7 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.viewmodel.AlarmPermissionHelper
+import com.example.myapplication.viewmodel.helper.AlarmPermissionHelper
 import com.example.myapplication.viewmodel.helper.NotificationHelper
 import com.example.myapplication.viewmodel.AlarmScheduler
 import android.widget.Toast
@@ -35,6 +36,7 @@ class MainActivity : ComponentActivity() {
         }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_layout)

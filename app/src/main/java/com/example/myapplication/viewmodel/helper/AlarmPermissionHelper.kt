@@ -1,4 +1,4 @@
-package com.example.myapplication.viewmodel
+package com.example.myapplication.viewmodel.helper
 
 import android.Manifest
 import android.app.Activity
