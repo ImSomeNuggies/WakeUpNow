@@ -66,5 +66,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/CustomButtonLightStyle" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="wrap_content" />
+
+        <!-- Download QR Button -->
+        <Button
+            android:id="@+id/buttonSend"
+            android:text="Enviar QR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CustomButtonLightStyle" />
+
     </LinearLayout>
 </FrameLayout>

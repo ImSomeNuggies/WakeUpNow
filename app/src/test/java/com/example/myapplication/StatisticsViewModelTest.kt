@@ -18,6 +18,7 @@ class StatisticsViewModelTest {
     private lateinit var repository: AlarmStatsRepository
     private lateinit var viewModel: StatisticsViewModel
 
+
     @Before
     fun setup() {
         repository = mock(AlarmStatsRepository::class.java)

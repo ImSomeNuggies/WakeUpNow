@@ -43,6 +43,7 @@ class QrGeneratorActivity : ComponentActivity() {
         // Reference to the Buttons
         val buttonQR: Button = findViewById(R.id.buttonGenerate)
         val buttonDownload: Button = findViewById(R.id.buttonDownload)
+        val buttonSend: Button = findViewById(R.id.buttonSend)
 
 
         // Set a click listener on the button
@@ -55,6 +56,12 @@ class QrGeneratorActivity : ComponentActivity() {
         buttonDownload.setOnClickListener {
             qrBitmap?.let { bitmap ->
                 viewModel.saveBitmapToGallery(bitmap,this);
+            } ?: Toast.makeText(this, "QR no generado aún", Toast.LENGTH_SHORT).show()
+        }
+
+        buttonSend.setOnClickListener {
+            qrBitmap?.let { bitmap ->
+                viewModel.sendEmailWithSmtp(bitmap,this, "miguellasaosaisac@gmail.com","QR - ALARMA", "Qr Alarma");
             } ?: Toast.makeText(this, "QR no generado aún", Toast.LENGTH_SHORT).show()
         }
     }
