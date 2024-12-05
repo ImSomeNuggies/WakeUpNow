@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -61,7 +62,17 @@ class QrGeneratorActivity : ComponentActivity() {
 
         buttonSend.setOnClickListener {
             qrBitmap?.let { bitmap ->
-                viewModel.sendEmailWithSmtp(bitmap,this, "miguellasaosaisac@gmail.com","QR - ALARMA", "Qr Alarma");
+                val emailInput = findViewById<EditText>(R.id.emailInput)
+                val email = emailInput.text.toString()
+
+                // Validar el correo electrónico antes de usarlo
+                if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    viewModel.sendEmailWithSmtp(bitmap,this, email,"QR - ALARMA", "Qr Alarma");
+                } else {
+                    Toast.makeText(this, "Correo electrónico no válido", Toast.LENGTH_SHORT).show()
+                }
+
+
             } ?: Toast.makeText(this, "QR no generado aún", Toast.LENGTH_SHORT).show()
         }
     }

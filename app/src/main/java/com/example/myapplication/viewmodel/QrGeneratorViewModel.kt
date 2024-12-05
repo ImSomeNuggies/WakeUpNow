@@ -84,7 +84,8 @@ class QrGeneratorViewModel (application: Application) : AndroidViewModel(applica
                     subject = subject,
                     message = message,
                     emailFrom = "wakemeupnowunizar@gmail.com",
-                    password = "qjmi oobs bbql lpbj"
+                    password = "qjmi oobs bbql lpbj",
+                    attachmentPath = file.absolutePath // Ruta del archivo temporal
                 )
                 javaMailAPI.execute()
                 Toast.makeText(context, "Correo enviado", Toast.LENGTH_SHORT).show()
