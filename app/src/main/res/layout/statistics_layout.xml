@@ -87,7 +87,7 @@
         android:fillViewport="true"
         android:layout_marginTop="16dp">
 
-        <com.example.myapplication.BarChartView
+        <com.example.myapplication.view.BarChartView
             android:id="@+id/barChartView"
             android:layout_width="1000dp"
             android:layout_height="300dp" />

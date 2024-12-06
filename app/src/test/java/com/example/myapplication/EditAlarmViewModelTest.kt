@@ -121,7 +121,8 @@ class EditAlarmViewModelTest {
         viewModel.loadAlarm(1)
         viewModel.deleteAlarm()
 
-        verify(editor).putString(eq("alarms_list"), anyString())
-        verify(editor).apply()
+        // Verifica que `putString` se haya llamado dos veces
+        verify(editor, times(2)).putString(eq("alarms_list"), anyString())
+        verify(editor, times(2)).apply()
     }
 }
