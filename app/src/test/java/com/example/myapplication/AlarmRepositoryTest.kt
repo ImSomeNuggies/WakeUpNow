@@ -1,33 +1,47 @@
 package com.example.myapplication
 
+import android.content.SharedPreferences
 import com.example.myapplication.model.Alarm
 import com.example.myapplication.repository.AlarmPreferences
 import com.example.myapplication.repository.AlarmRepository
+import com.google.gson.Gson
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
+
 import java.util.Calendar
 
 /**
  * Unit tests for the AlarmRepository class.
- * These tests mock the AlarmPreferences class to ensure that AlarmRepository
- * interacts with AlarmPreferences correctly and performs the expected actions.
+ * These tests mock SharedPreferences to ensure that AlarmPreferences
+ * interacts with SharedPreferences correctly and performs the expected actions.
  */
 class AlarmRepositoryTest {
 
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
     private lateinit var alarmPreferences: AlarmPreferences
     private lateinit var alarmRepository: AlarmRepository
+    private val gson = Gson()
 
     /**
-     * Sets up the test environment by initializing the mocks and creating
-     * an instance of AlarmRepository with the mocked AlarmPreferences.
+     * Sets up the test environment by initializing mocks and creating
+     * instances of AlarmPreferences and AlarmRepository with the mocked SharedPreferences.
      */
     @Before
     fun setUp() {
-        //MockitoAnnotations.initMocks(this)
-        alarmPreferences = mock(AlarmPreferences::class.java)
-        //alarmRepository = AlarmRepository(alarmPreferences)
+        // Mock SharedPreferences and its editor
+        sharedPreferences = mock(SharedPreferences::class.java)
+        editor = mock(SharedPreferences.Editor::class.java)
+
+        // Configure mock behavior
+        `when`(sharedPreferences.edit()).thenReturn(editor)
+        `when`(editor.putString(anyString(), anyString())).thenReturn(editor)
+
+        // Initialize AlarmPreferences with the mocked SharedPreferences
+        alarmPreferences = AlarmPreferences(sharedPreferences)
+        // Initialize AlarmRepository with AlarmPreferences
+        alarmRepository = AlarmRepository(alarmPreferences)
     }
 
     /**
@@ -38,15 +52,33 @@ class AlarmRepositoryTest {
     @Test
     fun testGetAlarms() {
         val mockAlarms = mutableListOf(
-            Alarm(1, "07:00", "", "Una vez", "Problema corto",true, Calendar.getInstance()),
-            Alarm(2, "18:00", "Siesta", "Diaria", "Problema corto",false, Calendar.getInstance())
+            Alarm(1, "07:00", "", "Una vez", "Problema corto", true, Calendar.getInstance()),
+            Alarm(2, "18:00", "Siesta", "Diaria", "Problema corto", false, Calendar.getInstance())
         )
 
-        `when`(alarmPreferences.loadAlarms()).thenReturn(mockAlarms)
+        // Mock the stored JSON list of alarms
+        val alarmsJson = gson.toJson(mockAlarms)
+        `when`(sharedPreferences.getString("alarms_list", null)).thenReturn(alarmsJson)
+
         val alarms = alarmRepository.getAlarms()
 
-        assert(alarms == mockAlarms)
-        verify(alarmPreferences).loadAlarms()
+        // Verify size
+        assert(alarms.size == mockAlarms.size)
+
+        // Compare each field of the alarms
+        for (i in alarms.indices) {
+            val mockAlarm = mockAlarms[i]
+            val alarm = alarms[i]
+
+            assert(alarm != null)
+            assert(alarm?.id == mockAlarm.id)
+            assert(alarm?.time == mockAlarm.time)
+            assert(alarm?.name == mockAlarm.name)
+            assert(alarm?.periodicity == mockAlarm.periodicity)
+            assert(alarm?.problem == mockAlarm.problem)
+            assert(alarm?.isActive == mockAlarm.isActive)
+        }
+        verify(sharedPreferences).getString("alarms_list", null)
     }
 
     /**
@@ -56,10 +88,12 @@ class AlarmRepositoryTest {
      */
     @Test
     fun testSaveAlarm() {
-        val newAlarm = Alarm(3, "10:00", "", "Domingo", "Problema corto",true, Calendar.getInstance())
+        val newAlarm = Alarm(3, "10:00", "", "Domingo", "Problema corto", true, Calendar.getInstance())
         alarmRepository.saveAlarm(newAlarm)
 
-        verify(alarmPreferences).saveAlarm(newAlarm)
+        // Verify that the alarm list was saved in SharedPreferences
+        verify(editor).putString(eq("alarms_list"), anyString())
+        verify(editor).apply()
     }
 
     /**
@@ -69,13 +103,22 @@ class AlarmRepositoryTest {
     */
     @Test
     fun testGetAlarmById_found() {
-        val mockAlarm = Alarm(1, "07:00", "Morning Alarm", "Diaria", "Problema corto",true, Calendar.getInstance())
-        `when`(alarmPreferences.getAlarmById(1)).thenReturn(mockAlarm)
+        val mockAlarm = Alarm(1, "07:00", "Morning Alarm", "Diaria", "Problema corto", true, Calendar.getInstance())
+        val alarmsJson = gson.toJson(listOf(mockAlarm))
+        `when`(sharedPreferences.getString("alarms_list", null)).thenReturn(alarmsJson)
 
         val alarm = alarmRepository.getAlarmById(1)
 
-        assert(alarm == mockAlarm)
-        verify(alarmPreferences).getAlarmById(1)
+        // Verificar cada propiedad en lugar de comparar referencias
+        assert(alarm != null)
+        assert(alarm?.id == mockAlarm.id)
+        assert(alarm?.time == mockAlarm.time)
+        assert(alarm?.name == mockAlarm.name)
+        assert(alarm?.periodicity == mockAlarm.periodicity)
+        assert(alarm?.problem == mockAlarm.problem)
+        assert(alarm?.isActive == mockAlarm.isActive)
+
+        verify(sharedPreferences).getString("alarms_list", null)
     }
 
     /**
@@ -85,14 +128,13 @@ class AlarmRepositoryTest {
     */
     @Test
     fun testGetAlarmById_notFound() {
-        `when`(alarmPreferences.getAlarmById(999)).thenReturn(null)
+        `when`(sharedPreferences.getString("alarms_list", null)).thenReturn(null)
 
         val alarm = alarmRepository.getAlarmById(999)
 
         assert(alarm == null)
-        verify(alarmPreferences).getAlarmById(999)
+        verify(sharedPreferences).getString("alarms_list", null)
     }
-
 
     /**
      * Test for the editAlarm() method in AlarmRepository.
@@ -101,10 +143,16 @@ class AlarmRepositoryTest {
      */
     @Test
     fun testEditAlarm() {
-        val editedAlarm = Alarm(2, "09:00", "Updated Alarm", "Lunes", "Problema corto",false, Calendar.getInstance())
+        val originalAlarm = Alarm(2, "09:00", "Original Alarm", "Lunes", "Problema corto", false, Calendar.getInstance())
+        val alarmsJson = gson.toJson(listOf(originalAlarm))
+        `when`(sharedPreferences.getString("alarms_list", null)).thenReturn(alarmsJson)
+
+        val editedAlarm = originalAlarm.copy(name = "Updated Alarm")
         alarmRepository.editAlarm(editedAlarm)
 
-        verify(alarmPreferences).editAlarm(editedAlarm)
+        // Verify that the updated alarm list was saved in SharedPreferences
+        verify(editor).putString(eq("alarms_list"), anyString())
+        verify(editor).apply()
     }
 
     /**
@@ -114,9 +162,15 @@ class AlarmRepositoryTest {
      */
     @Test
     fun testDeleteAlarm() {
+        val alarmToDelete = Alarm(2, "09:00", "Alarm to Delete", "Lunes", "Problema corto", false, Calendar.getInstance())
+        val alarmsJson = gson.toJson(listOf(alarmToDelete))
+        `when`(sharedPreferences.getString("alarms_list", null)).thenReturn(alarmsJson)
+
         alarmRepository.deleteAlarm(2)
 
-        verify(alarmPreferences).deleteAlarm(2)
+        // Verify that the updated alarm list was saved in SharedPreferences
+        verify(editor).putString(eq("alarms_list"), anyString())
+        verify(editor).apply()
     }
 
     /**
@@ -126,14 +180,17 @@ class AlarmRepositoryTest {
      */
     @Test
     fun testGetNewAlarmId() {
-        `when`(alarmPreferences.loadAlarms()).thenReturn(mutableListOf(
-            Alarm(1, "07:00", "", "Una vez", "Problema corto",true, Calendar.getInstance()),
-            Alarm(2, "18:00", "Siesta", "Diaria", "Problema corto",false, Calendar.getInstance())
-        ))
+        val mockAlarms = listOf(
+            Alarm(1, "07:00", "", "Una vez", "Problema corto", true, Calendar.getInstance()),
+            Alarm(4, "18:00", "Siesta", "Diaria", "Problema corto", false, Calendar.getInstance())
+        )
+        val alarmsJson = gson.toJson(mockAlarms)
+        `when`(sharedPreferences.getString("alarms_list", null)).thenReturn(alarmsJson)
 
         val newAlarmId = alarmRepository.getNewAlarmId()
 
-        assert(newAlarmId == 3)
-        verify(alarmPreferences).loadAlarms()
+        // Verificar que el nuevo ID es el esperado
+        assert(newAlarmId == 5)
+        verify(sharedPreferences).getString("alarms_list", null)
     }
 }

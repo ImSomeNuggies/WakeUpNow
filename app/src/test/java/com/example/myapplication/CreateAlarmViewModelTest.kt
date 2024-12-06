@@ -1,51 +1,63 @@
 package com.example.myapplication
 
+import android.content.SharedPreferences
+import com.example.myapplication.model.Alarm
+import com.example.myapplication.repository.AlarmPreferences
 import com.example.myapplication.repository.AlarmRepository
 import com.example.myapplication.viewmodel.CreateAlarmViewModel
-import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Test
-import org.junit.Rule
-import org.junit.rules.ExpectedException
-import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations
-import java.util.Calendar
+import java.util.*
 
 class CreateAlarmViewModelTest {
 
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
+    private lateinit var alarmPreferences: AlarmPreferences
+    private lateinit var alarmRepository: AlarmRepository
     private lateinit var viewModel: CreateAlarmViewModel
-
-    @Mock
-    private lateinit var repository: AlarmRepository
-
-//    @get:Rule
-//    val exceptionRule: ExpectedException = ExpectedException.none()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.openMocks(this)
-        viewModel = CreateAlarmViewModel(repository)
+        // Mock SharedPreferences y Editor
+        sharedPreferences = mock(SharedPreferences::class.java)
+        editor = mock(SharedPreferences.Editor::class.java)
+
+        // Configurar comportamiento de los mocks
+        `when`(sharedPreferences.edit()).thenReturn(editor)
+        `when`(editor.putString(anyString(), anyString())).thenReturn(editor)
+
+        // Inicializar AlarmPreferences y AlarmRepository con SharedPreferences mockeadas
+        alarmPreferences = AlarmPreferences(sharedPreferences)
+        alarmRepository = AlarmRepository(alarmPreferences)
+
+        // Inicializar ViewModel con AlarmRepository
+        viewModel = CreateAlarmViewModel(alarmRepository)
     }
 
     @Test
     fun `saveAlarm should create and save a new alarm with correct properties`() {
-        // Set up the necessary data
+        // Configurar datos necesarios
         viewModel.selectedTime = "08:30"
         viewModel.selectedPeriodicity = "Diaria"
-        `when`(repository.getNewAlarmId()).thenReturn(1)
+        viewModel.selectedProblem = "Sudoku"
 
-        // Call saveAlarm and capture the result
+        // Configurar mock para generar un nuevo ID de alarma
+        `when`(sharedPreferences.getString("alarms_list", null)).thenReturn("[]")
+
+        // Llamar al método saveAlarm y capturar el resultado
         val result = viewModel.saveAlarm("Morning Alarm")
 
-        // Verify that the alarm was created with the correct properties
+        // Verificar que la alarma fue creada con las propiedades correctas
         assert(result.id == 1)
         assert(result.time == "08:30")
         assert(result.name == "Morning Alarm")
         assert(result.periodicity == "Diaria")
+        assert(result.problem == "Sudoku")
         assert(result.isActive)
-        
-        // Verify that ringTime was set correctly
+
+        // Verificar que ringTime fue configurado correctamente
         val expectedTime = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 8)
             set(Calendar.MINUTE, 30)
@@ -54,7 +66,8 @@ class CreateAlarmViewModelTest {
         }
         assert(result.ringTime.timeInMillis == expectedTime.timeInMillis)
 
-        // Verify that saveAlarm was called on the repository with the correct alarm
-        verify(repository).saveAlarm(result)
+        // Verificar que saveAlarm fue llamado en el repositorio
+        verify(editor).putString(eq("alarms_list"), anyString())
+        verify(editor).apply()
     }
 }

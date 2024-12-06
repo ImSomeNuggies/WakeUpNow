@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.myapplication.R
 import com.example.myapplication.viewmodel.SudokuSoundingViewModel
-import com.example.myapplication.viewmodel.SudokuSoundingViewModelFactory
+import com.example.myapplication.viewmodel.factory.SudokuSoundingViewModelFactory
 import com.example.myapplication.viewmodel.AlarmReceiver
 
 class SudokuSoundingActivity : AppCompatActivity() {

@@ -6,11 +6,12 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
+import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 import com.example.myapplication.viewmodel.StatisticsViewModel
-import com.example.myapplication.viewmodel.StatisticsViewModelFactory
+import com.example.myapplication.viewmodel.factory.StatisticsViewModelFactory
 import com.example.myapplication.repository.AlarmStatsRepository
 
 class StatisticsActivity : ComponentActivity() {
@@ -22,7 +23,8 @@ class StatisticsActivity : ComponentActivity() {
         setContentView(R.layout.statistics_layout)
 
         // Initialize the repository and ViewModel with the factory
-        val alarmStatsRepository = AlarmStatsRepository(this)
+        val sharedPreferences = getSharedPreferences("alarms", Context.MODE_PRIVATE)
+        val alarmStatsRepository = AlarmStatsRepository(sharedPreferences)
         val viewModelFactory = StatisticsViewModelFactory(alarmStatsRepository)
         viewModel = ViewModelProvider(this, viewModelFactory)[StatisticsViewModel::class.java]
 

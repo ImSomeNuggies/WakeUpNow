@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 import com.example.myapplication.viewmodel.AlarmSoundingViewModel
-import com.example.myapplication.viewmodel.AlarmSoundingViewModelFactory
+import com.example.myapplication.viewmodel.factory.AlarmSoundingViewModelFactory
 import com.example.myapplication.viewmodel.AlarmReceiver
 
 class AlarmSoundingActivity : AppCompatActivity() {

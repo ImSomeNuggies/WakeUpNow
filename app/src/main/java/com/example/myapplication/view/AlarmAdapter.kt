@@ -7,6 +7,7 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.LinearLayout
 import android.content.Intent
+import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.model.Alarm
@@ -78,7 +79,8 @@ class AlarmAdapter(private val alarmList: List<Alarm>) : RecyclerView.Adapter<Al
          // Set a listener for the switch toggle to activate or deactivate the alarm
         holder.switchToggle.setOnCheckedChangeListener { _, isChecked ->
             alarm.isActive = isChecked
-            val alarmPreferences = AlarmPreferences(holder.itemView.context)
+            val sharedPreferences = holder.itemView.context.getSharedPreferences("alarms", Context.MODE_PRIVATE)
+            val alarmPreferences = AlarmPreferences(sharedPreferences)
             alarmPreferences.editAlarm(alarm)
 
             // Initialize alarmScheduler if it hasn't been already

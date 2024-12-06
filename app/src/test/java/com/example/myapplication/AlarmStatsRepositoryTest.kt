@@ -15,23 +15,20 @@ class AlarmStatsRepositoryTest {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var alarmStatsRepository: AlarmStatsRepository
-    private lateinit var context: Context
     private val gson = Gson()
 
     @Before
     fun setup() {
-        // Mock the context and SharedPreferences
-        context = mock(Context::class.java)
+        // Mock SharedPreferences and its editor
         sharedPreferences = mock(SharedPreferences::class.java)
         editor = mock(SharedPreferences.Editor::class.java)
 
-        // Configure behavior for SharedPreferences and its editor
-        `when`(context.getSharedPreferences("AlarmStats", Context.MODE_PRIVATE)).thenReturn(sharedPreferences)
+        // Configure mock behavior for SharedPreferences and editor
         `when`(sharedPreferences.edit()).thenReturn(editor)
         `when`(editor.putString(anyString(), anyString())).thenReturn(editor)
 
-        // Initialize the repository with the mocked context
-        alarmStatsRepository = AlarmStatsRepository(context)
+        // Initialize AlarmStatsRepository with mocked SharedPreferences
+        alarmStatsRepository = AlarmStatsRepository(sharedPreferences)
     }
 
     @Test
@@ -151,8 +148,6 @@ class AlarmStatsRepositoryTest {
 
         val result = alarmStatsRepository.getMaxErrorsInRange(7, 10)
 
-        assertEquals(5, result) // Maximum is 5 errors
+        assertEquals(5.0f, result) // Maximum is 5 errors
     }
-
-
 }

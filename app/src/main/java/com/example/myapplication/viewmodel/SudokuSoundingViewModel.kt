@@ -1,6 +1,8 @@
 package com.example.myapplication.viewmodel
 
 import android.app.Application
+import android.content.SharedPreferences
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +22,9 @@ class SudokuSoundingViewModel(application: Application) : AndroidViewModel(appli
     private val _shouldFinish = MutableLiveData<Boolean>()
     val shouldFinish: LiveData<Boolean> get() = _shouldFinish
 
-    private val statsRepository = AlarmStatsRepository(application)
+    private val sharedPreferences: SharedPreferences = 
+        application.getSharedPreferences("alarm_statistics", Context.MODE_PRIVATE)
+    private val statsRepository = AlarmStatsRepository(sharedPreferences)
     private var startTime: Long = System.currentTimeMillis()
     private var failures: Int = 0
 

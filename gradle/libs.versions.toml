@@ -30,7 +30,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version = "1.2.1" }
-mockito-core = { group = "org.mockito", name = "mockito-core", version = "4.0.0" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version = "4.11.0" }
 mockito-inline = { group = "org.mockito", name = "mockito-inline", version = "4.11.0" }
 androidx-espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoIntents" }
 androidx-games-text-input = { group = "androidx.games", name = "games-text-input", version.ref = "gamesTextInput" }

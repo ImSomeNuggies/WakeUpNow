@@ -22,7 +22,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import com.example.myapplication.viewmodel.QrGeneratorViewModel
-import com.example.myapplication.viewmodel.QrGeneratorViewModelFactory
+import com.example.myapplication.viewmodel.factory.QrGeneratorViewModelFactory
 
 
 class QrGeneratorActivity : ComponentActivity() {

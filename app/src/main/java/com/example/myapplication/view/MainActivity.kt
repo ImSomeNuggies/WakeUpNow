@@ -1,4 +1,5 @@
 package com.example.myapplication.view
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -43,7 +44,8 @@ class MainActivity : ComponentActivity() {
 
         alarmPermissionHelper = AlarmPermissionHelper(this, requestNotificationPermissionLauncher)
         alarmScheduler = AlarmScheduler(this)
-        alarmPreferences = AlarmPreferences(this)
+        val sharedPreferences = getSharedPreferences("alarms", MODE_PRIVATE)
+        alarmPreferences = AlarmPreferences(sharedPreferences)
         alarmRepository = AlarmRepository(alarmPreferences)
 
         alarmPermissionHelper.checkNotificationPermission()

@@ -35,8 +35,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         alarmScheduler = AlarmScheduler(context)
-        alarmPreferences = AlarmPreferences(context)
-
+        val sharedPreferences = context.getSharedPreferences("alarms", Context.MODE_PRIVATE)
+        alarmPreferences = AlarmPreferences(sharedPreferences)
 
         val alarmName = intent.getStringExtra("alarm_name")?: "noName"
 
@@ -73,7 +73,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     it.isActive = false
 
                     if (!::alarmPreferences.isInitialized) {
-                        alarmPreferences = AlarmPreferences(context)
+                        alarmPreferences = AlarmPreferences(sharedPreferences)
                     }
 
                     // Ensure alarmScheduler is initialized

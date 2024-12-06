@@ -2,12 +2,13 @@ package com.example.myapplication.view
 
 import android.widget.TimePicker
 import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.widget.*
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.viewmodel.EditAlarmViewModel
-import com.example.myapplication.viewmodel.EditAlarmViewModelFactory
+import com.example.myapplication.viewmodel.factory.EditAlarmViewModelFactory
 import com.example.myapplication.R
 import com.example.myapplication.repository.AlarmPreferences
 import java.util.*
@@ -22,7 +23,8 @@ class EditAlarmActivity : ComponentActivity() {
         setContentView(R.layout.edit_alarm_layout)
 
         // Inicializa el ViewModel
-        val alarmPreferences = AlarmPreferences(this)
+        val sharedPreferences = getSharedPreferences("alarms", Context.MODE_PRIVATE)
+        val alarmPreferences = AlarmPreferences(sharedPreferences)
         viewModel = ViewModelProvider(this, EditAlarmViewModelFactory(alarmPreferences)).get(
             EditAlarmViewModel::class.java)
 
