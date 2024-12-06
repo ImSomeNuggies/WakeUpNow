@@ -19,8 +19,8 @@ class StatisticsViewModel(private val repository: AlarmStatsRepository) : ViewMo
     private val _minTimeToTurnOff = MutableLiveData<Double>()
     val minTimeToTurnOff: LiveData<Double> get() = _minTimeToTurnOff
 
-    private val _maxErrors = MutableLiveData<Float>()
-    val maxErrors: LiveData<Float> get() = _maxErrors
+    private val _maxErrors = MutableLiveData<Int>()
+    val maxErrors: LiveData<Int> get() = _maxErrors
 
     // Hourly range data for each graph type
     private val _averageHourlyResponseTimeData = MutableLiveData<Map<String, Float>>()
@@ -49,7 +49,7 @@ class StatisticsViewModel(private val repository: AlarmStatsRepository) : ViewMo
         _averageTimeToTurnOff.value = roundTwoDecimalsDouble(repository.getAverageTimeInRange(startHour, endHour))
         _maxTimeToTurnOff.value = roundTwoDecimalsDouble(repository.getMaxTimeInRange(startHour, endHour))
         _minTimeToTurnOff.value = roundTwoDecimalsDouble(repository.getMinTimeInRange(startHour, endHour))
-        _maxErrors.value = repository.getMaxErrorsInRange(startHour, endHour)
+        _maxErrors.value = repository.getMaxErrorsInRange(startHour, endHour).toInt()
     }
 
     // Calculate statistics for predefined hourly ranges

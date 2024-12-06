@@ -40,6 +40,7 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
     init {
         _currentTime.value = getCurrentTime()
         _shouldFinish.value = false
+        _problema.value = crearProblemaAleatorio()
     }
 
     fun setAlarmName(name: String?) {
@@ -73,6 +74,9 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
         } else {
             failures++
             _errorMessage.value = "Respuesta incorrecta. Inténtalo de nuevo."
+
+            // Si el usuario falla se le da otro problema aleatorio
+            _problema.value = crearProblemaAleatorio()
         }
     }
 

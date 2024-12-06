@@ -47,20 +47,43 @@ class AlarmSoundingActivity : AppCompatActivity() {
         textViewHoraActual.text = currentTime
 
         // Generar y mostrar un problema aleatorio
-        val problema = viewModel.crearProblemaAleatorio()
-
-        // Mostrar el problema en la UI
-        problemaTextView.text = problema.enunciado
-        opcion1Button.text = problema.opciones[0]
-        opcion2Button.text = problema.opciones[1]
-        opcion3Button.text = problema.opciones[2]
-        opcion4Button.text = problema.opciones[3]
+        viewModel.problema.observe(this) { problema ->
+            problema?.let {
+                problemaTextView.text = it.enunciado
+                opcion1Button.text = it.opciones[0]
+                opcion2Button.text = it.opciones[1]
+                opcion3Button.text = it.opciones[2]
+                opcion4Button.text = it.opciones[3]
+            }
+        }
 
         // Asignar las acciones de los botones
-        opcion1Button.setOnClickListener { viewModel.verificarRespuesta(problema.opciones[0], problema.respuestaCorrecta) }
-        opcion2Button.setOnClickListener { viewModel.verificarRespuesta(problema.opciones[1], problema.respuestaCorrecta) }
-        opcion3Button.setOnClickListener { viewModel.verificarRespuesta(problema.opciones[2], problema.respuestaCorrecta) }
-        opcion4Button.setOnClickListener { viewModel.verificarRespuesta(problema.opciones[3], problema.respuestaCorrecta) }
+        // Asignar las acciones de los botones
+        opcion1Button.setOnClickListener {
+            val problemaActual = viewModel.problema.value
+            if (problemaActual != null) {
+                viewModel.verificarRespuesta(problemaActual.opciones[0], problemaActual.respuestaCorrecta)
+            }
+        }
+        opcion2Button.setOnClickListener {
+            val problemaActual = viewModel.problema.value
+            if (problemaActual != null) {
+                viewModel.verificarRespuesta(problemaActual.opciones[1], problemaActual.respuestaCorrecta)
+            }
+        }
+        opcion3Button.setOnClickListener {
+            val problemaActual = viewModel.problema.value
+            if (problemaActual != null) {
+                viewModel.verificarRespuesta(problemaActual.opciones[2], problemaActual.respuestaCorrecta)
+            }
+        }
+        opcion4Button.setOnClickListener {
+            val problemaActual = viewModel.problema.value
+            if (problemaActual != null) {
+                viewModel.verificarRespuesta(problemaActual.opciones[3], problemaActual.respuestaCorrecta)
+            }
+        }
+
 
         // Observa shouldFinish para detener la alarma y cerrar la actividad
         viewModel.shouldFinish.observe(this) { shouldFinish ->

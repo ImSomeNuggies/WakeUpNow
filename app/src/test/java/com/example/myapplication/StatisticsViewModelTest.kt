@@ -62,7 +62,7 @@ class StatisticsViewModelTest {
         assertEquals(9.0, averageTime, 0.001) // Promedio
         assertEquals(12.0, maxTime, 0.001) // Máximo
         assertEquals(6.0, minTime, 0.001) // Mínimo
-        assertEquals(2f, maxErrors) // Máximo errores
+        assertEquals(2, maxErrors) // Máximo errores
     }
 
     @Test
