@@ -32,7 +32,13 @@ class EditAlarmViewModel(private val alarmPreferences: AlarmPreferences) : ViewM
     }
 
     fun deleteAlarm() {
+
         alarm?.let {
+            it.isActive = false
+            //Edición necesaria para que no se active tras borrarse
+            alarmPreferences.editAlarm(it)
+            //Al no estar activa y borrarse del preferences, esta no podra recibir un shcedule
+            // por lo que no sonará y desaparecera toda su info al reiniciar la app
             alarmPreferences.deleteAlarm(it.id)
         }
     }
