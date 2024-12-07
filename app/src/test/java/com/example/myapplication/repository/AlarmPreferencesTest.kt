@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.repository
 
 import android.content.SharedPreferences
 import com.example.myapplication.model.Alarm

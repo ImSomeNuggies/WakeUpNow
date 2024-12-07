@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.viewModel
 
 import android.content.SharedPreferences
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
