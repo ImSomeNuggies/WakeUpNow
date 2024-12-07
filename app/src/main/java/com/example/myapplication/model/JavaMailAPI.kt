@@ -1,3 +1,5 @@
+package com.example.myapplication.model
+
 import android.os.AsyncTask
 import java.io.File
 import java.util.*

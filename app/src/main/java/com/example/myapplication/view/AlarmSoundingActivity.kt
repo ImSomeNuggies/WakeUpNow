@@ -1,11 +1,13 @@
 package com.example.myapplication.view
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
+import com.example.myapplication.repository.AlarmStatsRepository
 import com.example.myapplication.viewmodel.AlarmSoundingViewModel
 import com.example.myapplication.viewmodel.factory.AlarmSoundingViewModelFactory
 import com.example.myapplication.viewmodel.AlarmReceiver
@@ -22,7 +24,11 @@ class AlarmSoundingActivity : AppCompatActivity() {
     private lateinit var textViewHoraActual: TextView
 
     // Usamos el ViewModel con un ViewModelFactory
-    private val viewModel: AlarmSoundingViewModel by viewModels { AlarmSoundingViewModelFactory(application) }
+    private val viewModel: AlarmSoundingViewModel by viewModels {
+        val sharedPreferences = getSharedPreferences("alarm_statistics", Context.MODE_PRIVATE)
+        val statsRepository = AlarmStatsRepository(sharedPreferences)
+        AlarmSoundingViewModelFactory(statsRepository) // Pasamos el repositorio aquí
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +52,7 @@ class AlarmSoundingActivity : AppCompatActivity() {
         val currentTime = viewModel.getCurrentTime()
         textViewHoraActual.text = currentTime
 
-        // Generar y mostrar un problema aleatorio
+        // Observa el problema actual y actualiza la UI
         viewModel.problema.observe(this) { problema ->
             problema?.let {
                 problemaTextView.text = it.enunciado
@@ -57,7 +63,6 @@ class AlarmSoundingActivity : AppCompatActivity() {
             }
         }
 
-        // Asignar las acciones de los botones
         // Asignar las acciones de los botones
         opcion1Button.setOnClickListener {
             val problemaActual = viewModel.problema.value
@@ -83,7 +88,6 @@ class AlarmSoundingActivity : AppCompatActivity() {
                 viewModel.verificarRespuesta(problemaActual.opciones[3], problemaActual.respuestaCorrecta)
             }
         }
-
 
         // Observa shouldFinish para detener la alarma y cerrar la actividad
         viewModel.shouldFinish.observe(this) { shouldFinish ->

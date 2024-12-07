@@ -1,6 +1,6 @@
 package com.example.myapplication.viewmodel
 
-import JavaMailAPI
+import com.example.myapplication.model.JavaMailAPI
 import android.app.Application
 import android.content.ContentValues
 import android.content.Context

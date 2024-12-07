@@ -1,20 +1,23 @@
 package com.example.myapplication.viewmodel
 
-import android.app.Application
-import android.content.SharedPreferences
-import android.content.Context
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.myapplication.model.Problema
 import com.example.myapplication.repository.AlarmStatsRepository
 import com.example.myapplication.model.AlarmStatistic
 import kotlin.random.Random
-import kotlin.math.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AlarmSoundingViewModel(application: Application) : AndroidViewModel(application) {
+class AlarmSoundingViewModel(
+    private val statsRepository: AlarmStatsRepository,
+    private val timeProvider: () -> Long = { System.currentTimeMillis() },
+    private val dateFormatter: () -> String = {
+        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        dateFormat.format(Date())
+    }
+) : ViewModel() {
 
     private val _alarmName = MutableLiveData<String>()
     val alarmName: LiveData<String> get() = _alarmName
@@ -31,10 +34,7 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
     private val _shouldFinish = MutableLiveData<Boolean>()
     val shouldFinish: LiveData<Boolean> get() = _shouldFinish
 
-    private val sharedPreferences: SharedPreferences = 
-        application.getSharedPreferences("alarm_statistics", Context.MODE_PRIVATE)
-    private val statsRepository = AlarmStatsRepository(sharedPreferences)
-    private var startTime: Long = System.currentTimeMillis()
+    private var startTime: Long = timeProvider()
     private var failures: Int = 0
 
     init {
@@ -47,44 +47,34 @@ class AlarmSoundingViewModel(application: Application) : AndroidViewModel(applic
         _alarmName.value = name ?: ""
     }
 
-    // Método para obtener la hora actual
     fun getCurrentTime(): String {
-        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val date = Date()
-        return dateFormat.format(date)
+        return dateFormatter()
     }
 
-    // Verificar si la respuesta seleccionada es correcta
     fun verificarRespuesta(respuestaSeleccionada: String, respuestaCorrecta: String) {
         if (respuestaSeleccionada == respuestaCorrecta) {
-            val currentTime = System.currentTimeMillis()
+            val currentTime = timeProvider()
             val timeToTurnOff = currentTime - startTime
 
-            // Crear una nueva estadística y guardarla
             val alarmStatistic = AlarmStatistic(
-                id = System.currentTimeMillis().toString(),
+                id = timeProvider().toString(),
                 alarmSetTime = _currentTime.value ?: "Unknown",
                 timeToTurnOff = timeToTurnOff,
                 failures = failures
             )
             statsRepository.saveStatistic(alarmStatistic)
 
-            // Indica a la actividad que debe cerrarse
             _shouldFinish.value = true
         } else {
             failures++
             _errorMessage.value = "Respuesta incorrecta. Inténtalo de nuevo."
-
-            // Si el usuario falla se le da otro problema aleatorio
             _problema.value = crearProblemaAleatorio()
         }
     }
 
-    // Crear un problema aleatorio: matemático, lógica matemática, o acertijo
     fun crearProblemaAleatorio(): Problema {
-        val random = Random(System.currentTimeMillis())  // O usar cualquier otra instancia de Random que prefieras
-        val problemaGenerado = Problema("Enunciado", listOf("Opción 1", "Opción 2", "Opción 3"), "Opción correcta")
-        
-        return problemaGenerado.crearProblemaAleatorio(random = random)
+        val random = Random(timeProvider())
+        return Problema("Enunciado", listOf("Opción 1", "Opción 2", "Opción 3"), "Opción correcta")
+            .crearProblemaAleatorio(random = random)
     }
 }
