@@ -11,12 +11,7 @@ class CreateAlarmViewModel(private val repository: AlarmRepository) : ViewModel(
     var selectedTime: String = ""
     var selectedPeriodicity: String = ""
     var selectedProblem: String = ""
-
-
-    /*fun setSelectedTime(time: String) {
-        selectedTime = time
-    }*/
-
+    
     fun saveAlarm(name: String): Alarm {
         val timeParts = selectedTime.split(":").map { it.toInt() }
         val hour = timeParts[0]

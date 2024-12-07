@@ -10,10 +10,7 @@ import com.google.gson.reflect.TypeToken
  * Class responsible for managing alarms in SharedPreferences.
  * Provides methods to save, load, edit, and delete alarms using JSON serialization with Gson.
  */
-class AlarmPreferences(context: Context) {
-    // SharedPreferences instance to store and retrieve alarms
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("alarms", Context.MODE_PRIVATE)
-    
+class AlarmPreferences(private val sharedPreferences: SharedPreferences) {
     // Gson instance for JSON serialization/deserialization
     private val gson = Gson()
     

@@ -59,14 +59,14 @@ class AlarmRepository(private val alarmPreferences: AlarmPreferences) {
     }
 
     /**
-     * Generates a new alarm ID based on the current number of alarms.
-     *
-     * @return A new unique alarm ID.
-     */
+    * Generates a new unique alarm ID.
+    * This method calculates the new ID by finding the maximum ID among the existing alarms
+    * and adding 1. If there are no alarms, it starts the IDs from 1.
+    *
+    * @return A new unique alarm ID, sequentially incremented based on existing alarms.
+    */
     fun getNewAlarmId(): Int {
-        return System.currentTimeMillis().toInt()
+        val alarms = getAlarms()
+        return (alarms.maxOfOrNull { it.id } ?: 0) + 1
     }
-
-
-
 }

@@ -35,6 +35,18 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
             android:contentDescription="QRcode" />
+
+        <!-- Email Input -->
+
+        <EditText
+            android:id="@+id/emailInput"
+            style="@style/CustomInputStyle"
+            android:layout_width="377dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="start|center_vertical"
+            android:hint="Ingrese su correo electrónico"
+            android:textColorHint="@color/grey" />
     </LinearLayout>
 
     <!-- Bottom buttons -->
@@ -63,6 +75,18 @@
         <Button
             android:id="@+id/buttonDownload"
             android:text="Descargar QR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CustomButtonLightStyle" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="wrap_content" />
+
+        <!-- Send QR Button -->
+        <Button
+            android:id="@+id/buttonSend"
+            android:text="Enviar QR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/CustomButtonLightStyle" />

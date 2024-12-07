@@ -16,7 +16,7 @@ import android.util.Log
 import com.example.myapplication.R
 import com.example.myapplication.repository.AlarmRepository
 import com.example.myapplication.viewmodel.CreateAlarmViewModel
-import com.example.myapplication.viewmodel.CreateAlarmViewModelFactory
+import com.example.myapplication.viewmodel.factory.CreateAlarmViewModelFactory
 
 class CreateAlarmActivity : ComponentActivity() {
 
@@ -26,7 +26,8 @@ class CreateAlarmActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_alarm_layout)
 
-        val alarmPreferences = AlarmPreferences(this)
+        val sharedPreferences = getSharedPreferences("alarms", Context.MODE_PRIVATE)
+        val alarmPreferences = AlarmPreferences(sharedPreferences)
         val repository = AlarmRepository(alarmPreferences)
         val viewModelFactory = CreateAlarmViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[CreateAlarmViewModel::class.java]

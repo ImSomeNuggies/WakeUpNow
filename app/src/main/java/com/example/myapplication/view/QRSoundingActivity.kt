@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 import com.example.myapplication.viewmodel.QRSoundingViewModel
-import com.example.myapplication.viewmodel.QRSoundingViewModelFactory
+import com.example.myapplication.viewmodel.factory.QRSoundingViewModelFactory
 import com.example.myapplication.viewmodel.AlarmReceiver
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions

@@ -8,11 +8,7 @@ import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AlarmStatsRepository(context: Context) {
-
-    private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences("AlarmStats", Context.MODE_PRIVATE)
-
+class AlarmStatsRepository(private val sharedPreferences: SharedPreferences) {
     private val gson = Gson()
 
     // Saves a new alarm statistic to the shared preferences
