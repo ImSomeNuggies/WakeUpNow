@@ -77,4 +77,21 @@ class AlarmSoundingViewModel(
         return Problema("Enunciado", listOf("Opción 1", "Opción 2", "Opción 3"), "Opción correcta")
             .crearProblemaAleatorio(random = random)
     }
+
+    // Métodos auxiliares para pruebas
+    fun setProblemaForTesting(problema: Problema) {
+        _problema.value = problema
+    }
+
+    fun setShouldFinishForTesting(value: Boolean) {
+        _shouldFinish.value = value
+    }
+
+    fun getFailures(): Int {
+        return failures
+    }
+
+    fun setStartTimeForTesting(startTime: Long) {
+        this.startTime = startTime
+    }
 }

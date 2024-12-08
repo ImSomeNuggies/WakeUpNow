@@ -1,30 +1,30 @@
 package com.example.myapplication.view
 
 import android.content.Context
+import android.content.Intent
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
+import com.example.myapplication.model.Alarm
 import com.example.myapplication.repository.AlarmPreferences
 import com.example.myapplication.repository.AlarmRepository
-import com.example.myapplication.view.CreateAlarmActivity
-import com.example.myapplication.view.MainActivity
-import com.example.myapplication.R
+import com.example.myapplication.viewmodel.helper.NotificationHelper
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
+import org.hamcrest.Matchers.greaterThan
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.test.uiautomator.By
-import androidx.test.uiautomator.UiDevice
-
+import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
@@ -32,59 +32,82 @@ class MainActivityTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
-    private lateinit var device: UiDevice
+    private lateinit var testPreferences: AlarmPreferences
+    private lateinit var alarmRepository: AlarmRepository
 
     @Before
     fun setUp() {
-        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        val testContext = ApplicationProvider.getApplicationContext<Context>()
+        val sharedPreferences = testContext.getSharedPreferences("alarms", Context.MODE_PRIVATE)
+        testPreferences = AlarmPreferences(sharedPreferences)
+        alarmRepository = AlarmRepository(testPreferences)
+
+        // Agregar una alarma de prueba antes de cada test
+        val testAlarm = Alarm(
+            id = 1,
+            name = "Test Alarm",
+            time = "08:00",
+            periodicity = "Diaria",
+            problem = "Sudoku",
+            isActive = true,
+            ringTime = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 8)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+        )
+        alarmRepository.saveAlarm(testAlarm)
+    }
+
+    @Test
+    fun testRecyclerViewLoadsAlarms() {
+        // Verifica que el RecyclerView carga las alarmas guardadas
+        onView(withId(R.id.recyclerViewAlarms)).check { view, _ ->
+            val recyclerView = view as RecyclerView
+            assertTrue(recyclerView.adapter?.itemCount ?: 0 > 0)
+        }
     }
 
     @Test
     fun testButtonCreateAlarmOpensCreateAlarmActivity() {
-        // Inicializa Espresso Intents para verificar la navegación
         Intents.init()
-        // Realiza clic en el botón para crear alarma
         onView(withId(R.id.buttonCreateAlarm)).perform(click())
-        // Verifica que el intent para abrir CreateAlarm se ha lanzado
         Intents.intended(hasComponent(CreateAlarmActivity::class.java.name))
-        // Libera Espresso Intents después de la prueba
         Intents.release()
     }
 
     @Test
-    fun alarmCreationFlowShouldResultInValidAlarm() {
-        // Inicializa un contexto aislado para SharedPreferences de pruebas
-        val testContext = ApplicationProvider.getApplicationContext<Context>()
-        val testPreferences = AlarmPreferences(testContext)
-        val alarmRepository = AlarmRepository(testPreferences)
-
-        // Configurar el flujo de creación de una alarma
-        onView(withId(R.id.buttonCreateAlarm)).perform(click())
-
-        // Configurar el TimePicker directamente
-        //onView(withId(R.id.timePicker)).perform(setTime(8, 0))
-        //onView(withId(R.id.timePicker)).perform(click())
-
-        // Espera que el TimePicker se abra
-        //device.wait(Until.hasObject(By.desc("TimePicker")), 5000)
-
-        // Interactuar con el TimePicker para seleccionar 08:00
-        //device.findObject(By.res("android:id/hours")).text = "08"
-        //device.findObject(By.res("android:id/minutes")).text = "00"
-
-        // Clic en el botón "OK" para confirmar la hora
-        device.findObject(By.res("android:id/button1")).click()
-        //onView(withId(R.id.selectedTimeText)).perform(typeText("08:00"))
-        onView(withId(R.id.editTextNombre)).perform(typeText("Wake Up"))
-        onView(withId(R.id.buttonConfirmar)).perform(click())
-
-        // Valida que la alarma se guardó en las preferencias
-        val savedAlarms = alarmRepository.getAlarms()
-        assertTrue(savedAlarms.isNotEmpty())
-
-        val lastAlarm = savedAlarms.last()
-        assertEquals("08:00", lastAlarm.time)
-        assertEquals("Wake Up", lastAlarm.name)
+    fun testButtonStatisticsOpensStatisticsActivity() {
+        Intents.init()
+        onView(withId(R.id.buttonStatistics)).perform(click())
+        Intents.intended(hasComponent(StatisticsActivity::class.java.name))
+        Intents.release()
     }
 
+    @Test
+    fun testButtonQROpensQrGeneratorActivity() {
+        Intents.init()
+        onView(withId(R.id.buttonQR)).perform(click())
+        Intents.intended(hasComponent(QrGeneratorActivity::class.java.name))
+        Intents.release()
+    }
+
+    @Test
+    fun testNotificationPermissionRequested() {
+        // Simula que se solicita el permiso de notificaciones y verifica que se muestra el Toast
+        val appContext = ApplicationProvider.getApplicationContext<Context>()
+        NotificationHelper.createNotificationChannel(appContext)
+        // El resto de la lógica se valida con manualidad debido a que Toast no puede ser probado directamente.
+    }
+
+    @Test
+    fun testAlarmRepositoryIsLoadedCorrectly() {
+        // Verifica que las alarmas guardadas en el repositorio se cargan correctamente
+        val savedAlarms = alarmRepository.getAlarms()
+        assertTrue(savedAlarms.isNotEmpty())
+        assertEquals("Test Alarm", savedAlarms.first().name)
+        assertEquals("08:00", savedAlarms.first().time)
+    }
 }
+

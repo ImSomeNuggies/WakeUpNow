@@ -24,7 +24,7 @@ class AlarmSoundingActivity : AppCompatActivity() {
     private lateinit var textViewHoraActual: TextView
 
     // Usamos el ViewModel con un ViewModelFactory
-    private val viewModel: AlarmSoundingViewModel by viewModels {
+    val viewModel: AlarmSoundingViewModel by viewModels {
         val sharedPreferences = getSharedPreferences("alarm_statistics", Context.MODE_PRIVATE)
         val statsRepository = AlarmStatsRepository(sharedPreferences)
         AlarmSoundingViewModelFactory(statsRepository) // Pasamos el repositorio aquí
