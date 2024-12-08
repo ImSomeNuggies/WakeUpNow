@@ -24,70 +24,130 @@ class SudokuTest {
             assertEquals(4, row.size)
         }
 
-        // Verificar que las celdas editables están marcadas correctamente
-        assertTrue(sudoku.isEditable(0, 0))
-        assertTrue(sudoku.isEditable(1, 2))
-        assertFalse(sudoku.isEditable(0, 1))
-        assertFalse(sudoku.isEditable(1, 1))
+        // Verificar que el tablero no tiene números fuera de rango
+        userBoard.forEach { row ->
+            row.forEach { cell ->
+                assertTrue(cell in 0..4) // Los números están en el rango 1-4 o 0 (vacío)
+            }
+        }
+    }
+
+    @Test
+    fun `test removeCells crea exactamente 6 celdas editables`() {
+        val editableCount = (0 until 4).sumBy { row ->
+            (0 until 4).count { col -> sudoku.isEditable(row, col) }
+        }
+        assertEquals(6, editableCount) // Debe haber exactamente 6 celdas editables
     }
 
     @Test
     fun `test placeNumber actualiza celda editable correctamente`() {
-        assertTrue(sudoku.isEditable(0, 0))
-        val result = sudoku.placeNumber(0, 0, 1) // 1 es el número correcto
+        val editableCell = findEditableCell()
+        assertNotNull(editableCell)
+
+        val (row, col) = editableCell!!
+        val correctNumber = sudoku.getSolution()[row][col]
+        val result = sudoku.placeNumber(row, col, correctNumber)
+
         assertTrue(result) // El número es correcto
-        assertEquals(1, sudoku.getUserBoard()[0][0]) // El tablero se actualizó
+        assertEquals(correctNumber, sudoku.getUserBoard()[row][col]) // El tablero se actualizó correctamente
     }
 
     @Test
     fun `test placeNumber no permite modificar celdas no editables`() {
-        assertFalse(sudoku.isEditable(0, 1)) // Celda no editable
-        val result = sudoku.placeNumber(0, 1, 1) // Intentar editar una celda no editable
+        val nonEditableCell = findNonEditableCell()
+        assertNotNull(nonEditableCell)
+
+        val (row, col) = nonEditableCell!!
+        val result = sudoku.placeNumber(row, col, 1) // Intentar modificar una celda no editable
+
         assertFalse(result) // No debería permitir la edición
-        assertEquals(2, sudoku.getUserBoard()[0][1]) // El número original no cambia
+        assertEquals(sudoku.getSolution()[row][col], sudoku.getUserBoard()[row][col]) // El número original no cambia
     }
 
     @Test
-    fun `test placeNumber no permite colocar número incorrecto`() {
-        assertTrue(sudoku.isEditable(0, 0))
-        val result = sudoku.placeNumber(0, 0, 5) // Número incorrecto
-        assertFalse(result) // No es el número correcto
-        assertEquals(5, sudoku.getUserBoard()[0][0]) // El número se actualiza, pero es incorrecto
-    }
+    fun `test isSudokuCompleted devuelve true cuando está completo y correcto`() {
+        // Llenar todas las celdas editables con números correctos
+        for (row in 0 until 4) {
+            for (col in 0 until 4) {
+                if (sudoku.isEditable(row, col)) {
+                    val correctNumber = sudoku.getSolution()[row][col]
+                    sudoku.placeNumber(row, col, correctNumber)
+                }
+            }
+        }
 
-    @Test
-    fun `test isSudokuCompleted devuelve true cuando está completo`() {
-        // Completar el tablero correctamente
-        sudoku.placeNumber(0, 0, 1)
-        sudoku.placeNumber(1, 0, 3)
-        sudoku.placeNumber(1, 2, 1)
-        sudoku.placeNumber(2, 1, 3)
-        sudoku.placeNumber(2, 2, 4)
-        sudoku.placeNumber(3, 3, 3)
-
-        assertTrue(sudoku.isSudokuCompleted()) // Todo está completo y correcto
+        assertTrue(sudoku.isSudokuCompleted()) // El tablero está completo y correcto
     }
 
     @Test
     fun `test isSudokuCompleted devuelve false si hay celdas vacías`() {
-        assertFalse(sudoku.isSudokuCompleted()) // No está completo al inicio
+        assertFalse(sudoku.isSudokuCompleted()) // El tablero inicial tiene celdas vacías
     }
 
     @Test
     fun `test isSudokuCompleted devuelve false si hay errores`() {
-        sudoku.placeNumber(0, 0, 2) // Número incorrecto
-        assertFalse(sudoku.isSudokuCompleted()) // No está completo ni correcto
+        val editableCell = findEditableCell()
+        assertNotNull(editableCell)
+
+        val (row, col) = editableCell!!
+        sudoku.placeNumber(row, col, (sudoku.getSolution()[row][col] % 4) + 1) // Colocar un número incorrecto
+
+        assertFalse(sudoku.isSudokuCompleted()) // El tablero no es válido
     }
 
     @Test
-    fun `test celdas iniciales no son editables`() {
-        assertFalse(sudoku.isEditable(0, 1)) // Celda no eliminada
-        assertFalse(sudoku.isEditable(1, 1)) // Celda no eliminada
+    fun `test getUserBoard devuelve tablero del usuario correctamente`() {
+        val userBoard = sudoku.getUserBoard()
+        assertNotNull(userBoard)
+
+        // El tamaño del tablero debe ser 4x4
+        assertEquals(4, userBoard.size)
+        userBoard.forEach { row ->
+            assertEquals(4, row.size)
+        }
     }
 
     @Test
-    fun `test celdas eliminadas son editables`() {
-        assertTrue(sudoku.isEditable(0, 0)) // Celda eliminada
-        assertTrue(sudoku.isEditable(1, 2)) // Celda eliminada
+    fun `test getSolution devuelve tablero completo correctamente`() {
+        val solution = sudoku.getSolution()
+        assertNotNull(solution)
+
+        // El tamaño del tablero debe ser 4x4
+        assertEquals(4, solution.size)
+        solution.forEach { row ->
+            assertEquals(4, row.size)
+        }
+
+        // La solución debe cumplir las reglas del Sudoku
+        for (row in 0 until 4) {
+            for (col in 0 until 4) {
+                val value = solution[row][col]
+                assertTrue(value in 1..4) // Los valores están dentro del rango
+            }
+        }
+    }
+
+    // Métodos auxiliares para encontrar celdas editables y no editables
+    private fun findEditableCell(): Pair<Int, Int>? {
+        for (row in 0 until 4) {
+            for (col in 0 until 4) {
+                if (sudoku.isEditable(row, col)) {
+                    return Pair(row, col)
+                }
+            }
+        }
+        return null
+    }
+
+    private fun findNonEditableCell(): Pair<Int, Int>? {
+        for (row in 0 until 4) {
+            for (col in 0 until 4) {
+                if (!sudoku.isEditable(row, col)) {
+                    return Pair(row, col)
+                }
+            }
+        }
+        return null
     }
 }

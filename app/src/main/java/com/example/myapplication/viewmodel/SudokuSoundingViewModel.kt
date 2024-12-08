@@ -1,18 +1,23 @@
 package com.example.myapplication.viewmodel
 
-import android.app.Application
-import android.content.SharedPreferences
-import android.content.Context
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.myapplication.repository.AlarmStatsRepository
 import com.example.myapplication.model.AlarmStatistic
 import com.example.myapplication.model.Sudoku
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SudokuSoundingViewModel(application: Application) : AndroidViewModel(application) {
+class SudokuSoundingViewModel(
+    private val statsRepository: AlarmStatsRepository,
+    private val timeProvider: () -> Long = { System.currentTimeMillis() },
+    private val dateFormatter: () -> String = {
+        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        dateFormat.format(Date())
+    }
+) : ViewModel() {
+
     private val _alarmName = MutableLiveData<String>()
     val alarmName: LiveData<String> get() = _alarmName
 
@@ -22,11 +27,8 @@ class SudokuSoundingViewModel(application: Application) : AndroidViewModel(appli
     private val _shouldFinish = MutableLiveData<Boolean>()
     val shouldFinish: LiveData<Boolean> get() = _shouldFinish
 
-    private val sharedPreferences: SharedPreferences = 
-        application.getSharedPreferences("alarm_statistics", Context.MODE_PRIVATE)
-    private val statsRepository = AlarmStatsRepository(sharedPreferences)
-    private var startTime: Long = System.currentTimeMillis()
-    private var failures: Int = 0
+    private var startTime: Long = timeProvider()
+    private val _failures = MutableLiveData<Int>()
 
     // Instancia del Sudoku para manejar la lógica del tablero
     private val sudoku = Sudoku()
@@ -34,6 +36,7 @@ class SudokuSoundingViewModel(application: Application) : AndroidViewModel(appli
     init {
         _currentTime.value = getCurrentTime()
         _shouldFinish.value = false
+        _failures.value = 0
         sudoku.initializeSudoku()
     }
 
@@ -43,20 +46,16 @@ class SudokuSoundingViewModel(application: Application) : AndroidViewModel(appli
 
     // Método para obtener la hora actual
     fun getCurrentTime(): String {
-        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val date = Date()
-        return dateFormat.format(date)
+        return dateFormatter()
     }
 
     // Verifica si un número puede colocarse en la celda y lo coloca si es correcto
     fun checkAndPlaceNumber(row: Int, col: Int, selectedNumber: Int): Boolean {
         val isCorrect = sudoku.placeNumber(row, col, selectedNumber)
         if (!isCorrect) {
-            failures++
-        } else {
-            if(sudoku.isSudokuCompleted()) {
-                stopAlarm()
-            }
+            _failures.value = (_failures.value ?: 0) + 1
+        } else if(sudoku.isSudokuCompleted()) {
+            _shouldFinish.value = true
         }
         return isCorrect
     }
@@ -72,19 +71,35 @@ class SudokuSoundingViewModel(application: Application) : AndroidViewModel(appli
     }
 
     fun stopAlarm() {
-        val currentTime = System.currentTimeMillis()
+        val currentTime = timeProvider()
         val timeToTurnOff = currentTime - startTime
 
         // Crear una nueva estadística y guardarla
         val alarmStatistic = AlarmStatistic(
-            id = System.currentTimeMillis().toString(),
+            id = timeProvider().toString(),
             alarmSetTime = _currentTime.value ?: "Unknown",
             timeToTurnOff = timeToTurnOff,
-            failures = failures
+            failures = _failures.value ?: 0
         )
         statsRepository.saveStatistic(alarmStatistic)
 
         // Indica a la actividad que debe cerrarse
         _shouldFinish.value = true
     }
+
+    // Método para obtener el valor de failures (solo para tests)
+    fun getFailures(): Int? {
+        return _failures.value
+    }
+
+    // Método para obtener el valor de failures (solo para tests)
+    fun getShouldFinish(): Boolean? {
+        return _shouldFinish.value
+    }
+
+    // Método para obtener la solución del Sudoku
+    fun getSolution(): Array<IntArray> {
+        return sudoku.getSolution()
+    }
+
 }

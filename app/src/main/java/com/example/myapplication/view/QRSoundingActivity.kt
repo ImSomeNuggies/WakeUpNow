@@ -1,5 +1,6 @@
 package com.example.myapplication.view
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
+import com.example.myapplication.repository.AlarmStatsRepository
 import com.example.myapplication.viewmodel.QRSoundingViewModel
 import com.example.myapplication.viewmodel.factory.QRSoundingViewModelFactory
 import com.example.myapplication.viewmodel.AlarmReceiver
@@ -15,12 +17,16 @@ import com.journeyapps.barcodescanner.ScanOptions
 
 class QRSoundingActivity : AppCompatActivity() {
 
-    lateinit var stopButton: Button
+    private lateinit var stopButton: Button
     private lateinit var textViewNombreAlarma: TextView
     private lateinit var textViewHoraActual: TextView
 
-    // Usamos el ViewModel con un ViewModelFactory
-    private val viewModel: QRSoundingViewModel by viewModels { QRSoundingViewModelFactory(application) }
+    // Crear el repositorio y ViewModelFactory
+    private val viewModel: QRSoundingViewModel by viewModels {
+        val sharedPreferences = getSharedPreferences("alarm_statistics", Context.MODE_PRIVATE)
+        val statsRepository = AlarmStatsRepository(sharedPreferences)
+        QRSoundingViewModelFactory(statsRepository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,19 +45,16 @@ class QRSoundingActivity : AppCompatActivity() {
         val currentTime = viewModel.getCurrentTime()
         textViewHoraActual.text = currentTime
 
-        // Observa el boton de stop
-        stopButton.setOnClickListener { 
-            //viewModel.stopAlarm() en lugar de parar la alarma lanzamos el lector de QRS
-            iniciarLectorQR();
-
-
+        // Observa el botón de stop
+        stopButton.setOnClickListener {
+            iniciarLectorQR() // Lanzar el lector de QR en lugar de parar directamente la alarma
         }
 
         // Observa shouldFinish para detener la alarma y cerrar la actividad
         viewModel.shouldFinish.observe(this) { shouldFinish ->
             if (shouldFinish == true) {
-                AlarmReceiver.stopAlarm()  // Detiene la alarma antes de cerrar la actividad
-                finish()  // Cierra la actividad cuando shouldFinish es true
+                AlarmReceiver.stopAlarm() // Detiene la alarma antes de cerrar la actividad
+                finish() // Cierra la actividad cuando shouldFinish es true
             }
         }
     }
@@ -63,7 +66,7 @@ class QRSoundingActivity : AppCompatActivity() {
         options.setBeepEnabled(true)
         options.setBarcodeImageEnabled(true)
         options.setOrientationLocked(true) // Bloquea la orientación en vertical
-        options.setCaptureActivity(CustomScannerActivity::class.java);
+        options.setCaptureActivity(CustomScannerActivity::class.java)
 
         qrLauncher.launch(options)
     }
@@ -83,7 +86,7 @@ class QRSoundingActivity : AppCompatActivity() {
     private fun onQrResult(isValid: Boolean) {
         if (isValid) {
             Toast.makeText(this, "ALARMA DESACTIVADA!", Toast.LENGTH_LONG).show()
-            viewModel.stopAlarm();
+            viewModel.stopAlarm()
         } else {
             Toast.makeText(this, "EL QR NO COINCIDE, PRUEBA OTRA VEZ!", Toast.LENGTH_SHORT).show()
         }

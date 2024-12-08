@@ -159,6 +159,11 @@ class Sudoku {
         return userBoard
     }
 
+    // Devuelve el tablero actual del usuario
+    fun getSolution(): Array<IntArray> {
+        return sudokuBoard
+    }
+
     // Verifica si una celda es editable
     fun isEditable(row: Int, col: Int): Boolean {
         return editableCells[row][col]

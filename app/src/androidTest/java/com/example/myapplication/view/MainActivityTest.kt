@@ -1,4 +1,5 @@
-// Importa las librerías necesarias
+package com.example.myapplication.view
+
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.rules.ActivityScenarioRule
