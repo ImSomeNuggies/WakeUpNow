@@ -196,13 +196,5 @@
             android:text="Borrar"
             style="@style/CustomSudokuButton" />
     </LinearLayout>
-
-
-    <Button
-        android:id="@+id/stopButton"
-        android:text="Detener"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        style="@style/CustomButtonRedStyle2" />
+    
 </LinearLayout>

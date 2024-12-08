@@ -55,7 +55,7 @@ class SudokuSoundingViewModel(
         if (!isCorrect) {
             _failures.value = (_failures.value ?: 0) + 1
         } else if(sudoku.isSudokuCompleted()) {
-            _shouldFinish.value = true
+            stopAlarm()
         }
         return isCorrect
     }

@@ -14,7 +14,6 @@ import com.example.myapplication.viewmodel.AlarmReceiver
 
 class SudokuSoundingActivity : AppCompatActivity() {
 
-    lateinit var stopButton: Button
     private lateinit var textViewNombreAlarma: TextView
     private lateinit var textViewHoraActual: TextView
     private var selectedNumber: String? = null
@@ -30,7 +29,6 @@ class SudokuSoundingActivity : AppCompatActivity() {
         setContentView(R.layout.sudoku_sounding)
 
         // Inicializar los elementos de la UI
-        stopButton = findViewById(R.id.stopButton)
         textViewNombreAlarma = findViewById(R.id.textViewNombreAlarma)
         textViewHoraActual = findViewById(R.id.textViewHoraActual)
 
@@ -49,11 +47,6 @@ class SudokuSoundingActivity : AppCompatActivity() {
         // Mostrar la hora actual
         val currentTime = viewModel.getCurrentTime()
         textViewHoraActual.text = currentTime
-
-        // Observa el botón de stop
-        stopButton.setOnClickListener {
-            viewModel.stopAlarm()
-        }
 
         // Asignar manejadores de clics en los botones
         button1.setOnClickListener { selectNumber("1", button1, buttons) }
