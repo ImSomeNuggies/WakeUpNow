@@ -21,11 +21,19 @@ class AlarmPermissionHelper(
             if (activity.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             } else {
-                Toast.makeText(activity, "Notification permission already granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "Notification permission already granted",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             checkAndRequestAlarmPermission()
         } else {
-            Toast.makeText(activity, "Notification permission granted by default", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                activity,
+                "Notification permission granted by default",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -33,11 +41,16 @@ class AlarmPermissionHelper(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             if (!alarmManager.canScheduleExactAlarms()) {
-                Toast.makeText(activity, "Please allow exact alarm permission in settings", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    "Please allow exact alarm permission in settings",
+                    Toast.LENGTH_SHORT
+                ).show()
                 val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
                 activity.startActivity(intent)
             } else {
-                Toast.makeText(activity, "Alarm permission already accepted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Alarm permission already accepted", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

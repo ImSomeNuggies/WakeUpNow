@@ -12,6 +12,7 @@ material = "1.9.0"
 espressoIntents = "3.6.1"
 gamesTextInput = "3.0.4"
 uiautomator = "2.3.0"
+junitJupiter = "5.8.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,7 @@ mockito-inline = { group = "org.mockito", name = "mockito-inline", version = "4.
 androidx-espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoIntents" }
 androidx-games-text-input = { group = "androidx.games", name = "games-text-input", version.ref = "gamesTextInput" }
 androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
