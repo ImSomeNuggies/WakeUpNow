@@ -21,53 +21,32 @@ class JavaMailAPI(
     private val message: String,
     private val emailFrom: String,
     private val password: String,
-    private val attachmentPath: String? = null // Ruta del archivo adjunto
+    private val attachmentPath: String? = null,
+    private val mailSessionProvider: MailSessionProvider = DefaultMailSessionProvider() // Usa la implementación por defecto
 ) : AsyncTask<Void, Void, String>() {
 
-    override fun doInBackground(vararg params: Void?): String? {
+    public override fun doInBackground(vararg params: Void?): String? {
         try {
-            // Configuración del servidor SMTP
-            val props = Properties()
-            props["mail.smtp.host"] = "smtp.gmail.com"
-            props["mail.smtp.socketFactory.port"] = "465"
-            props["mail.smtp.socketFactory.class"] = "javax.net.ssl.SSLSocketFactory"
-            props["mail.smtp.auth"] = "true"
-            props["mail.smtp.port"] = "465"
+            val session = mailSessionProvider.createSession(emailFrom, password)
+            val mimeMessage = MimeMessage(session).apply {
+                setFrom(InternetAddress(emailFrom))
+                addRecipient(Message.RecipientType.TO, InternetAddress(email))
+                subject = this@JavaMailAPI.subject
+            }
 
-            // Autenticación
-            val session = Session.getInstance(props, object : Authenticator() {
-                override fun getPasswordAuthentication(): PasswordAuthentication {
-                    return PasswordAuthentication(emailFrom, password)
+            val messageBodyPart = MimeBodyPart().apply { setText(message) }
+            val multipart = MimeMultipart().apply { addBodyPart(messageBodyPart) }
+
+            attachmentPath?.let {
+                val attachmentPart = MimeBodyPart().apply {
+                    dataHandler = DataHandler(FileDataSource(File(it)))
+                    fileName = File(it).name
                 }
-            })
-
-            // Creación del correo
-            val mimeMessage = MimeMessage(session)
-            mimeMessage.setFrom(InternetAddress(emailFrom))
-            mimeMessage.addRecipient(Message.RecipientType.TO, InternetAddress(email))
-            mimeMessage.subject = subject
-
-            // Crear el cuerpo del correo
-            val messageBodyPart = MimeBodyPart()
-            messageBodyPart.setText(message)
-
-            // Manejo del adjunto si se proporciona
-            val multipart = MimeMultipart()
-            multipart.addBodyPart(messageBodyPart)
-
-            if (attachmentPath != null) {
-                val attachmentPart = MimeBodyPart()
-                val source = FileDataSource(File(attachmentPath))
-                attachmentPart.dataHandler = DataHandler(source)
-                attachmentPart.fileName = File(attachmentPath).name
                 multipart.addBodyPart(attachmentPart)
             }
 
-            mimeMessage.setContent(multipart);
-
-            // Enviar correo
+            mimeMessage.setContent(multipart)
             Transport.send(mimeMessage)
-
         } catch (e: Exception) {
             e.printStackTrace()
             return e.message

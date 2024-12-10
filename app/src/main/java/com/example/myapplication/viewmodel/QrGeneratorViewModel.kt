@@ -1,6 +1,5 @@
 package com.example.myapplication.viewmodel
 
-import com.example.myapplication.model.JavaMailAPI
 import android.app.Application
 import android.content.ContentValues
 import android.content.Context
@@ -12,6 +11,7 @@ import android.provider.MediaStore
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
+import com.example.myapplication.model.JavaMailAPI
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

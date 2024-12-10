@@ -18,6 +18,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
     }
 
     buildTypes {
@@ -44,9 +45,21 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes.addAll(
+                listOf(
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE",
+                    "META-INF/LICENSE.txt",
+                    "META-INF/NOTICE",
+                    "META-INF/NOTICE.txt",
+                    "META-INF/{AL2.0,LGPL2.1}",
+                    "META-INF/LICENSE-notice.md"
+                )
+            )
         }
     }
+
+
 }
 
 dependencies {
@@ -64,6 +77,7 @@ dependencies {
     implementation(libs.androidx.espresso.intents)
     implementation(libs.androidx.games.text.input)
     implementation(libs.androidx.uiautomator)
+    implementation(libs.junit.jupiter)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
