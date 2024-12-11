@@ -16,21 +16,22 @@
         android:layout_gravity="end"
         android:contentDescription="Close" />
 
-     <!-- For picking time -->
+    <!-- For picking time -->
     <TimePicker
         android:id="@+id/timePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
-        android:timePickerMode="spinner" 
-        style="@style/CustomButtonLightStyle"/>
-    
+        android:timePickerMode="spinner"
+        style="@style/CustomButtonLightStyle" />
+
     <!-- TextView label for "Nombre" -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre:"
+        android:layout_marginTop="8dp"
         style="@style/CustomTextLightStyle" />
 
     <!-- EditText for inputting alarm name -->
@@ -40,41 +41,55 @@
         android:layout_height="wrap_content"
         android:hint="Nombre Alarma"
         android:gravity="start|center_vertical"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="0dp"
         android:textColorHint="@color/grey"
         style="@style/CustomInputStyle" />
 
-    <!-- TextView label for "Periodicidad" -->
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Layout for Periodicidad -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Periodicidad:"
-        android:layout_marginTop="4dp"
-        style="@style/CustomTextLightStyle"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
 
-    <!-- Spinner for selecting periodicity -->
-    <Spinner
-        android:id="@+id/periodicidadTypeSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        style="@style/CustomSpinnerStyle"  />
+        <!-- TextView label for "Periodicidad" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Periodicidad:"
+            style="@style/CustomTextLightStyle" />
 
-    <!-- TextView label for problems -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tipo de problema:"
-        android:layout_marginTop="4dp"
-        style="@style/CustomTextLightStyle"/>
+        <!-- Spinner for selecting periodicity -->
+        <Spinner
+            android:id="@+id/periodicidadTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            style="@style/CustomSpinnerStyle" />
+    </LinearLayout>
 
-    <!-- Spinner for selecting periodicity -->
-    <Spinner
-        android:id="@+id/problemaTypeSpinner"
-        android:layout_width="wrap_content"
+    <!-- Layout for Tipo de problema -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        style="@style/CustomSpinnerStyle"  />
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <!-- TextView label for problems -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Desafío:"
+            style="@style/CustomTextLightStyle" />
+
+        <!-- Spinner for selecting problems -->
+        <Spinner
+            android:id="@+id/problemaTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            style="@style/CustomSpinnerStyle" />
+    </LinearLayout>
 
     <!-- Button for confirming selections -->
     <Button
@@ -93,6 +108,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="32dp"
         style="@style/CustomButtonRedStyle" />
 </LinearLayout>

@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 
@@ -45,6 +46,7 @@ class QrGeneratorActivity : ComponentActivity() {
         val buttonQR: Button = findViewById(R.id.buttonGenerate)
         val buttonDownload: Button = findViewById(R.id.buttonDownload)
         val buttonSend: Button = findViewById(R.id.buttonSend)
+        val buttonBack = findViewById<ImageButton>(R.id.buttonBack)
 
 
         // Set a click listener on the button
@@ -74,6 +76,10 @@ class QrGeneratorActivity : ComponentActivity() {
 
 
             } ?: Toast.makeText(this, "QR no generado aún", Toast.LENGTH_SHORT).show()
+        }
+
+        buttonBack.setOnClickListener {
+            finish()
         }
     }
 

@@ -11,6 +11,17 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
+        <ImageButton
+            android:id="@+id/buttonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close"
+            android:background="@null"
+            android:contentDescription="Close"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp" />
+
         <!-- Spacer at the top -->
         <View
             android:layout_width="match_parent"
@@ -68,7 +79,7 @@
 
         <!-- Spacer between buttons -->
         <View
-            android:layout_width="16dp"
+            android:layout_width="8dp"
             android:layout_height="wrap_content" />
 
         <!-- Download QR Button -->
@@ -80,7 +91,7 @@
             style="@style/CustomButtonLightStyle" />
 
         <View
-            android:layout_width="16dp"
+            android:layout_width="8dp"
             android:layout_height="wrap_content" />
 
         <!-- Send QR Button -->
