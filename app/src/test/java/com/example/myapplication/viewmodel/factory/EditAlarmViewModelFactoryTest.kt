@@ -1,6 +1,7 @@
 package com.example.myapplication.viewmodel.factory
 
 import com.example.myapplication.repository.AlarmPreferences
+import com.example.myapplication.repository.AlarmRepository
 import com.example.myapplication.viewmodel.EditAlarmViewModel
 import com.example.myapplication.viewmodel.factory.AlarmSoundingViewModelFactoryTest.UnknownViewModel
 import org.junit.Assert.assertNotNull
@@ -13,7 +14,9 @@ class EditAlarmViewModelFactoryTest {
     @Test
     fun `create should return an instance of EditAlarmViewModel when correct ViewModel class is provided`() {
         // Arrange
-        val mockAlarmPreferences = mock(AlarmPreferences::class.java)
+        val mockSharedPreferences = mock(android.content.SharedPreferences::class.java)
+        val mockAlarmPreferences = AlarmPreferences(mockSharedPreferences)
+        val mockRepository = AlarmRepository(mockAlarmPreferences)
         val factory = EditAlarmViewModelFactory(mockAlarmPreferences)
 
         // Act
@@ -26,7 +29,9 @@ class EditAlarmViewModelFactoryTest {
     @Test
     fun `create should throw IllegalArgumentException when incorrect ViewModel class is provided`() {
         // Arrange
-        val mockAlarmPreferences = mock(AlarmPreferences::class.java)
+        val mockSharedPreferences = mock(android.content.SharedPreferences::class.java)
+        val mockAlarmPreferences = AlarmPreferences(mockSharedPreferences)
+        val mockRepository = AlarmRepository(mockAlarmPreferences)
         val factory = EditAlarmViewModelFactory(mockAlarmPreferences)
 
         // Act & Assert

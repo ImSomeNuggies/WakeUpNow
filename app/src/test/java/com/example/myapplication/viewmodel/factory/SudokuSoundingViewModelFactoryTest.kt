@@ -15,7 +15,8 @@ class SudokuSoundingViewModelFactoryTest {
     @Test
     fun `create should return an instance of SudokuSoundingViewModel when correct ViewModel class is provided`() {
         // Arrange
-        val mockStatsRepository = mock(AlarmStatsRepository::class.java)
+        val mockSharedPreferences = mock(android.content.SharedPreferences::class.java)
+        val mockStatsRepository = AlarmStatsRepository(mockSharedPreferences)
         val mockTimeProvider = { 123456789L }
         val mockDateFormatter = { "12:34" }
         val factory = SudokuSoundingViewModelFactory(
@@ -34,7 +35,8 @@ class SudokuSoundingViewModelFactoryTest {
     @Test
     fun `create should throw IllegalArgumentException when incorrect ViewModel class is provided`() {
         // Arrange
-        val mockStatsRepository = mock(AlarmStatsRepository::class.java)
+        val mockSharedPreferences = mock(android.content.SharedPreferences::class.java)
+        val mockStatsRepository = AlarmStatsRepository(mockSharedPreferences)
         val factory = SudokuSoundingViewModelFactory(statsRepository = mockStatsRepository)
 
         // Act

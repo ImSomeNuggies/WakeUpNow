@@ -59,4 +59,13 @@ class QRSoundingViewModel(
     fun getCurrentTime(): String {
         return dateFormatter()
     }
+
+    // Método para obtener el valor de failures (solo para tests)
+    fun getShouldFinish(): Boolean? {
+        return _shouldFinish.value
+    }
+    fun setShouldFinishForTesting(shouldFinish : Boolean) {
+        _shouldFinish.value = shouldFinish
+    }
+
 }

@@ -2,6 +2,7 @@ package com.example.myapplication.viewmodel.factory
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.repository.AlarmPreferences
 import com.example.myapplication.viewmodel.CreateAlarmViewModel
 import com.example.myapplication.repository.AlarmRepository
 import com.example.myapplication.viewmodel.factory.AlarmSoundingViewModelFactoryTest.UnknownViewModel
@@ -20,7 +21,9 @@ class CreateAlarmViewModelFactoryTest {
     @Test
     fun `create should return an instance of CreateAlarmViewModel when correct ViewModel class is provided`() {
         // Arrange
-        val mockRepository = mock(AlarmRepository::class.java)
+        val mockSharedPreferences = mock(android.content.SharedPreferences::class.java)
+        val mockAlarmPreferences = AlarmPreferences(mockSharedPreferences)
+        val mockRepository = AlarmRepository(mockAlarmPreferences)
         val factory = CreateAlarmViewModelFactory(mockRepository)
 
         // Act
@@ -33,7 +36,9 @@ class CreateAlarmViewModelFactoryTest {
     @Test
     fun `create should throw IllegalArgumentException when incorrect ViewModel class is provided`() {
         // Arrange
-        val mockRepository = mock(AlarmRepository::class.java)
+        val mockSharedPreferences = mock(android.content.SharedPreferences::class.java)
+        val mockAlarmPreferences = AlarmPreferences(mockSharedPreferences)
+        val mockRepository = AlarmRepository(mockAlarmPreferences)
         val factory = CreateAlarmViewModelFactory(mockRepository)
 
         // Act

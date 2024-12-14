@@ -31,7 +31,8 @@ class AlarmSoundingViewModelFactoryTest {
     @Test
     fun `create should throw IllegalArgumentException when an unknown ViewModel class is provided`() {
         // Arrange
-        val mockStatsRepository = mock(AlarmStatsRepository::class.java)
+        val mockSharedPreferences = mock(android.content.SharedPreferences::class.java)
+        val mockStatsRepository = AlarmStatsRepository(mockSharedPreferences)
         val factory = AlarmSoundingViewModelFactory(mockStatsRepository)
 
         // Act & Assert

@@ -155,4 +155,43 @@ class AlarmSoundingActivityTest {
         }
     }
 
+    @Test
+    fun testAlarmNameIsEmptyWhenIntentIsNull() {
+        val intent = Intent(context, AlarmSoundingActivity::class.java) // Sin extra
+        ActivityScenario.launch<AlarmSoundingActivity>(intent).use {
+            // Verifica que el TextView está vacío
+            onView(withId(R.id.textViewNombreAlarma)).check(matches(withText("")))
+        }
+    }
+
+    @Test
+    fun testShouldFinishTrue() {
+        val intent = Intent(context, AlarmSoundingActivity::class.java)
+        val scenario = ActivityScenario.launch<AlarmSoundingActivity>(intent)
+
+        scenario.onActivity { activity ->
+            activity.viewModel.setShouldFinishForTesting(true)
+        }
+
+        // Verifica que la actividad se cierra
+        scenario.onActivity {
+            assertTrue(it.isFinishing)
+        }
+    }
+
+    @Test
+    fun testShouldFinishFalse() {
+        val intent = Intent(context, AlarmSoundingActivity::class.java)
+        val scenario = ActivityScenario.launch<AlarmSoundingActivity>(intent)
+
+        scenario.onActivity { activity ->
+            activity.viewModel.setShouldFinishForTesting(false)
+        }
+
+        // Verifica que la actividad sigue activa
+        scenario.onActivity {
+            assertFalse(it.isFinishing)
+        }
+    }
+
 }

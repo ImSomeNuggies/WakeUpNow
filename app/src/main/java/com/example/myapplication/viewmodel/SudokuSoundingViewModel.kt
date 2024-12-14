@@ -96,6 +96,9 @@ class SudokuSoundingViewModel(
     fun getShouldFinish(): Boolean? {
         return _shouldFinish.value
     }
+    fun setShouldFinishForTesting(shouldFinish : Boolean) {
+        _shouldFinish.value = shouldFinish
+    }
 
     // Método para obtener la solución del Sudoku
     fun getSolution(): Array<IntArray> {

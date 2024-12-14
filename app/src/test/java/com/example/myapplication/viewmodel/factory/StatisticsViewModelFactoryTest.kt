@@ -16,7 +16,8 @@ class StatisticsViewModelFactoryTest {
     @Test
     fun `create should return an instance of StatisticsViewModel when correct ViewModel class is provided`() {
         // Arrange
-        val mockStatsRepository = mock(AlarmStatsRepository::class.java)
+        val mockSharedPreferences = mock(android.content.SharedPreferences::class.java)
+        val mockStatsRepository = AlarmStatsRepository(mockSharedPreferences)
         val factory = StatisticsViewModelFactory(mockStatsRepository)
 
         // Act
@@ -29,7 +30,8 @@ class StatisticsViewModelFactoryTest {
     @Test
     fun `create should throw IllegalArgumentException when incorrect ViewModel class is provided`() {
         // Arrange
-        val mockStatsRepository = mock(AlarmStatsRepository::class.java)
+        val mockSharedPreferences = mock(android.content.SharedPreferences::class.java)
+        val mockStatsRepository = AlarmStatsRepository(mockSharedPreferences)
         val factory = StatisticsViewModelFactory(mockStatsRepository)
 
         // Act

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("jacoco")
 }
 
 android {
@@ -22,6 +23,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            isTestCoverageEnabled = true // Habilita la cobertura para tests instrumentados
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -78,6 +82,7 @@ dependencies {
     implementation(libs.androidx.games.text.input)
     implementation(libs.androidx.uiautomator)
     implementation(libs.junit.jupiter)
+    implementation(libs.androidx.junit.ktx)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
@@ -107,4 +112,47 @@ dependencies {
     implementation("com.sun.mail:android-activation:1.6.0")
 
 
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest", "connectedDebugAndroidTest") // Ejecuta ambos tipos de tests antes del reporte
+
+    reports {
+        xml.required.set(true)  // Generar reporte XML
+        html.required.set(true) // Generar reporte HTML
+    }
+
+    // Ruta de las clases compiladas en debug
+    val debugTree = fileTree(
+        mapOf(
+            "dir" to "$buildDir/tmp/kotlin-classes/debug",
+            "excludes" to listOf(
+                "**/R.class",
+                "**/R$*.class",
+                "**/BuildConfig.*",
+                "**/Manifest*.*",
+                "**/*Test*.*", // Excluir clases de test
+                "**/databinding/**",
+                "**/androidx/**",
+                "**/kotlin/**"
+            )
+        )
+    )
+
+    // Ruta de los archivos fuente
+    val mainSrc = files("$projectDir/src/main/java")
+
+    // Configuración de directorios
+    sourceDirectories.setFrom(mainSrc)
+    classDirectories.setFrom(debugTree)
+    executionData.setFrom(
+        fileTree(
+            mapOf(
+                "dir" to "$buildDir",
+                "includes" to listOf(
+                    "outputs/code_coverage/debugAndroidTest/connected/SM-A226B - 11/coverage.ec" // Cobertura de instrumented tests
+                )
+            )
+        )
+    )
 }

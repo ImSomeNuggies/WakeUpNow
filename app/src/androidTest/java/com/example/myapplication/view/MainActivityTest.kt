@@ -42,6 +42,9 @@ class MainActivityTest {
         testPreferences = AlarmPreferences(sharedPreferences)
         alarmRepository = AlarmRepository(testPreferences)
 
+        // Limpia las estadísticas antes de cada prueba
+        sharedPreferences.edit().clear().apply()
+
         // Agregar una alarma de prueba antes de cada test
         val testAlarm = Alarm(
             id = 1,

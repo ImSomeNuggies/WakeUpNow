@@ -16,7 +16,7 @@ import com.example.myapplication.repository.AlarmStatsRepository
 
 class StatisticsActivity : ComponentActivity() {
 
-    private lateinit var viewModel: StatisticsViewModel
+    lateinit var viewModel: StatisticsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

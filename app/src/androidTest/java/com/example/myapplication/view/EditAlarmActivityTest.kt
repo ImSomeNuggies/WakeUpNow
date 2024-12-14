@@ -45,6 +45,9 @@ class EditAlarmActivityTest {
         val alarmPreferences = AlarmPreferences(sharedPreferences)
         alarmRepository = AlarmRepository(alarmPreferences)
 
+        // Limpia las estadísticas antes de cada prueba
+        sharedPreferences.edit().clear().apply()
+
         // Prepara una alarma para la prueba
         val ringTime = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, 8)

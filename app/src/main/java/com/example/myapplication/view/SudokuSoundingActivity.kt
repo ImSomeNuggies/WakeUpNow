@@ -19,7 +19,7 @@ class SudokuSoundingActivity : AppCompatActivity() {
     private var selectedNumber: String? = null
 
     // Usamos el ViewModel con un ViewModelFactory que recibe el repositorio
-    private val viewModel: SudokuSoundingViewModel by viewModels {
+    val viewModel: SudokuSoundingViewModel by viewModels {
         val sharedPreferences = getSharedPreferences("alarm_statistics", MODE_PRIVATE)
         SudokuSoundingViewModelFactory(AlarmStatsRepository(sharedPreferences))
     }

@@ -22,7 +22,7 @@ class QRSoundingActivity : AppCompatActivity() {
     private lateinit var textViewHoraActual: TextView
 
     // Crear el repositorio y ViewModelFactory
-    private val viewModel: QRSoundingViewModel by viewModels {
+    val viewModel: QRSoundingViewModel by viewModels {
         val sharedPreferences = getSharedPreferences("alarm_statistics", Context.MODE_PRIVATE)
         val statsRepository = AlarmStatsRepository(sharedPreferences)
         QRSoundingViewModelFactory(statsRepository)
@@ -72,7 +72,7 @@ class QRSoundingActivity : AppCompatActivity() {
     }
 
     // Manejar el resultado del lector de QR
-    private val qrLauncher = registerForActivityResult(ScanContract()) { result ->
+    val qrLauncher = registerForActivityResult(ScanContract()) { result ->
         if (result.contents != null) {
             // Comprobamos que lo leído por el QR sea igual a lo que hay en el archivo XML.
             val qrContent = getString(R.string.qr_password)
@@ -83,7 +83,7 @@ class QRSoundingActivity : AppCompatActivity() {
         }
     }
 
-    private fun onQrResult(isValid: Boolean) {
+    fun onQrResult(isValid: Boolean) {
         if (isValid) {
             Toast.makeText(this, "ALARMA DESACTIVADA!", Toast.LENGTH_LONG).show()
             viewModel.stopAlarm()
