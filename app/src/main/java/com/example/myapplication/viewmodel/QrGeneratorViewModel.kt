@@ -80,7 +80,7 @@ class QrGeneratorViewModel (application: Application) : AndroidViewModel(applica
 
             try {
                 val javaMailAPI = JavaMailAPI(
-                    email = "miguellasaosaisac@gmail.com",
+                    email = recipientEmail,
                     subject = subject,
                     message = message,
                     emailFrom = "wakemeupnowunizar@gmail.com",

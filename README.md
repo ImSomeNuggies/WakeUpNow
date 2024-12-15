@@ -4,7 +4,6 @@
 - 2. Inicio
 - 3. Guia para usuarios
 - 4. Documentación técnica
-- 5. Créditos y licencia
 ## 2. Inicio 
  WakeUpNow es una aplicación para móviles que permite la creación de alarmas puntuales y periódicas las cuales presentaran un pequeño desafío a elección del usuario, el cual deberá ser resuelto antes de poder apagar la alarma.
 
@@ -14,10 +13,38 @@ El objetivo de esta aplicación es proveer al usuario de alarmas robustas y difi
 Para instalar la aplicación se tendra que descargar el archivo apk provisto en el apartado de "Releases" una vez adquirido se debera pulsar sobre el y seguir las indicaciones de instalación.
 Es posible que se requiera permisos para la instalación de aplicaciones de fuentes desconocidas.
 ### Primeros pasos
+Configuración inicial: 
+- Concede los permisos necesarios para su correcto funcionamiento (acceso a notificaciones y almacenamiento).
+- Accede al generador de QR pulsando el botón de la esquina inferior izquierda con un icono de QR. Allí podrás visualizar el QR necesario para apagar las alarmas con tipo de desafío QR. Envía el QR a tu correo personal o descárgalo en la librería, imprímelo y colócalo lejos de tu habitación.
 
-### Funcionalidades principales
+Crear una alarma:
+- Pulsa el botón "Crear Alarma" en la pantalla principal para añadir una nueva alarma.
+- Define:
+  - Hora: Selecciona la hora para que suene la alarma.
+  - Periodicidad: Configura si es diaria, semanal o puntual.
+  - Desafío: Selecciona el tipo de reto que deberás resolver al sonar la alarma:
+      - Problema corto: problema lógico-matemático, problema de cálculo o adivinanzas.
+      - Sudoku 4x4.
+      - Escanear un código QR.
+- Pulsa el botón de "Confirmar" para guardar la alarma.
 
-### Resolución de problemas comunes 
+### Otras funcionalidades
+Gestión de alarmas:
+- Editar alarmas:
+Modifica una alarma existente pulsando sobre ella en la lista.
+- Activar/desactivar alarmas:
+Usa el interruptor junto a cada alarma para activarla o desactivarla rápidamente.
+- Eliminar alarmas:
+Dentro de la pantalla de edición al pulsar sobre una alarma en la lista, hay un botón de "Eliminar".
+
+Estadísticas detalladas. Consulta métricas relacionadas con tus alarmas, como:
+- Tiempo promedio, máximo y mínimo para apagar una alarma.
+- Errores cometidos al resolver desafíos.
+- Visualiza estadísticas mediante gráficos de barras por rangos de hora:
+  - Tiempo medio.
+  - Tiempo máximo.
+  - Tiempo mínimo.
+  - Máximo de errores.
 
 ## 4. Documentación técnica
 
@@ -214,6 +241,3 @@ Representa la capa de interfaz de usuario, que interactúa directamente con el u
 #### Estadísticas:
 - **Recolección**: Registro de tiempos y errores.
 - **Visualización**: Gráficos en tiempo real agrupados por hora.
-
-
-## 5. Créditos y licencia
