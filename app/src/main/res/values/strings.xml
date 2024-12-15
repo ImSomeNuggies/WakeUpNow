@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">WakeUpNow</string>
-    <string-array name="periodicidad_options">
+    <string-array name="periodicidad_types">
         <item>Una vez</item>
         <item>Diaria</item>
         <item>Lunes</item>
@@ -17,6 +17,13 @@
         <item>Tiempo mín. (seg)</item>
         <item>Máx. errores</item>
     </string-array>
+    <string-array name="problema_types">
+        <item>Problema corto</item>
+        <item>Sudoku</item>
+        <item>QR scanner</item>
+    </string-array>
     <string name="title_activity_stop_alarm">StopAlarm</string>
     <string name="title_activity_boot_reciever">BootReciever</string>
+    <string name="title_activity_qr_generator">QrGenerator</string>
+    <string name="qr_password">WakeUpNow</string>
 </resources>

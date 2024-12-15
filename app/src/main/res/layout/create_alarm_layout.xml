@@ -15,15 +15,7 @@
         android:src="@drawable/ic_close"
         android:background="@null"
         android:contentDescription="Close"
-        android:layout_gravity="end"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp" />
-
-    <!-- Spacer View for vertical spacing -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_gravity="end" />
 
     <!-- For picking time -->
     <TimePicker
@@ -31,21 +23,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="4dp"
         android:timePickerMode="spinner" 
         style="@style/CustomButtonLightStyle"/>
 
-    <!-- Spacer View for vertical spacing -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:layout_marginBottom="8dp" />
-    
     <!-- TextView label for "Nombre" -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre:"
+        android:layout_marginTop="0dp"
         style="@style/CustomTextLightStyle" />
 
     <!-- EditText for inputting alarm name -->
@@ -55,38 +42,55 @@
         android:layout_height="wrap_content"
         android:hint="Nombre Alarma"
         android:gravity="start|center_vertical"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="0dp"
         android:textColorHint="@color/grey"
         style="@style/CustomInputStyle" />
 
-    <!-- Spacer View for vertical spacing -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_marginBottom="0dp" />
-
-    <!-- TextView label for "Periodicidad" -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Periodicidad:"
-        android:layout_marginTop="4dp"
-        style="@style/CustomTextLightStyle"/>
-
-    <!-- Spinner for selecting periodicity -->
-    <Spinner
-        android:id="@+id/spinnerPeriodicidad"
+    <!-- Layout for Periodicidad -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:entries="@array/periodicidad_options"
-        style="@style/CustomInputStyle" />
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
 
-    <!-- Spacer View for vertical spacing -->
-    <View
+        <!-- TextView label for "Periodicidad" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Periodicidad:"
+            style="@style/CustomTextLightStyle" />
+
+        <!-- Spinner for selecting periodicity -->
+        <Spinner
+            android:id="@+id/periodicidadTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            style="@style/CustomSpinnerStyle" />
+    </LinearLayout>
+
+    <!-- Layout for Tipo de problema -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <!-- TextView label for problems -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Desafío:"
+            style="@style/CustomTextLightStyle" />
+
+        <!-- Spinner for selecting problems -->
+        <Spinner
+            android:id="@+id/problemaTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            style="@style/CustomSpinnerStyle" />
+    </LinearLayout>
 
     <!-- Button for confirming selections -->
     <Button

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Root LinearLayout that serves as the main container for the alarm ringing layout -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/dark"
+    android:padding="16dp">
+
+    <!-- TextView to show "Alarma sonando" message -->
+    <TextView
+        android:id="@+id/textViewAlarmaSonando"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alarma Sonando"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"
+        style="@style/CustomHeadingLightStyle" />
+
+    <!-- TextView to show the alarm name -->
+    <TextView
+        android:id="@+id/textViewNombreAlarma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre de la alarma"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        style="@style/CustomTextLightStyle" />
+
+    <!-- TextView to show the current time -->
+    <TextView
+        android:id="@+id/textViewHoraActual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="09:00"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp"
+        android:textSize="46sp"
+        style="@style/CustomHeadingLightStyle" />
+
+    <GridLayout
+        android:id="@+id/gridSudoku"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rowCount="2"
+        android:columnCount="2"
+        android:layout_gravity="center"
+        android:background="#000000"
+        android:padding="4dp">
+
+        <!-- Subcuadrado 1 (arriba-izquierda) -->
+        <GridLayout
+            android:id="@+id/subgrid_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rowCount="2"
+            android:columnCount="2"
+            android:background="#000000"
+            android:padding="2dp">
+            
+            <TextView
+                android:id="@+id/cell_00"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_01"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_10"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_11"
+                style="@style/SudokuCell" />
+        </GridLayout>
+
+        <!-- Subcuadrado 2 (arriba-derecha) -->
+        <GridLayout
+            android:id="@+id/subgrid_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rowCount="2"
+            android:columnCount="2"
+            android:background="#000000"
+            android:padding="2dp">
+            
+            <TextView
+                android:id="@+id/cell_02"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_03"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_12"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_13"
+                style="@style/SudokuCell" />
+        </GridLayout>
+
+        <!-- Subcuadrado 3 (abajo-izquierda) -->
+        <GridLayout
+            android:id="@+id/subgrid_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rowCount="2"
+            android:columnCount="2"
+            android:background="#000000"
+            android:padding="2dp">
+            
+            <TextView
+                android:id="@+id/cell_20"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_21"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_30"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_31"
+                style="@style/SudokuCell" />
+        </GridLayout>
+
+        <!-- Subcuadrado 4 (abajo-derecha) -->
+        <GridLayout
+            android:id="@+id/subgrid_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rowCount="2"
+            android:columnCount="2"
+            android:background="#000000"
+            android:padding="2dp">
+            
+            <TextView
+                android:id="@+id/cell_22"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_23"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_32"
+                style="@style/SudokuCell" />
+            <TextView
+                android:id="@+id/cell_33"
+                style="@style/SudokuCell" />
+        </GridLayout>
+
+    </GridLayout>
+
+    <LinearLayout
+        android:id="@+id/numberSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" >
+
+        <!-- Botón para el número 1 -->
+        <Button
+            android:id="@+id/button_1"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:text="1"
+            style="@style/CustomSudokuButton" />
+
+        <!-- Botón para el número 2 -->
+        <Button
+            android:id="@+id/button_2"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:text="2"
+            style="@style/CustomSudokuButton" />
+
+        <!-- Botón para el número 3 -->
+        <Button
+            android:id="@+id/button_3"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:text="3"
+            style="@style/CustomSudokuButton" />
+
+        <!-- Botón para el número 4 -->
+        <Button
+            android:id="@+id/button_4"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:text="4"
+            style="@style/CustomSudokuButton" />
+
+        <!-- Botón para la goma de borrar -->
+        <Button
+            android:id="@+id/button_erase"
+            android:layout_width="65dp"
+            android:layout_height="46dp"
+            android:text="Borrar"
+            style="@style/CustomSudokuButton" />
+    </LinearLayout>
+    
+</LinearLayout>

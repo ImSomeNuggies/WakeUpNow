@@ -6,4 +6,7 @@
     <color name="dark">#FF001030</color>
     <color name="light">#FFCFCFEF</color>
     <color name="red">#FFFF0000</color>
+    <color name="lila">#FF8E87E4</color>
+    <color name="blue">#FF0000FF</color>
+    <color name="transparent">#00000000</color>
 </resources>

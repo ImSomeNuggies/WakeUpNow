@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("jacoco")
 }
 
 android {
@@ -18,9 +19,13 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
     }
 
     buildTypes {
+        debug {
+            isTestCoverageEnabled = true // Habilita la cobertura para tests instrumentados
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -44,9 +49,21 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes.addAll(
+                listOf(
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE",
+                    "META-INF/LICENSE.txt",
+                    "META-INF/NOTICE",
+                    "META-INF/NOTICE.txt",
+                    "META-INF/{AL2.0,LGPL2.1}",
+                    "META-INF/LICENSE-notice.md"
+                )
+            )
         }
     }
+
+
 }
 
 dependencies {
@@ -64,6 +81,8 @@ dependencies {
     implementation(libs.androidx.espresso.intents)
     implementation(libs.androidx.games.text.input)
     implementation(libs.androidx.uiautomator)
+    implementation(libs.junit.jupiter)
+    implementation(libs.androidx.junit.ktx)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
@@ -77,6 +96,63 @@ dependencies {
     androidTestImplementation(libs.mockito.inline)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation("com.google.code.gson:gson:2.8.9") // Aquí se agregan las dependencias
 
+    implementation("com.google.code.gson:gson:2.8.9") // Aquí se agregan las dependencias
+    implementation("com.google.zxing:core:3.5.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+
+
+    implementation("com.google.code.gson:gson:2.8.9")
+    //Dependencias para lector de qr
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.google.zxing:core:3.4.1")// Aquí se agregan las dependencias
+
+    //Dependencias envio por SMTP
+    implementation("com.sun.mail:android-mail:1.6.0")
+    implementation("com.sun.mail:android-activation:1.6.0")
+
+
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest", "connectedDebugAndroidTest") // Ejecuta ambos tipos de tests antes del reporte
+
+    reports {
+        xml.required.set(true)  // Generar reporte XML
+        html.required.set(true) // Generar reporte HTML
+    }
+
+    // Ruta de las clases compiladas en debug
+    val debugTree = fileTree(
+        mapOf(
+            "dir" to "$buildDir/tmp/kotlin-classes/debug",
+            "excludes" to listOf(
+                "**/R.class",
+                "**/R$*.class",
+                "**/BuildConfig.*",
+                "**/Manifest*.*",
+                "**/*Test*.*", // Excluir clases de test
+                "**/databinding/**",
+                "**/androidx/**",
+                "**/kotlin/**"
+            )
+        )
+    )
+
+    // Ruta de los archivos fuente
+    val mainSrc = files("$projectDir/src/main/java")
+
+    // Configuración de directorios
+    sourceDirectories.setFrom(mainSrc)
+    classDirectories.setFrom(debugTree)
+    executionData.setFrom(
+        fileTree(
+            mapOf(
+                "dir" to "$buildDir",
+                "includes" to listOf(
+                    "outputs/code_coverage/debugAndroidTest/connected/SM-A226B - 11/coverage.ec" // Cobertura de instrumented tests
+                )
+            )
+        )
+    )
 }
